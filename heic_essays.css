@@ -1,0 +1,25 @@
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #f5f1e8; color: #22211e; font-family: Georgia, "Times New Roman", serif; }
+.page { width: min(100% - 2rem, 52rem); margin: 0 auto; padding: 1.4rem 0 4rem; }
+.page-nav { display: flex; flex-wrap: wrap; gap: .7rem; font: 600 .85rem/1.4 system-ui, sans-serif; }
+.page-nav a { color: #5b432e; text-decoration: none; background: #fffaf1; border: 1px solid #e4d9c9; border-radius: 999px; padding: .5rem .85rem; }
+.page-nav a:hover, .essay-list a:hover { background: #efe5d5; }
+.article-header { border-bottom: 1px solid #d8cbbb; padding: 2rem 0 1.3rem; margin-bottom: 2rem; }
+.eyebrow { color: #775a3a; font: 700 .78rem/1.3 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+h1 { font-size: clamp(2rem, 5vw, 3.25rem); line-height: 1.12; margin: .5rem 0 0; }
+.article-header > p:last-child:not(.eyebrow) { font-size: 1.15rem; }
+article { font-size: clamp(1.08rem, 2vw, 1.24rem); line-height: 1.75; }
+article p { margin: 0 0 1.35em; }
+cite { font-style: italic; }
+.source { margin: 2.5rem 0; border-top: 1px solid #d8cbbb; padding-top: 1.5rem; }
+.source summary { cursor: pointer; color: #5b432e; font: 600 .95rem system-ui, sans-serif; }
+.source img { display: block; max-width: 100%; margin-top: 1rem; border: 1px solid #d8cbbb; }
+.bottom { border-top: 1px solid #d8cbbb; padding-top: 1.5rem; }
+.essay-list { list-style: none; margin: 0; padding: 0; }
+.essay-list li + li { margin-top: .7rem; }
+.essay-list a { display: flex; gap: 1rem; align-items: baseline; padding: 1rem 1.2rem; border: 1px solid #e4d9c9; border-radius: .65rem; color: #22211e; text-decoration: none; background: #fffaf1; font-size: 1.12rem; }
+.essay-list span { color: #775a3a; font: 700 .8rem system-ui, sans-serif; }
+section + section { margin-top: 2.5rem; }
+h2 { margin: 0 0 1rem; font: 700 1.25rem/1.3 system-ui, sans-serif; color: #5b432e; }
+@media print { body { background: white; } .page { width: auto; padding: 0; } .page-nav, .source { display: none; } article { font-size: 12pt; line-height: 1.5; } }

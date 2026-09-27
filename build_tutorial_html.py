@@ -144,6 +144,7 @@ def main() -> None:
       <div class="day-checks">__DAY_CHECKS__</div>
     </section>
     <aside class="resources"><strong>Course module overviews</strong><div class="module-links">__MODULES__</div></aside>
+    <aside class="resources" aria-label="Writing examples"><strong>Writing examples</strong><a href="heic_essays.html">Read 14 transcribed essays and passage commentaries</a></aside>
     <article class="content" id="tutorial">__BODY__</article>
     <footer class="footer">Based on the local course overviews, exam instructions, practice exam, answer key, and story readers. Check Moodle for current assignment prompts and exam arrangements.</footer>
   </main>
