@@ -91,6 +91,8 @@ def main() -> None:
   .content { max-width:1020px; }
   .content > h2 { scroll-margin-top:25px; margin:43px 0 17px; padding-bottom:8px; border-bottom:1px solid var(--line); font:700 clamp(1.5rem,2.3vw,2rem)/1.2 Georgia,"Times New Roman",serif; }
   .content h2:first-child { margin-top:24px; }
+  .content h3 { margin:30px 0 10px; color:var(--accent); font-size:1.22rem; line-height:1.3; }
+  .content h4 { margin:22px 0 8px; font-size:1.03rem; line-height:1.35; }
   .content p { margin:0 0 15px; }
   .content ul,.content ol { padding-left:1.45rem; margin:0 0 19px; }
   .content li { margin:5px 0; }

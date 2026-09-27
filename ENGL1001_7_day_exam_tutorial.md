@@ -8,7 +8,7 @@
 
 - The seven local Moodle **Overview** files tell you each module's readings and outcomes. They do not contain every chapter or assignment instruction.
 - Ten local story readers are linked in the table below. Seven were converted from an anthology and **retain OCR errors**. [Hills Like White Elephants](hills_like_white_elephants.html) uses the complete text from the local [May Short Stories PDF](May-Short-Stories.pdf); [Rules of the Game](rules_of_the_game.html) uses the local [school PDF](Rules-of-the-Game.pdf); and [Death by Landscape](death_by_landscape.html) displays the original scanned pages from the local [PDF](Death%20by%20Landscape.pdf). Check your course anthology for exact quotations.
-- Three assigned stories have no complete local file: **“The Yellow Wallpaper,” “Great Falls,” and “Cathedral.”** Use your course anthology or Moodle reading. Verified alternatives: [“The Yellow Wallpaper” at Project Gutenberg](https://www.gutenberg.org/files/1952/1952-h/1952-h.htm); [“Great Falls” publication page](https://granta.com/great-falls/) (only an excerpt is free); [“Cathedral” reading guide and link to *The Atlantic* text](https://pressbooks.marshall.edu/introductiontoliterature/chapter/3-3-cathedral-by-raymond-carver-reading-guide/).
+- Three assigned stories have no separate HTML reader: **“The Yellow Wallpaper,” “Great Falls,” and “Cathedral.”** Their complete texts are in the local [bookmarked anthology PDF](output/pdf/shorter_bookmarked.pdf). You can also use your course anthology or Moodle reading.
 - Read *Pride and Prejudice* in your course edition or [Project Gutenberg](https://www.gutenberg.org/files/42671/old/42671-h/42671-h.htm). The [aligned reader](https://cghuisunshine.github.io/pride_prejudice_2/aligned_reader/index.html) is also listed in the local exam instructions. Page numbers vary by edition, so record **volume/chapter or chapter** when making notes.
 
 ## Your seven days
@@ -44,20 +44,128 @@ These are **recall prompts**. For an exam answer, use specific details from the 
 | Module; story, author | Plot anchor and central pressure | Best exam lens |
 |---|---|---|
 | 1; [“Royal Beatings”](royal_beatings.html), **Alice Munro** | Rose's conflict with Flo and her father culminates in a beating; later retelling changes how the event is understood. | Family power, class, storytelling, the gap between lived event and remembered version. |
-| 1; [“The Yellow Wallpaper”](https://www.gutenberg.org/files/1952/1952-h/1952-h.htm), **Charlotte Perkins Gilman** | A woman ordered to rest by her physician husband secretly writes and becomes obsessed with the room's wallpaper. | Confined setting, unreliable first-person journal, enforced silence, identity. |
+| 1; [“The Yellow Wallpaper”](output/pdf/shorter_bookmarked.pdf#page=357), **Charlotte Perkins Gilman** | A woman ordered to rest by her physician husband secretly writes and becomes obsessed with the room's wallpaper. | Confined setting, unreliable first-person journal, enforced silence, identity. |
 | 1; [“Sonny’s Blues”](sonnys_blues.html), **James Baldwin** | After Sonny's arrest, his older brother tries to understand Sonny's suffering and music; a nightclub performance becomes a turning point. | First-person retrospective narration, Harlem setting, music as expression and connection. |
 | 2; [“Rules of the Game”](rules_of_the_game.html), **Amy Tan** | Chess prodigy Waverly Jong's success sharpens tension with her mother, Lindo. | First-person childhood memory, chess as a pattern for family power and cultural expectations. |
 | 2; [“Paul’s Case”](pauls_case.html), **Willa Cather** | Paul rejects his ordinary Pittsburgh life, steals money to escape to New York, then faces its collapse. | Contrasting settings, performance, desire, class and illusion. |
 | 3; [“Death by Landscape”](death_by_landscape.html), **Margaret Atwood** | Lois remembers Lucy's unexplained disappearance at camp and continues to see her in landscape paintings. | Framed memory, unresolved loss, the difference between physical landscape and imagined presence. |
 | 3; [“To Room Nineteen”](to_room_nineteen.html), **Doris Lessing** | Susan Rawlings seeks private space as marriage and family roles close around her; the hotel room becomes central to her final decision. | Irony of the supposedly sensible marriage, domestic/social setting, interiority, autonomy. |
-| 4; [“Great Falls” publication page](https://granta.com/great-falls/), **Richard Ford** | A son narrates the breakdown of his parents' marriage in Montana and its later consequences. | Retrospective first person, landscape, how a child interprets adult choices. Verify details in your anthology. |
+| 4; [“Great Falls”](output/pdf/shorter_bookmarked.pdf#page=328), **Richard Ford** | A son narrates the breakdown of his parents' marriage in Montana and its later consequences. | Retrospective first person, landscape, how a child interprets adult choices. |
 | 4; [“Bartleby, the Scrivener”](bartleby_the_scrivener.html), **Herman Melville** | A Wall Street copyist increasingly refuses work; the lawyer-narrator cannot fully understand or help him. | Limited first-person narrator, workplace setting, repetition, uncertainty about motive. |
-| 5; [“Cathedral” reading guide](https://pressbooks.marshall.edu/introductiontoliterature/chapter/3-3-cathedral-by-raymond-carver-reading-guide/), **Raymond Carver** | A narrator's awkward visit with Robert, a blind man, leads to their drawing a cathedral together. | First-person limitations, irony of sight and understanding, understated ending. |
+| 5; [“Cathedral”](output/pdf/shorter_bookmarked.pdf#page=132), **Raymond Carver** | A narrator's awkward visit with Robert, a blind man, leads to their drawing a cathedral together. | First-person limitations, irony of sight and understanding, understated ending. |
 | 5; [“Hills Like White Elephants”](hills_like_white_elephants.html), **Ernest Hemingway** | A couple at a railway station discuss an unnamed “operation” and a strained decision. | Objective dialogue, omission, opposing landscapes, what neither says directly. |
 | 6; [“Barn Burning”](barn_burning.html), **William Faulkner** | Sarty Snopes is pressed to be loyal to his father Abner despite Abner's destructive actions. | Third-person view close to Sarty, moral conflict, fire, class tension, complex syntax. |
-| 6; [“The Horse Dealer’s Daughter”](horse_dealers_daughter.html), **D. H. Lawrence** | After family ruin, Mabel enters a pond; Dr. Ferguson rescues her, and their encounter becomes emotionally fraught. | Water, death/rebirth imagery, ambiguous motives, shifting access to thought. |
+| 6; [“The Horse Dealer’s Daughter”](horse_dealers_daughter.html), **D. H. Lawrence** | After family ruin, Mabel enters a pond; Dr. Fergusson rescues her, and their encounter becomes emotionally fraught. | Water, death/rebirth imagery, ambiguous motives, shifting access to thought. |
 
 **Fast recall test:** Cover columns 2–3. For each title, say the author, the decisive event, one formal feature, and a defensible interpretation in **30 seconds**. A wrong author/title pairing is especially costly in Part II because identification is explicitly requested.
+
+## Story summaries and module connections
+
+These summaries include the endings. Each **module connection** shows how to turn a plot detail into analysis using the main concept taught with that story. Recheck the assigned text before quoting it in an exam answer.
+
+### Module 1 — Introduction to the short story
+
+Module key point: a short story uses a small number of scenes and carefully chosen details to develop a larger conflict. Ask what a scene, object, or ending contributes to the whole story.
+
+#### “Royal Beatings” — Alice Munro
+
+**Summary:** Rose's quarrels with her stepmother, Flo, sometimes end with Flo summoning Rose's father to beat her. After one beating, Flo offers comfort and food, and the household resumes its routine. Flo's account of a townsman's violent horsewhipping echoes the family's violence. Years later, Rose hears one of the horsewhippers celebrated on the radio, but the now-silent Flo cannot share the discovery with her.
+
+**Module connection:** Munro places one family beating beside a remembered public beating. That compact pairing makes Rose's private experience part of a wider pattern: violence is performed, retold, and eventually folded into ordinary life. The food Flo brings afterward shows how care and harm coexist in a single relationship.
+
+#### “The Yellow Wallpaper” — Charlotte Perkins Gilman
+
+**Summary:** A woman recovering from illness is confined to a room by her physician husband, John, who discourages her from writing or working. She secretly keeps a journal and becomes obsessed with the room's wallpaper, imagining a woman trapped behind its pattern. At the end, she tears the paper and identifies herself with that woman while John faints.
+
+**Module connection:** The room, the forbidden journal, and the wallpaper concentrate the story's conflict between the narrator's experience and John's authority. As her descriptions of the pattern change, a single domestic object comes to express her confinement and worsening state of mind.
+
+#### “Sonny’s Blues” — James Baldwin
+
+**Summary:** A Harlem schoolteacher learns that his younger brother, Sonny, has been arrested for using heroin. After the narrator's daughter dies, he reaches out to Sonny, though the brothers still struggle to discuss Sonny's suffering and his need to play music. Hearing Sonny perform jazz in a club finally helps the narrator grasp what his brother has been trying to express.
+
+**Module connection:** The opening arrest, remembered family losses, and final performance form a concentrated path from the narrator's fear to an act of listening. The nightclub scene does more than end the plot: it brings the brothers' personal grief and their family's history together through music.
+
+### Module 2 — Characterization
+
+Module key point: explain how speech, action, other people's reactions, and a character's thoughts reveal more than a simple character label.
+
+#### “Rules of the Game” — Amy Tan
+
+**Summary:** Waverly Jong learns chess in San Francisco's Chinatown and becomes a young champion. Her mother teaches her the value of restraint and strategy, supports her success, and proudly introduces her to others. Waverly comes to feel displayed rather than understood. After she accuses her mother of showing off, she runs away and returns home to imagine their conflict as a chess match.
+
+**Module connection:** Waverly's patient study of chess shows her intelligence and independence; her impulsive outburst shows the limits of that control. Her mother's actions can be read as both support and pressure. Use those specific behaviors to explain their changing relationship instead of calling either character simply proud or controlling.
+
+#### “Paul’s Case” — Willa Cather
+
+**Summary:** Paul feels alienated from school, his father, and ordinary life in Pittsburgh. He feels at home around music, theatre, and the wealthy world he imagines they represent. After stealing money, he lives briefly in luxury in New York. When he learns that his escape is ending, he dies by suicide.
+
+**Module connection:** Paul's dress, manner, lies, and behavior in the theatre reveal the self he tries to create. His contempt for home and his fear of returning complicate the impression that he is merely arrogant: the story characterizes him through the gap between his performance and his vulnerability.
+
+### Module 3 — Setting
+
+Module key point: show how physical places and their social expectations shape what a character feels able to do. Name a concrete feature of the setting and explain its effect.
+
+#### “Death by Landscape” — Margaret Atwood
+
+**Summary:** At summer camp, Lois's friend Lucy vanishes during a canoe trip, leaving no explanation or body. A camp leader's suspicion makes Lois feel blamed. As an older woman, Lois lives in a city apartment filled with Canadian landscape paintings and senses Lucy in them. She cannot leave the disappearance firmly in the past.
+
+**Module connection:** The wilderness offers no clear boundary or answer, so Lucy can seem to be anywhere within it. Lois's protected apartment does not remove that uncertainty: the paintings bring the landscape indoors. The contrast between the two places shows how an unresolved event continues to occupy her life.
+
+#### “To Room Nineteen” — Doris Lessing
+
+**Summary:** Susan Rawlings's carefully planned marriage and family life leave her feeling trapped and increasingly detached from herself. She secretly rents Room 19 in a London hotel to be completely alone. When her husband discovers the room, it loses the privacy that made it a refuge. Susan returns there and dies by suicide.
+
+**Module connection:** The family's comfortable house demands Susan's constant availability, while the shabby hotel room offers anonymity. Its meaning changes once Matthew knows about it. Compare those spaces to show that Susan needs freedom from being observed and needed, not simply a more pleasant room.
+
+### Module 4 — Plot
+
+Module key point: trace the pressure, the crisis that forces a choice, and the consequence. Distinguish an event that ends from a question the ending leaves open.
+
+#### “Great Falls” — Richard Ford
+
+**Summary:** Jackie recalls returning early from a hunting trip with his father and finding his mother with another man, Woody. His father threatens Woody with a gun; his mother leaves, and the family separates. Years later, Jackie still cannot fully explain why the adults acted as they did or what the night meant to each of them.
+
+**Module connection:** The unexpected return turns an uneasy family situation into a visible crisis. The gun confrontation ends without a shooting, but the mother's departure changes the family permanently. Jackie's later questions show that the plot resolves what happened that night while leaving its causes uncertain.
+
+#### “Bartleby, the Scrivener” — Herman Melville
+
+**Summary:** A Wall Street lawyer hires Bartleby to copy documents. Bartleby first refuses to check copies, then stops working and refuses to leave the office. The lawyer moves away, but Bartleby remains in the building, is taken to prison, and dies there after refusing food. The lawyer hears a possible clue about Bartleby's earlier work but never learns his motives.
+
+**Module connection:** Each refusal raises the practical stakes, moving the conflict from one task to the entire workplace and finally to the prison. Bartleby's death ends the sequence of events without explaining his behavior. That unresolved cause is part of the story's design, not a missing plot fact to invent.
+
+### Module 5 — Point of view
+
+Module key point: identify who tells or filters the story and what readers can and cannot know because of that choice.
+
+#### “Cathedral” — Raymond Carver
+
+**Summary:** A narrator feels uneasy when Robert, a blind friend of his wife, visits. While they watch a television program about cathedrals, the narrator cannot describe one to Robert. Robert guides his hand as they draw a cathedral together. With his eyes closed, the narrator experiences an unexpected feeling of openness and connection.
+
+**Module connection:** The narrator's first-person account exposes his assumptions about Robert while showing how little he understands himself. Readers notice his prejudice before he does. His inability to describe a cathedral, followed by the shared drawing, makes the gap between eyesight and understanding visible from inside his limited perspective.
+
+#### “Hills Like White Elephants” — Ernest Hemingway
+
+**Summary:** A man and a woman wait for a train in Spain while discussing an unnamed operation, understood to be an abortion. He repeatedly calls it simple; she questions whether their relationship can return to what it was. The train is coming, but their conversation ends without a clear decision.
+
+**Module connection:** The narration reports dialogue, gestures, and the railway setting without directly entering either person's thoughts. Readers must infer the pressure behind repeated reassurances and evasions. Do not claim certainty about what the woman finally decides: the restricted point of view withholds that answer.
+
+### Module 6 — Style
+
+Module key point: explain how specific words, images, sentence patterns, or repetitions create an effect tied to the story's conflict.
+
+#### “Barn Burning” — William Faulkner
+
+**Summary:** Sarty Snopes is pressured to defend his father, Abner, despite Abner's destructive acts. After Abner damages a landowner's rug and prepares to burn his barn, Sarty warns the landowner. He hears gunshots, grieves for his father, and walks away without looking back.
+
+**Module connection:** Repeated images of fire make Abner's anger and threatened destruction concrete. Faulkner's long, closely focused sentences follow Sarty's fear and divided loyalties as he acts. In a passage analysis, connect an image or sentence pattern to Sarty's struggle between family loyalty and his own judgment.
+
+#### “The Horse Dealer’s Daughter” — D. H. Lawrence
+
+**Summary:** After her family loses its money, Mabel Pervin walks into a pond. Dr. Fergusson rescues her, and she asks whether he loves her. He says that he wants her, but both are shaken by their sudden intimacy. The story leaves the force and future of their attachment uncertain.
+
+**Module connection:** The cold pond and wet clothing make Mabel's brush with death physical, while the later warmth and closeness suggest a possible return to life. Lawrence's charged bodily details and shifts from fear to desire resist a simple rescue-and-romance ending. Explain what those images suggest without treating their love as settled fact.
+
+**Module 7 check for every story:** Turn the module connection into a theme claim by explaining how the chosen scene fits the story's structure. For example, *“Cathedral” suggests that understanding another person can begin when the narrator gives up relying on sight alone* is an arguable claim; *“the story is about blindness”* is only a topic.
 
 ## *Pride and Prejudice* in one page
 
