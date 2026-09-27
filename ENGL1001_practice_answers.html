@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ENGL 1001 · Practice answers</title>
+  <link rel="stylesheet" href="ENGL1001_practice_style.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <span class="brand">TRU · ENGL 1001</span>
+    <nav class="toplinks" aria-label="Related pages">
+      <a href="ENGL1001_practice_exam.html">Exam page</a>
+      <a href="ENGL1001_7_day_exam_tutorial.html">Study tutorial</a>
+      <a href="ENGL1001_PEAK.pdf">Official sample key</a>
+    </nav>
+  </div>
+  <h1>Answers and review</h1>
+  <p class="lede">Review one item at a time. The grammar answers and passage identifications follow the supplied course key. The writing guidance is for self-review; the sample key does not score essays.</p>
+  <div class="meta">
+    <span class="chip" id="mode">Loading attempt…</span>
+    <span class="chip">Part I: automatic score</span>
+    <span class="chip">Parts II–III: self-review</span>
+  </div>
+  <div class="bar" role="progressbar" aria-label="Answer review progress" aria-valuemin="0" aria-valuemax="22" aria-valuenow="1"><span id="progressFill"></span></div>
+  <section class="panel" aria-live="polite">
+    <div class="panel-head">
+      <div><p class="kicker" id="partLabel"></p><h2 id="questionTitle"></h2></div>
+      <span class="counter" id="counter"></span>
+    </div>
+    <div id="review"></div>
+    <div class="navrow">
+      <div class="nav-left"><button class="button" id="back" type="button">← Previous</button></div>
+      <div class="nav-right"><button class="button primary" id="next" type="button">Next →</button><a class="button primary" id="retake" href="ENGL1001_practice_exam.html?new=1" hidden>Start a new attempt</a></div>
+    </div>
+  </section>
+</main>
+<script src="ENGL1001_practice_data.js"></script>
+<script>
+(() => {
+  const exam = window.ENGL1001_EXAM;
+  const $ = id => document.getElementById(id);
+  const esc = text => String(text).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  function loadState() {
+    if (location.hash.startsWith('#data=')) {
+      try { return JSON.parse(decodeURIComponent(location.hash.slice(6))); } catch {}
+    }
+    try { return JSON.parse(localStorage.getItem('engl1001-practice-exam-v1')); } catch { return null; }
+  }
+  const attempt = loadState();
+  const state = attempt && attempt.answers ? attempt : {answers:{}, passageId:'P1', passageText:'', essayId:'E1', essayText:''};
+  const score = exam.grammar.filter(q => state.answers[q.id] === q.answer).length;
+  $('mode').textContent = attempt ? 'Grammar: ' + score + '/20 correct · ' + (score / 2).toFixed(1) + '/10 marks' : 'Key-only mode · no saved attempt';
+  let index = 0;
+  const total = exam.grammar.length + 2;
+
+  function renderGrammar(i) {
+    const q = exam.grammar[i];
+    const group = exam.groups[q.group];
+    const chosen = state.answers[q.id];
+    const correct = chosen === q.answer;
+    $('partLabel').textContent = 'Part I · ' + group.title;
+    $('questionTitle').textContent = 'Question ' + (i + 1) + ' · ' + q.id;
+    $('review').innerHTML =
+      '<p class="prompt">' + esc(q.text) + '</p>' +
+      '<div class="' + (correct ? 'success' : 'error') + '">' +
+      '<strong>' + (correct ? 'Correct' : chosen ? 'Review this item' : 'No answer entered') + '</strong>' +
+      '<p>Your answer: ' + (chosen ? esc(chosen + '. ' + group.options[chosen - 1]) : '—') + '</p>' +
+      '<p>Course key: <strong>' + esc(q.answer + '. ' + group.options[q.answer - 1]) + '</strong></p>' +
+      '</div>' +
+      '<p class="answer-label">Why</p><p>' + esc(q.why) + '</p>';
+  }
+
+  function renderPassage() {
+    const p = exam.passages.find(x => x.id === state.passageId) || exam.passages[0];
+    $('partLabel').textContent = 'Part II · passage analysis · 35 marks';
+    $('questionTitle').textContent = p.label;
+    $('review').innerHTML =
+      '<p class="answer-label">Official passage identification</p>' +
+      '<p class="success"><strong>' + esc(p.author + ', “' + p.story + '.”') + '</strong></p>' +
+      '<p><a href="' + esc(p.reader) + '">Open the full story</a></p>' +
+      '<p class="answer-label">Your response</p><div class="response">' + esc(state.passageText || 'No response entered.') + '</div>' +
+      '<p class="answer-label">A possible thesis direction</p><p>' + esc(p.thesis) + '</p>' +
+      '<p class="answer-label">Details to consider</p><p>' + esc(p.focus) + '</p>' +
+      '<p class="answer-label">Self-check</p><ul class="review-list">' +
+      '<li>Did you identify both author and story?</li>' +
+      '<li>Does your thesis explain why this passage matters to the whole story?</li>' +
+      '<li>Did you analyse at least three precise details in the passage rather than retell plot?</li>' +
+      '<li>Did you connect style, point of view, character, setting, or conflict to your claim where relevant?</li>' +
+      '<li>Are paragraphs focused and clear?</li></ul>' +
+      '<p class="note tiny">The supplied key gives identifications only; the thesis and checklist above are study guidance, not an official model answer or mark.</p>';
+  }
+
+  function renderEssay() {
+    const e = exam.essays.find(x => x.id === state.essayId) || exam.essays[0];
+    $('partLabel').textContent = 'Part III · literary essay · 55 marks';
+    $('questionTitle').textContent = e.id + ' · ' + e.title;
+    $('review').innerHTML =
+      '<p class="prompt">' + esc(e.prompt) + '</p>' +
+      '<p class="answer-label">Your response</p><div class="response">' + esc(state.essayText || 'No response entered.') + '</div>' +
+      '<p class="answer-label">One useful planning direction</p><p>' + esc(e.guide) + '</p>' +
+      '<p class="answer-label">Self-check</p><ul class="review-list">' +
+      '<li>Does the introduction make a clear, arguable answer to this exact prompt?</li>' +
+      '<li>Do three body paragraphs use specific scenes or textual details?</li>' +
+      '<li>Does each paragraph explain how the evidence supports the thesis?</li>' +
+      '<li>If the prompt asks for two stories, have you discussed both meaningfully?</li>' +
+      '<li>Have you checked the conclusion, sentence clarity, and grammar?</li></ul>' +
+      '<p class="note tiny">The supplied answer key has no model answer or score for Part III. This page cannot grade an essay automatically.</p>';
+  }
+
+  function render() {
+    $('counter').textContent = (index + 1) + ' of ' + total;
+    if (index < exam.grammar.length) renderGrammar(index);
+    else if (index === exam.grammar.length) renderPassage();
+    else renderEssay();
+    $('back').disabled = index === 0;
+    $('next').hidden = index === total - 1;
+    $('retake').hidden = index !== total - 1;
+    $('progressFill').style.width = ((index + 1) / total * 100) + '%';
+    document.querySelector('.bar').setAttribute('aria-valuenow', String(index + 1));
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  $('back').addEventListener('click', () => { if (index > 0) { index--; render(); } });
+  $('next').addEventListener('click', () => { if (index < total - 1) { index++; render(); } });
+  render();
+})();
+</script>
+</body>
+</html>

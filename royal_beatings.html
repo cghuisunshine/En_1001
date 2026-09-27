@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Royal Beatings — Alice Munro</title>
+<style>
+  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --reader-size: 19px; }
+  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body { display: flex; flex-direction: column; height: 100dvh; min-height: 350px; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font: var(--reader-size)/1.75 Georgia, Palatino, serif; }
+  h1 { margin: 0; font: 600 clamp(2rem, 5vw, 3.2rem)/1.1 Georgia, Palatino, serif; }
+  .author { margin: .5rem 0 0; font: .95rem/1.5 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .source-note { margin: .7rem 0 1.5rem; color: var(--muted); font: .8rem/1.45 system-ui, sans-serif; }
+  .reader-stage { position: relative; flex: 1; min-height: 0; width: min(54rem, calc(100% - 2rem)); margin: 1rem auto; perspective: 1600px; touch-action: pan-y; }
+  .reader-page { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2rem clamp(1.25rem, 7vw, 5rem) 3rem; background: var(--paper); box-shadow: 0 10px 32px #00000019; scrollbar-color: var(--line) transparent; }
+  .reader-page[hidden] { display: none; }
+  .reader-page.turn-next { transform-origin: left center; animation: turn-next .34s ease-out both; }
+  .reader-page.turn-previous { transform-origin: right center; animation: turn-previous .34s ease-out both; }
+  @keyframes turn-next { from { opacity: .45; transform: rotateY(18deg) translateX(18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  @keyframes turn-previous { from { opacity: .45; transform: rotateY(-18deg) translateX(-18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  .story-heading { margin: 1rem 0 2rem; text-align: center; }
+  p { margin: 0 0 .82em; }
+  .page-heading { margin: 0 0 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: .4rem; color: var(--muted); font: .75rem/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+  .note { font: .78em/1.5 Georgia, Palatino, serif; color: var(--muted); padding-left: 1rem; border-left: 2px solid var(--line); }
+  .reader-bar { z-index: 2; display: flex; flex: none; flex-wrap: wrap; justify-content: center; align-items: center; gap: .55rem 1.25rem; padding: .55rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px #0000000d; font: .85rem/1.3 system-ui, sans-serif; }
+  .reader-bar strong { margin-right: auto; white-space: nowrap; }
+  .reader-bar form, .reader-controls { display: flex; align-items: center; gap: .4rem; margin: 0; }
+  .reader-controls { border-left: 1px solid var(--line); padding-left: 1rem; }
+  .reader-bar input { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
+  .reader-bar button { min-height: 2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .reader-bar button:hover, .reader-bar button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+  .reader-bar button:disabled, .page-turn-bar button:disabled { opacity: .45; cursor: not-allowed; }
+  .reader-bar button:focus-visible, .reader-bar input:focus-visible, .page-turn-bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #font-size-display { min-width: 2.7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .page-turn-bar { display: flex; flex: none; justify-content: center; align-items: center; gap: 1rem; padding: .45rem 1rem .6rem; background: var(--paper); border-top: 1px solid var(--line); font: .9rem/1.2 system-ui, sans-serif; }
+  .page-turn-bar button { min-width: 7rem; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .page-turn-bar button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  #page-status { min-width: 7rem; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 700px) { .reader-bar strong { width: 100%; text-align: center; } .reader-controls { padding-left: .6rem; } .reader-stage { width: 100%; margin: 0; } .reader-page { box-shadow: none; } .page-turn-bar { gap: .4rem; } .page-turn-bar button { min-width: 5rem; } }
+  @media (prefers-reduced-motion: reduce) { .reader-page.turn-next, .reader-page.turn-previous { animation: none; } }
+  @media print { body { display: block; height: auto; overflow: visible; color: black; background: white; } .reader-bar, .page-turn-bar { display: none; } .reader-stage { display: block; width: auto; margin: 0; } .reader-page, .reader-page[hidden] { position: static; display: block; overflow: visible; box-shadow: none; padding: 1rem 0; break-after: page; } }
+</style>
+</head>
+<body>
+<nav class="reader-bar" aria-label="Reader settings">
+  <strong>Royal Beatings</strong>
+  <form id="page-form"><label for="page-number">Page</label><input id="page-number" type="number" min="1082" max="1100" inputmode="numeric" required><button type="submit">Go</button></form>
+  <div class="reader-controls" role="group" aria-label="Color theme"><button id="day-button" type="button" aria-pressed="true">Day</button><button id="night-button" type="button" aria-pressed="false">Night</button></div>
+  <div class="reader-controls" role="group" aria-label="Font size"><button id="font-smaller" type="button" aria-label="Decrease font size">A−</button><output id="font-size-display" aria-live="polite">19px</output><button id="font-larger" type="button" aria-label="Increase font size">A+</button></div>
+</nav>
+<main class="reader-stage" id="reader-stage">
+<section class="reader-page" id="page-1082" aria-label="Printed page 1082">
+<div class="page-heading">Page 1082</div>
+<div class="story-heading"><h1>Royal Beatings</h1><p class="author">Alice Munro</p><p class="source-note">From <em>The Norton Anthology of Short Fiction</em>, Third Edition. OCR errors are retained from the source EPUB.</p></div>
+<p>ROYAL BEATING. Tliat was Flo&#x27;s promise. You are going to get one Royal Beating.</p>
+<p>The word Royal lolled on Flo&#x27;s tongue, took on trappings. Rose had a need to picture things, to pursue absurdities, that was stronger than the need to stay out of trouble, and instead of taking this threat to heart she pondered: how is a beating royal? She came up with a tree-lined avenue, a crowd of formal spectators, some white horses and black slaves. Someone knelt, and the blood came leaping out like banners. An occasion both savage and splendid. In real life they didn&#x27;t approach such dignity, and it was only Flo who tried to supply the event with some high air of necessity and regret. Rose and her father soon got beyond anything presentable.</p>
+<p>Her father was king of the royal beatings. Those Flo gave never amounted to much; they were quick cuffs and slaps dashed off while her attention remained elsewhere. You get out of my road, she would say. You mind your own business. You take that look off your face.</p>
+<p>They lived behind a store in Hanratty, Ontario. There were four of them: Rose, her father, Flo, Rose&#x27;s young half brother Brian. Tlie store was really a house, bought by Rose&#x27;s father and mother</p>
+</section>
+<section class="reader-page" id="page-1083" aria-label="Printed page 1083" hidden>
+<div class="page-heading">Page 1083</div>
+<p>when they married and set up here in the furniture and upholstery repair business. Her mother could do upholstery. From both parents Rose should have inherited clever hands, a quick sympathy with materials, an eye for the nicest turns of mending, but she hadn&#x27;t. She was clumsy, and when something broke she couldn&#x27;t wait to sweep it up and throw it away.</p>
+<p>Her mother had died. She said to Rose&#x27;s father during the afternoon, &quot;I have a feeling that is so hard to describe. It&#x27;s like a boiled egg in my chest, with the shell left on.&quot; She died before night, she had a blood clot on her lung. Rose was a baby in a basket at the time, so of course could not remember any of this. She heard it from Flo, who must have heard it from her father. Flo came along soon afterward, to take over Rose in the basket, marry her father, open up the front room to make a grocery store. Rose, who had known the house only as a store, who had known only Flo for a mother, looked back on the sixteen or so months her parents spent here as an orderly, far gentler and more ceremonious time, with little touches of affluence. She had nothing to go on but some egg cups her mother had bought, with a pattern of vines and birds on them, delicately drawn as if with red ink; the pattern was beginning to wear away. No books or clothes or pictures of her mother remained. Her father must have got rid of them, or else Flo would. Flo&#x27;s only story about her mother, the one about her death, was oddly grudging. Flo liked the details of a death: the things people said, the way they protested or tried to get out of bed or swore or laughed (some did those things), but when she said that Rose&#x27;s mother mentioned a hard-boiled egg in her chest she made the comparison sound slightly foolish, as if her mother really was the kind of person who might think you could swallow an egg whole.</p>
+<p>Her father had a shed out behind the store, where he worked at his furniture repairing and restoring. He caned chair seats and backs, mended wickerwork, filled cracks, put legs back on, all most admirably and skillfully and cheaply. That was his pride: to startle people with such fine work, such moderate, even ridiculous charges. During the Depression people could not afford to pay more, perhaps, but he continued the practice through the war, through the years of prosperity after the war, until he died. He never discussed with Flo what he charged or what was owing. After he died she had to go out and unlock the shed and take all sorts of scraps of paper and torn envelopes from the big wicked-looking hooks that were his files. Many of these she found were not accounts or receipts at all but records of the weather, bits of information about the garden, things he had been moved to write down.</p>
+<p>Ate new potatoes 25th June. Record.</p>
+<p>Dark Day, i88o&#x27;s, nothing supernatural. Clouds of ash from forest fires. Aug 16, 1938. Giant thunderstorm in evng. Lightning str. Pres. Church, Turberry Twp. Will of God?</p>
+</section>
+<section class="reader-page" id="page-1084" aria-label="Printed page 1084" hidden>
+<div class="page-heading">Page 1084</div>
+<p>Scald strawberries to remove acid. All things are alive. Spinoza.i</p>
+<p>Flo thought Spinoza must be some new vegetable he planned to grow, like broccoli or eggplant. He would often try some new thing. She showed the scrap of paper to Rose and asked, did she know what Spinoza was? Rose did know, or had an idea—she was in her teens by that time—but she replied that she did not. She had reached an age where she thought she could not stand to know any more, about her father, or about Flo; she pushed any discovery aside with embarrassment and dread.</p>
+<p>There was a stove in the shed, and many rough shelves covered with cans of paint and varnish, shellac and turpentine, jars of soaking brushes and also some dark sticky bottles of cough medicine. Why should a man who coughed constantly, whose lungs took in a whiff of gas in the War (called, in Rose&#x27;s earliest childhood, not the First, but the Last,^ War) spend all his days breathing fumes of paint and turpentine? At the time, such questions were not asked as often as they are now. On the bench outside Flo&#x27;s store several old men from the neighborhood sat gossiping, drowsing, in the warm weather, and some of these old men coughed all the time too. The fact is they were dying, slowly and discreetly, of what was called, without any particular sense of grievance, &quot;the foundry disease.&quot; They had worked all their lives at the foundry in town, and now they sat still, with their wasted yellow faces, coughing, chuckling, drifting into aimless obscenity on the subject of women walking by, or any young girl on a bicycle.</p>
+<p>From the shed came not only coughing, but speech, a continual muttering, reproachful or encouraging, usually just below the level at which separate words could be made out. Slowing down when her father was at a tricky piece of work, taking on a cheerful speed when he was doing something less demanding, sandpapering or painting. Now and then some words would break through and hang clear and nonsensical on the air. When he realized they were out, there would be a quick bit of cover-up coughing, a swallowing, an alert, unusual silence.</p>
+<p>&quot;Macaroni, pepperoni, Botticelli,^ beans—&quot;</p>
+<p>WTiat could that mean? Rose used to repeat such things to herself. She could never ask him. The person who spoke these words and the person who spoke to her as her father were not the same, though they seemed to occupy the same space. It would be the worst sort of taste to acknowledge the person who was not supposed to be there; it would not be forgiven. Just the same, she loitered and listened.</p>
+<p class="note">1. Benedict Spinoza (1632-1677), Dutch philosopher. i. World War I was euphemistically referred to as &quot;the war to end all wars.&quot; J. Sandro Botticelli (I4447-1510), Italian painter.</p>
+</section>
+<section class="reader-page" id="page-1085" aria-label="Printed page 1085" hidden>
+<div class="page-heading">Page 1085</div>
+<p>The cloud-capped towers, she heard him say once.</p>
+<p>&quot;The cloud-capped towers, the gorgeous palaces.&quot;&quot;*</p>
+<p>That was like a hand clapped against Rose&#x27;s chest, not to hurt, but astonish her, to take her breath away. She had to run then, she had to get awav. She knew that was enough to hear, and besides, what if he caught her? It would be terrible.</p>
+<p>This was something the same as bathroom noises. Flo had saved up, and had a bathroom put in, but there was no place to put it except in a corner of the kitchen. The door did not fit, the walls were onlv bea\erboard. The result was that even the tearing of a piece of toilet paper, the shifting of a haunch, was audible to those working or talking or eating in the kitchen. They were all familiar with each other&#x27;s nether voices, not only in their more explosive moments but in their intimate sighs and growls and pleas and statements. And thev were all most prudish people. So no one ever seemed to hear, or be listening, and no reference was made. The person creating the noises in the bathroom was not connected with the person who walked out.</p>
+<p>They lived in a poor part of town. There was Hanratty and West Hanratty, with the river flowing between them. This was West Hanratty. In Hanratty the social structure ran from doctors and dentists and lawyers down to foundry workers and factory workers and draymen; in West Hanratty it ran from factory workers and foun-dr}&#x27; workers down to large improvident families of casual bootleggers and prostitutes and unsuccessful thieves. Rose thought of her own family as straddling the river, belonging nowhere, but that was not true. West Hanratty was where the store was and they were, on the straggling tail end of the main street. Across the road from them was a blacksmith shop, boarded up about the time the war started, and a house that had been another store at one time. The Salada Tea sign had never been taken out of the front window; it remained as a proud and interesting decoration though there was no Salada Tea for sale inside. There was just a bit of sidewalk, too cracked and tilted for roller-skating, though Rose longed for roller skates and often pictured herself whizzing along in a plaid skirt, agile and fashionable. There was one street light, a tin flower; then the amenities gave up and there were dirt roads and boggy places, front-yard dumps and strange-looking houses. What made the houses strange-looking were the attempts to keep them from going completely to ruin. With some the attempt had never been made. These were gray and rotted and leaning over, falling into a landscape of scrub hollows, frog ponds, cattails and nettles. Most houses, however, had been patched up with tarpaper, a few fresh shingles, sheets of tin, hammered-out stovepipes, even cardboard.</p>
+<p class="note">4. &quot;The cloud-capped towers, the gorgeous palaces,/The solemn temples, the great globe itself./Yea, all which it inherit, shall dissolve,/And, like this insubstantial pageant faded,/Leave not a wrack behind.&quot; Shakespeare&#x27;s Tempest, IV. i.</p>
+</section>
+<section class="reader-page" id="page-1086" aria-label="Printed page 1086" hidden>
+<div class="page-heading">Page 1086</div>
+<p>This was, of course, in the days before the war, days of what would later be legendary poverty, from which Rose would remember mostly low-down things—serious-looking anthills and wooden steps, and a cloudy, interesting, problematical light on the world.</p>
+<p>There was a long truce between Flo and Rose in the beginning. Rose&#x27;s nature was growing like a prickly pineapple, but slowly, and secretly, hard pride and skepticism overlapping, to make something surprising even to herself. Before she was old enough to go to school, and while Brian was still in the baby carriage. Rose stayed in the store with both of them—Flo sitting on the high stool behind the counter, Brian asleep by the window; Rose knelt or lay on the wide creaky floorboards working with crayons on pieces of brown paper too torn or irregular to be used for wrapping.</p>
+<p>People who came to the store were mostly from the houses around. Some country people came too, on their way home from town, and a few people from Hanratty, who walked across the bridge. Some people were always on the main street, in and out of stores, as if it was their duty to be always on display and their right to be welcomed. For instance, Becky Tyde.</p>
+<p>Becky Tyde climbed up on Flo&#x27;s counter, made room for herself beside an open tin of crumbly jam-filled cookies.</p>
+<p>&quot;Are these any good?&quot; she said to Flo, and boldly began to eat one. &quot;When are you going to give us a job, Flo?&quot;</p>
+<p>&quot;You could go and work in the butcher shop,&quot; said Flo innocently. &quot;You could go and work for your brother.&quot;</p>
+<p>&quot;Roberta?&quot; said Becky with a stagey sort of contempt. &quot;You think I&#x27;d work for him?&quot; Her brother who ran the butcher shop was named Robert but often called Roberta, because of his meek and nervous ways. Becky Tyde laughed. Her laugh was loud and noisy like an engine bearing down on you.</p>
+<p>She was a big-headed loud-voiced dwarf, with a mascot&#x27;s sexless swagger, a red velvet tarn, a twisted neck that forced her to hold her head on one side, always looking up and sideways. She wore little polished high-heeled shoes, real lady&#x27;s shoes. Rose watched her shoes, being scared of the rest of her, of her laugh and her neck. She knew from Flo that Becky Tyde had been sick with polio as a child, that was why her neck was twisted and why she had not grown any taller. It was hard to believe that she had started out differently, that she had ever been normal. Flo said she was not cracked, she had as much brains as anybody, but she knew she could get away with anything.</p>
+<p>&quot;You know I used to live out here?&quot; Becky said, noticing Rose. &quot;Hey! What&#x27;s your-nanie! Didn&#x27;t I used to live out here, Flo?&quot;</p>
+<p>&quot;If you did it was before my time,&quot; said Flo, as if she didn&#x27;t know anything.</p>
+</section>
+<section class="reader-page" id="page-1087" aria-label="Printed page 1087" hidden>
+<div class="page-heading">Page 1087</div>
+<p>&quot;Tliat was before the neighborhood got so downhill. Excuse me saying so. My father built his house out here and he built his slaughterhouse and we had half an acre of orchard.&quot;</p>
+<p>&quot;Is that so?&quot; said Flo, using her humoring voice, full of false geniality, humility even. &quot;Then why did you ever move away?&quot;</p>
+<p>&quot;I told you, it got to be such a downhill neighborhood,&quot; said Beckv. She would put a whole cookie in her mouth if she felt like it, let her cheeks puff out like a frog&#x27;s. She never told any more.</p>
+<p>Flo knew anyway, and who didn&#x27;t. Everyone knew the house, red brick with the veranda pulled off and the orchard, what was left of it, full of the usual outflow—car seats and washing machines and bedsprings and junk. Tlie house would never look sinister, in spite of what had happened in it, because there was so much wreckage and confusion all around.</p>
+<p>Becky&#x27;s old father was a different kind of butcher from het brother according to Flo. A bad-tempered Englishman. And different from Becky in the matter of mouthiness. His was never open. A skinflint, a family tyrant. After Becky had polio he wouldn&#x27;t let her go back to school. She was seldom seen outside the house, never outside the yard. He didn&#x27;t want people gloating. That was what Becky said, at the trial. Her mother was dead by that time and her sisters married. Just Becky and Robert at home. People would stop Robert on the road and ask him, &quot;How about your sister, Robert? Is she altogether better now?&quot;</p>
+<p>&quot;Yes.&quot;</p>
+<p>&quot;Does she do the housework? Does she get your supper?&quot;</p>
+<p>&quot;Yes.&quot;</p>
+<p>&quot;And is your father good to her, Robert?&quot;</p>
+<p>The story being that the father beat them, had beaten all his children and beaten his wife as well, beat Becky more now because of her deformity, which some people believed he had caused (they did not understand about polio). The stories persisted and got added to. The reason that Becky was kept out of sight was now supposed to be her pregnancy, and the father of the child was supposed to be her own father. Then people said it had been bom, and disposed of.</p>
+<p>&quot;What?&quot;</p>
+<p>&quot;Disposed of,&quot; Flo said. &quot;They used to say go and get your lamb chops at Tyde&#x27;s, get them nice and tender! It was all lies in all probability,&quot; she said regretfully.</p>
+<p>Rose could be drawn back—from watching the wind shiver along the old torn awning, catch in the tear—by this tone of regret, caution, in Flo&#x27;s voice. Flo telling a stor}-—and this was not the only one, or even the most lurid one, she knew—would incline her head and let her face go soft and thoughtful, tantalizing, warning.</p>
+<p>&quot;I shouldn&#x27;t even be telling you this stuff.&quot;</p>
+</section>
+<section class="reader-page" id="page-1088" aria-label="Printed page 1088" hidden>
+<div class="page-heading">Page 1088</div>
+<p>More was to follow.</p>
+<p>Three useless young men, who hung around the livery stable, got together—or were got together, by more influential and respectable men in town—and prepared to give old man Tyde a horsewhipping, in the interests of public morality. They blacked their faces. They were provided with whips and a quart of whiskey apiece, for courage. They were: Jelly Smith, a horse-racer and a drinker; Bob Temple, a ballplayer and strongman; and Hat Nettleton, who worked on the town dray,^ and had his nickname from a bowler hat he wore, out of vanity as much as for the comic effect. He still worked on the dray, in fact; he had kept the name if not the hat, and could often be seen in public almost as often as Becky Tyde— delivering sacks of coal, which blackened his face and arms. That should have brought to mind his story, but didn&#x27;t. Present time and past, the shady melodramatic past of Flo&#x27;s stories, were quite separate, at least for Rose. Present people could not be fitted into the past. Becky herself, town oddity and public pet, harmless and malicious, could never match the butcher&#x27;s prisoner, the cripple daughter, a white streak at the window: mute, beaten, impregnated. As with the house, only a formal connection could be made.</p>
+<p>The young men primed to do the horsewhipping showed up late, outside Tyde&#x27;s house, after everybody had gone to bed. They had a gun, but they used up their ammunition firing it off in the yard. They yelled for the butcher and beat on the door; finally they broke it down. Tyde concluded they were after his money, so he put some bills in a handkerchief and sent Becky down with them, maybe thinking those men would be touched or scared by the sight of a little wry-necked girl, a dwarf. But that didn&#x27;t content them. They came upstairs and dragged the butcher out from under his bed, in his nightgown. They dragged him outside and stood him in the snow. The temperature was four below zero, a fact noted later in court. They meant to hold a mock trial but they could not remember how it was done. So they began to beat him and kept beating him until he fell. They yelled at him. Butcher&#x27;s meat! and continued beating him while his nightgown and the snow he was lying in turned red. His son Robert said in court that he had not watched the beating. Becky said that Robert had watched at first but had run away and hid. She herself had watched all the way through. She watched the men leave at last and her father make his delayed bloody progress through the snow and up the steps of the veranda. She did not go out to help him, or open the door until he got to it. Whv not? she was asked in court, and she said she did not go out because she just had her nightgown on, and she did not open the door because she did not want to let the cold into the house.</p>
+<p>Old man Tyde then appeared to have recovered his strength. He</p>
+<p class="note">5. Wagon used for carrying heavy loads for hire.</p>
+</section>
+<section class="reader-page" id="page-1089" aria-label="Printed page 1089" hidden>
+<div class="page-heading">Page 1089</div>
+<p>sent Robert to harness the horse, and made Becky heat water so that he could wash. He dressed and took all the money and with no explanation to his children got into the cutter and drove to Belgrave where he left the horse tied in the cold and took the early morning train to Toronto. On the train he behaved oddly, groaning and cursing as if he was drunk. He was picked up on the streets of Toronto a day later, out of his mind with fever, and was taken to a hospital, where he died. He still had all the money. The cause of death was given as pneumonia.</p>
+<p>But the authorities got wind, Flo said. The case came to trial. The three men who did it all received long prison sentences. A farce, said Flo. Within a year they were all free, had all been pardoned, had jobs waiting for them. And why was that? It was because too many higher-ups were in on it. And it seemed as if Becky and Robert had no interest in seeing justice done. They were left well-off. They bought a house in Hanratty. Robert went into the store. Becky after her long seclusion started on a career of public sociability and display.</p>
+<p>That was all. Flo put the lid down on the story as if she was sick of it. It reflected no good on anybody.</p>
+<p>&quot;Imagine,&quot; Flo said.</p>
+<p>Flo at this time must have been in her early thirties. A young woman. She wore exactly the same clothes that a woman of fifty, or sixty, or seventy, might wear: print housedresses loose at the neck and sleeves as well as the waist; bib aprons, also of print, which she took off when she came from the kitchen into the store. This was a common costume at the time, for a poor though not absolutely poverty-stricken woman; it was also, in a way, a scornful deliberate choice. Flo scorned slacks, she scorned the outfits of people trying to be in style, she scorned lipstick and permanents. She wore her own black hair cut straight across, just long enough to push behind her ears. She was tall but fine-boned, with narrow wrists and shoulders, a small head, a pale, freckled, mobile, monkeyish face. If she had thought it worthwhile, and had the resources, she might have had a black-and-pale, fragile, nurtured sort of prettiness; Rose realized that later. But she would have to have been a different person altogether; she would have to have learned to resist making faces, at herself and others.</p>
+<p>Rose&#x27;s earliest memories of Flo were of extraordinary softness and hardness. The soft hair, the long, soft, pale cheeks, soft almost invisible fuzz in front of her ears and above her mouth. The sharpness of her knees, hardness of her lap, flatness of her front.</p>
+<p>When Flo sang:</p>
+<p>Oh the buzzin&#x27; of the bees in the cigarette trees And the soda-wafer fountain . . .6</p>
+<p class="note">6. From the ballad &quot;The Big Rock Candy Mountain.&quot;</p>
+</section>
+<section class="reader-page" id="page-1090" aria-label="Printed page 1090" hidden>
+<div class="page-heading">Page 1090</div>
+<p>Rose thought of Flo&#x27;s old life before she married her father, when she worked as a waitress in the coffee shop in Union Station, and went with her girl friends Mavis and Irene to Centre Island,&#x27;^ and was followed by men on dark streets and knew how pay phones and elevators worked. Rose heard in her voice the reckless dangerous life of cities, the gum-chewing sharp answers. And when she sang:</p>
+<p>Then slowly, slowly, she got up And slowly she came nigh him And all she said, that she ever did say. Was young man I think, you&#x27;re dyin&#x27;l^</p>
+<p>Rose thought of a life Flo seemed to have had beyond that, earlier than that, crowded and legendary, with Barbara Allen and Becky Tyde&#x27;s father and all kinds of outrages and sorrows jumbled up together in it.</p>
+<p>The royal beatings. What got them started?</p>
+<p>Suppose a Saturday, in spring. Leaves not out yet but the doors open to the sunlight. Crows. Ditches full of running water. Hopeful weather. Often on Saturdays Flo left Rose in charge of the store— it&#x27;s a few years now, these are the years when Rose was nine, ten, eleven, twelve—while she herself went across the bridge to Hanratty (going uptown they called it) to shop and see people, and listen to them. Among the people she listened to were Mrs. Lawyer Davies, Mrs. Anglican Rector Henley-Smith, and Mrs. Horse-Doctor McKay. She came home and imitated their flibberty voices. Monsters, she made them seem; of foolishness, and showiness, and self-approbation.</p>
+<p>When she finished shopping she went into the coffee shop of the Queen&#x27;s Hotel and had a sundae. What kind? Rose and Brian wanted to know when she got home, and they would be disappointed if it was only pineapple or butterscotch, pleased if it was a Tin Roof, or Black and White. Then she smoked a cigarette. She had some ready-rolled, that she carried with her, so that she wouldn&#x27;t have to roll one in public. Smoking was the one thing she did that she would have called showing off in anybody else. It was a habit left over from her working days, from Toronto. She knew it was asking for trouble. Once the Catholic priest came over to her right in the Queen&#x27;s Hotel, and flashed his lighter at her before she could get her matches out. She thanked him but did not enter into conversation, lest he should try to convert her.</p>
+<p>Another time, on the way home, she saw at the town end of the</p>
+<p class="note">7. Park is Toronto Harbour. Union Station is the main railroad terminal in Toronto.</p>
+</section>
+<section class="reader-page" id="page-1091" aria-label="Printed page 1091" hidden>
+<div class="page-heading">Page 1091</div>
+<p>bridge a boy in a blue jacket, apparently looking at the water. Eighteen, nineteen years old. Nobody she knew. Skinny, weakly looking, something the matter with him, she saw at once. Was he thinking of jumping? Just as she came up even with him, what does he do but turn and display himself, holding his jacket open, also his pants. What he must have suffered from the cold, on a day that had Flo holding her coat collar tight around her throat.</p>
+<p>When she first saw what he had in his hand, Flo said, all she could think of was, what is he doing out here with a baloney sausage?</p>
+<p>She could say that. It was offered as truth; no joke. She maintained that she despised dirty talk. She would go out and yell at the old men sitting in front of her store.</p>
+<p>&quot;If you want to stay where you are you better clean your mouths out!&quot;</p>
+<p>Saturday, then. For some reason Flo is not going uptown, has decided to stay home and scrub the kitchen floor. Perhaps this has put her in a bad mood. Perhaps she was in a bad mood anyway, due to people not paying their bills, or the stirring-up of feelings in spring. The wrangle with Rose has already commenced, has been going on forever, like a dream that goes back and back into other dreams, over hills and through doorways, maddeningly dim and populous and familiar and elusive. They are carting all the chairs out of the kitchen preparatory to the scrubbing, and they have also got to move some extra provisions for the store, some cartons of canned goods, tins of maple syrup, coal-oil cans, jars of vinegar. They take these things out to the woodshed. Brian who is five or six by this time is helping drag the tins.</p>
+<p>&quot;Yes,&quot; says Flo, carrying on from our lost starting point. &quot;Yes, and that filth you taughi: to Brian.&quot;</p>
+<p>&quot;What filth?&quot;</p>
+<p>&quot;And he doesn&#x27;t know any better.&quot;</p>
+<p>There is one step down from the kitchen to the woodshed, a bit of carpet on it so worn Rose can&#x27;t ever remember seeing the pattern. Brian loosens it, dragging a tin.</p>
+<p>&quot;Two Vancouvers,&quot; she says softly.</p>
+<p>Flo is back in the kitchen. Brian looks from Flo to Rose and Rose says again in a slightly louder voice, an encouraging singsong, &quot;Two Vancouvers—&quot;</p>
+<p>&quot;Fried in snot!&quot; finishes Brian, not able to control himself any longer.</p>
+<p>&quot;Two pickled arseholes—&quot;</p>
+<p>&quot;—tied in a knot!&quot;</p>
+<p>There it is. The filth.</p>
+<p>Two Vancouvers fried in snot!</p>
+<p>Two pickled arseholes tied in a knot!</p>
+</section>
+<section class="reader-page" id="page-1092" aria-label="Printed page 1092" hidden>
+<div class="page-heading">Page 1092</div>
+<p>Rose has known that for years, learned it when she first went to school. She came home and asked Flo, what is a Vancouver?</p>
+<p>&quot;It&#x27;s a city. It&#x27;s a long ways away.&quot;</p>
+<p>&quot;What else besides a city?&quot;</p>
+<p>Flo said, what did she mean, what else? How could it be fried, Rose said, approaching the dangerous moment, the delightful moment, when she would have to come out with the whole thing.</p>
+<p>&quot;Two Vancouvers fried in snot!/Two pickled arseholes tied in a knot!&quot;</p>
+<p>&quot;You&#x27;re going to get it!&quot; cried Flo in a predictable rage. &quot;Say that again and you&#x27;ll get a good clout!&quot;</p>
+<p>Rose couldn&#x27;t stop herself. She hummed it tenderly, tried saying the innocent words aloud, humming through the others. It was not just the words snot and arsehole that gave her pleasure, though of course they did. It was the pickling and tying and the unimaginable Vancouvers. She saw them in her mind shaped rather like octopuses, twitching in the pan. The tumble of reason; the spark and spit of craziness.</p>
+<p>Lately she has remembered it again and taught it to Brian, to see if it has the same effect on him, and of course it has.</p>
+<p>&quot;Oh, I heard you!&quot; says Flo. &quot;I heard that! And I&#x27;m warning you!&quot;</p>
+<p>So she is. Brian takes the warning. He runs away, out the woodshed door, to do as he likes. Being a boy, free to help or not, involve himself or not. Not committed to the household struggle. They don&#x27;t need him anyway, except to use against each other, they hardly notice his going. They continue, can&#x27;t help continuing, can&#x27;t leave each other alone. When they seem to have given up they really are just waiting and building up steam.</p>
+<p>Flo gets out the scrub pail and the brush and the rag and the pad for her knees, a dirty red rubber pad. She starts to work on the floor. Rose sits on the kitchen table, the only place left to sit, swinging her legs. She can feel the cool oilcloth, because she is wearing shorts, last summer&#x27;s tight faded shorts dug out of the summer-clothes bag. They smell a bit moldy from winter storage.</p>
+<p>Flo crawls underneath, scrubbing with the brush, wiping with the rag. Her legs are long, white and muscular, marked all over with blue veins as if somebody had been drawing rivers on them with an indelible pencil. An abnormal energy, a violent disgust, is expressed in the chewing of the brush at the linoleum, the swish of the rag.</p>
+<p>What do they have to say to each other? It doesn&#x27;t really matter. Flo speaks of Rose&#x27;s smart-aleck behavior, rudeness and sloppiness and conceit. Her willingness to make work for others, her lack of gratitude. She mentions Brian&#x27;s innocence, Rose&#x27;s corruption. Oh, don&#x27;t you think you&#x27;re somebody, says Flo, and a moment later. Who do you think you are? Rose contradicts and objects with such poisonous reasonableness and mildness, displays theatrical uncon-</p>
+</section>
+<section class="reader-page" id="page-1093" aria-label="Printed page 1093" hidden>
+<div class="page-heading">Page 1093</div>
+<p>cem. Flo goes beyond her ordinary scorn and self-possession and becomes amazingly theatrical herself, saying it was for Rose that she sacrificed her life. She saw her father saddled with a baby daughter and she thought, what is that man going to do? So she married him, and here she is, on her knees.</p>
+<p>At that moment the bell rings, to announce a customer in the store. Because the fight is on. Rose is not permitted to go into the store and wait on whoever it is. Flo gets up and throws off her apron, groaning—but not communicatively, it is not a groan whose exasperation Rose is allo^^ed to share—and goes in and serves. Rose hears her using her normal voice.</p>
+<p>&quot;About time! Sure is!&quot;</p>
+<p>She comes back and ties on her apron and is ready to resume.</p>
+<p>&quot;You never have a thought for anybody but your ownself! You never have a thought for what I&#x27;m doing.&quot;</p>
+<p>&quot;I never asked you to do anything. I wish you never had. I would have been a lot better off.&quot;</p>
+<p>Rose says this smiling directly at Flo, who has not yet goiie down on her knees. Flo sees the smile, grabs the scrub rag that is hanging on the side of the pail, and throws it at her. It may be meant to hit her in the face but instead it falls against Rose&#x27;s leg and she raises her foot and catches it, swinging it negligently against her ankle.</p>
+<p>&quot;All right,&quot; says Flo. &quot;You&#x27;ve done it this time. All right.&quot;</p>
+<p>Rose watches her go to the woodshed door, hears her tramp through the woodshed, pause in the doorway, where the screen door hasn&#x27;t yet been hung, and the storm door is standing open, propped with a brick. She calls Rose&#x27;s father. She calls him in a warning, summoning voice, as if against her will preparing him for bad news. He will know what this is about.</p>
+<p>The kitchen floor has five or six different patterns of linoleum on it. Ends, which Flo got for nothing and ingeniously trimmed and fitted together, bordering them with tin strips and tacks. While Rose sits on the table waiting, she looks at the floor, at this satisfying arrangement of rectangles, triangles, some other shape whose name she is trying to remember. She hears Flo coming back through the woodshed, on the creaky plank walk laid over the dirt floor. She is loitering, waiting, too. She and Rose can carry this no further, by themselves.</p>
+<p>Rose hears her father come in. She stiffens, a tremor runs through her legs, she feels them shiver on the oilcloth. Called away from some peaceful, absorbing task, away from the words running in his head, called out of himself, her father has to say something. He says, &quot;Well? What&#x27;s wrong?&quot;</p>
+<p>Now comes another voice of Flo&#x27;s. Enriched, hurt, apologetic, it seems to have been manufactured on the spot. She is sorry to have called him from his work. Would never have done it, if Rose was not driving her to distraction. How to distraction? With her back</p>
+</section>
+<section class="reader-page" id="page-1094" aria-label="Printed page 1094" hidden>
+<div class="page-heading">Page 1094</div>
+<p>talk and impudence and her terrible tongue. TTie things Rose has said to Flo are such that, if Flo had said them to her mother, she knows her father would have thrashed her into the ground.</p>
+<p>Rose tries to butt in, to say this isn&#x27;t true.</p>
+<p>What isn&#x27;t true?</p>
+<p>Her father raises a hand, doesn&#x27;t look at her, says, &quot;Be quiet.&quot;</p>
+<p>When she says it isn&#x27;t true, Rose means that she herself didn&#x27;t start this, only responded, that she was goaded by Flo, who is now, she believes, telling the grossest sort of lies, twisting everything to suit herself. Rose puts aside her other knowledge that whatever Flo has said or done, whatever she herself has said or done, does not really matter at all. It is the struggle itself that counts, and that can&#x27;t be stopped, can never be stopped, short of where it has got to, now.</p>
+<p>Flo&#x27;s knees are dirty, in spite of the pad. Tlie scrub rag is still hanging over Rose&#x27;s foot.</p>
+<p>Her father wipes his hands, listening to Flo. He takes his time. He is slow at getting into the spirit of things, tired in advance, maybe, on the verge of rejecting the role he has to play. He won&#x27;t look at Rose, but at any sound or stirring from Rose, he holds up his hand.</p>
+<p>&quot;Well we don&#x27;t need the public in on this, that&#x27;s for sure,&quot; Flo says, and she goes to lock the door of the store, putting in the store window the sign that says back soon, a sign Rose made for her with a great deal of fancy curving and shading of letters in black and red crayon. When she comes back she shuts the door to the store, then the door to the stairs, then the door to the woodshed.</p>
+<p>Her shoes have left marks on the clean wet part of the floor.</p>
+<p>&quot;Oh, I don&#x27;t know,&quot; she says now, in a voice worn down from its emotional peak. &quot;I don&#x27;t know what to do about her.&quot; She looks down and sees her dirty knees (following Rose&#x27;s eyes) and rubs at them viciously with her bare hands, smearing the dirt around.</p>
+<p>&quot;She humiliates me,&quot; she says, straightening up. There it is, the explanation. &quot;She humiliates me,&quot; she repeats with satisfaction. &quot;She has no respect.&quot;</p>
+<p>&quot;I do not!&quot;</p>
+<p>&quot;Quiet, you!&quot; says her father.</p>
+<p>&quot;If I hadn&#x27;t called your father you&#x27;d still be sitting there with that grin on your face! What other way is there to manage you?&quot;</p>
+<p>Rose detects in her father some objections to Flo&#x27;s rhetoric, some embarrassment and reluctance. She is wrong, and ought to know she is wrong, in thinking that she can count on this. The fact that she knows about it, and he knows she knows, will not make things any better. He is beginning to warm up. He gives her a look. This look is at first cold and challenging. It informs her of his judgment, of the hopelessness of her position. Then it clears, it begins to fill up</p>
+</section>
+<section class="reader-page" id="page-1095" aria-label="Printed page 1095" hidden>
+<div class="page-heading">Page 1095</div>
+<p>with something else, the way a spring fills up when you clear the leaves away. It fills with hatred and pleasure. Rose sees that and knows it. Is that just a description of anger, should she see his eyes filling up with anger? No. Hatred is right. Pleasure is right. His face loosens and changes and grows younger, and he holds up his hand this time to silence Flo.</p>
+<p>&quot;All right,&quot; he says, meaning that&#x27;s enough, more than enough, this part is over, things can proceed. He starts to loosen his belt.</p>
+<p>Flo has stopped anyway. She has the same difficulty Rose does, a difficulty in believing that what you know must happen really will happen, that there comes a time when you can&#x27;t draw back.</p>
+<p>&quot;Oh, I don&#x27;t know, don&#x27;t be too hard on her.&quot; She is moving around ner\&#x27;ously as if she has thoughts of opening some escape route. &quot;Oh, you don&#x27;t have to use the belt on her. Do you have to use the belt?&quot;</p>
+<p>He doesn&#x27;t answer. The belt is coming off, not hastily. It is being grasped at the necessary point. All right you. He is coming over to Rose. He pushes her off the table. His face, like his voice, is quite out of character. He is like a bad actor, who turns a part grotesque. As if he must savor and insist on just what is shameful and terrible about this. That is not to say he is pretending, that he is acting, and does not mean it. He is acting, and he means it. Rose knows that, she knows everything about him.</p>
+<p>She has since wondered about murders, and murderers. Does the thing have to be carried through, in the end, partly for the effect, to prove to the audience of one—who won&#x27;t be able to report, only register, the lesson—that such a thing can happen, that there is nothing that can&#x27;t happen, that the most dreadful antic is justified, feelings can be found to match it?</p>
+<p>She tries again looking at the kitchen floor, that clever and comforting geometrical arrangement, instead of looking at him or his belt. How can this go on in front of such daily witnesses—the linoleum, the calendar with the mill and creek and autumn trees, the old accommodating pots and pans?</p>
+<p>Hold out your hand!</p>
+<p>Those things aren&#x27;t going to help her, none of them can rescue her. They turn bland and useless, even unfriendly. Pots can show malice, the patterns of linoleum can leer up at you, treachery is the other side of dailiness.</p>
+<p>At the first, or maybe the second, crack of pain, she draws back. She will not accept it. She runs around the room, she tries to get to the doors. Her father blocks her off. Not an ounce of courage or of stoicism in her, it would seem. She runs, she screams, she implores. Her father is after her, cracking the belt at her when he can, then abandoning it and using his hands. Bang over the ear, then bang over the other ear. Back and forth, her head ringing. Bang in the</p>
+</section>
+<section class="reader-page" id="page-1096" aria-label="Printed page 1096" hidden>
+<div class="page-heading">Page 1096</div>
+<p>face. Up against the wall and bang in the face again. He shakes her and hits her against the wall, he kicks her legs. She is incoherent, insane, shrieking. Forgive me! Oh please, forgive me!</p>
+<p>Flo is shrieking too. Stop, stop!</p>
+<p>Not yet. He throws Rose down. Or perhaps she throws herself down. He kicks her legs again. She has given up on words but is letting out a noise, the sort of noise that makes Flo cry, Oh, what if people can hear her? The very last-ditch willing sound of humiliation and defeat it is, for it seems Rose must play her part in this with the same grossness, the same exaggeration, that her father displays, playing his. She plays his victim with a self-indulgence that arouses, and maybe hopes to arouse, his final, sickened contempt.</p>
+<p>They will give this anything that is necessary, it seems, they will go to any lengths.</p>
+<p>Not quite. He has never managed really to injure her, though there are times, of course, when she prays that he will. He hits her with an open hand, there is some restraint in his kicks.</p>
+<p>Now he stops, he is out of breath. He allows Flo to move in, he grabs Rose up and gives her a push in Flo&#x27;s direction, making a sound of disgust. Flo retrieves her, opens the stair door, shoves her up the stairs.</p>
+<p>&quot;Go on up to your room now! Hurry!&quot;</p>
+<p>Rose goes up the stairs, stumbling, letting herself stumble, letting herself fall against the steps. She doesn&#x27;t bang her door because a gesture like that could still bring him after her, and anyway, she is weak. She lies on the bed. She can hear through the stovepipe hole Flo snuffling and remonstrating, her father saying angrily that Flo should have kept quiet then, if she did not want Rose punished she should not have recommended it. Flo says she never recommended a hiding like that.</p>
+<p>They argue back and forth on this. Flo&#x27;s frightened voice is growing stronger, getting its confidence back. By stages, by arguing, they are being drawn back into themselves. Soon it&#x27;s only Flo talking; he will not talk anymore. Rose has had to fight down her noisy sobbing, so as to listen to them, and when she loses interest in listening, and wants to sob some more, she finds she can&#x27;t work herself up to it. She has passed into a state of calm, in which outrage is perceived as complete and final. In this state events and possibilities take on a lovely simplicity. Choices are mercifully clear. The words that come to mind are not the quibbling, seldom the conditional. Never is a word to which the right is suddenly established. She will never speak to them, she will never look at them with anything but loathing, she will never forgive them. She will punish them; she will finish them. Encased in these finalities, and in her bodily pain, she floats in curious comfort, beyond herself, beyond responsibility.</p>
+</section>
+<section class="reader-page" id="page-1097" aria-label="Printed page 1097" hidden>
+<div class="page-heading">Page 1097</div>
+<p>Suppose she dies now? Suppose she commits suicide? Suppose she runs away? Any of these things would be appropriate. It is only a matter of choosing, of figuring out the way. She floats in her pure superior state as if kindly drugged.</p>
+<p>And just as there is a moment, when you are drugged, in which you feel perfectly safe, sure, unreachable, and then without waming and right next to it a moment in which you know the whole protection has fatally cracked, though it is still pretending to hold soundly together, so there is a moment now—the moment, in fact, when Rose hears Flo step on the stairs—that contains for her both present peace and freedom and a sure knowledge of the whole down-spiraling course of events from now on.</p>
+<p>Flo comes into the room without knocking, but with a hesitation that shows it might have occurred to her. She brings a jar of cold cream. Rose is hanging on to advantage as long as she can, lying face down on the bed, refusing to acknowledge or answer.</p>
+<p>&quot;Oh come on,&quot; Flo says uneasily. &quot;You aren&#x27;t so bad off, are you? You put some of this on and you&#x27;ll feel better.&quot;</p>
+<p>She is bluffing. She doesn&#x27;t know for sure what damage has been done. She has the lid off the cold cream. Rose can smell it. The intimate, babyish, humiliating smell. She won&#x27;t allow it near her. But in order to avoid it, the big ready clot of it in Flo&#x27;s hand, she has to move. She scuffles, resists, loses dignity, and lets Flo see there is not really much the matter.</p>
+<p>&quot;All right,&quot; Flo says. &quot;You win. I&#x27;ll leave it here and you can put it on when you like.&quot;</p>
+<p>Later still a tray will appear. Flo will put it down without a word and go awav. A large glass of chocolate milk on it, made with Vita-Malt from the store. Some rich streaks of Vita-Malt around the bottom of the glass. Little sandwiches, neat and appetizing. Canned salmon of the first quality and reddest color, plenty of mayonnaise. A couple of butter tarts from a baker}- package, chocolate biscuits with a peppermint filling. Rose&#x27;s favorites, in the sandwich, tart and cookie line. She will turn away, refuse to look, but left alone with these eatables will be miserably tempted, roused and troubled and drawn back from thoughts of suicide or flight by the smell of salmon, the anticipation of crisp chocolate, she will reach out a finger, just to run it around the edge of one of the sandwiches (crusts cut off!) to get the overflow, get a taste. Then she will decide to eat one, for strength to refuse the rest. One wall not be noticed. Soon, in helpless corruption, she will eat them all. She will drink the chocolate milk, eat the tarts, eat the cookies. She will get the malt}&#x27; syrup out of the bottom of the glass with her finger, though she sniffles with shame. Too late.</p>
+<p>Flo will come up and get the tray. She may say, &quot;I see you got your appetite still,&quot; or, &quot;Did you like the chocolate milk, was it</p>
+</section>
+<section class="reader-page" id="page-1098" aria-label="Printed page 1098" hidden>
+<div class="page-heading">Page 1098</div>
+<p>enough syrup in it?&quot; depending on how chastened she is feeling, herself. At any rate, all advantage will be lost. Rose will understand that life has started up again, that they will all sit around the table eating again, listening to the radio news. Tomorrow morning, maybe even tonight. Unseemly and unlikely as that may be. They will be embarrassed, but rather less than you might expect considering how they have behaved. They will feel a queer lassitude, a convalescent indolence, not far off satisfaction.</p>
+<p>One night after a scene like this they were all in the kitchen. It must have been summer, or at least warm weather, because her father spoke of the old men who sat on the bench in front of the store.</p>
+<p>&quot;Do you know what they&#x27;re talking about now?&quot; he said, and nodded his head toward the store to show who he meant, though of course they were not there now, they went home at dark.</p>
+<p>&quot;Those old coots,&quot; said Flo. &quot;What?&quot;</p>
+<p>There was about them both a geniality not exactly false but a bit more emphatic than was normal, without company.</p>
+<p>Rose&#x27;s father told them then that the old men had picked up the idea somewhere that what looked like a star in the western sky, the first star that came out after sunset, the evening star, was in reality an airship hovering over Bay City, Michigan, on the other side of Lake Huron. An American invention, sent up to rival the heavenly bodies. They were all in agreement about this, the idea was congenial to them. They believed it to be lit by ten thousand electric light bulbs. Her father had ruthlessly disagreed with them, pointing out that it was the planet Venus they saw, which had appeared in the sky long before the invention of an electric light bulb. They had never heard of the planet Venus.</p>
+<p>&quot;Ignoramuses,&quot; said Flo. At which Rose knew, and knew her father knew, that Flo had never heard of the planet Venus either. To distract them from this, or even apologize for it, Flo put down her teacup, stretched out with her head resting on the chair she had been sitting on and her feet on another chair (somehow she managed to tuck her dress modestly between her legs at the same time), and lay stiff as a board, so that Brian cried out in delight, &quot;Do that! Do that!&quot;</p>
+<p>Flo was double-jointed and very strong. In moments of celebration or emergency she would do tricks.</p>
+<p>They were silent while she turned herself around, not using her arms at all but just her strong legs and feet. Then they all cried out in triumph, though they had seen it before.</p>
+<p>Just as Flo turned herself Rose got a picture in her mind of that airship, an elongated transparent bubble, with its strings of diamond lights, floating in the miraculous American sky.</p>
+<p>&quot;TTie planet Venus!&quot; her father said, applauding Flo. &quot;Ten thousand electric lights!&quot;</p>
+</section>
+<section class="reader-page" id="page-1099" aria-label="Printed page 1099" hidden>
+<div class="page-heading">Page 1099</div>
+<p>There was a feeling of permission, relaxation, even a current of happiness, in the room.</p>
+<p>Years later, many years later, on a Sunday morning, Rose turned on the radio. This was when she was living by herself in Toronto.</p>
+<p>Well Sir.</p>
+<p>It was a different kind of place in our day. Yes it was.</p>
+<p>It was all horses then. Horses and buggies. Buggy races up and down the main street on the Saturday nights.</p>
+<p>&quot;Just like the chariot races,&quot; says the announcer&#x27;s, or interviewer&#x27;s, smooth encouraging voice.</p>
+<p>I never seen a one of them.</p>
+<p>&quot;No sir, that was the old Roman chariot races I was referring to. That was before your time.&quot;</p>
+<p>Musta been before my time. I&#x27;m a hunerd and two years old.</p>
+<p>&quot;Thats&#x27; a wonderful age, sir.&quot;</p>
+<p>It is so.</p>
+<p>She left it on, as she went around the apartment kitchen, making coffee for herself. It seemed to her that this must be a staged interview, a scene from some play, and she wanted to find out what it was. The old man&#x27;s voice was so vain and belligerent, the interviewer&#x27;s quite hopeless and alarmed, under its practiced gentleness and ease. You were surely meant to see him holding the microphone up to some toothless, reckless, preening centenarian, wondering what in God&#x27;s name he was doing here, and what would he say next?</p>
+<p>&quot;They must have been fairly dangerous.&quot;</p>
+<p>What was dangerous?</p>
+<p>&quot;Those buggy races.&quot;</p>
+<p>They was. Dangerous. Used to be the runaway horses. Used to be a-plenty of accidents. Fellows was dragged along on the gravel and cut their face open. Wouldna matter so much if they was dead. Heh.</p>
+<p>Some of them horses was the high-steppers. Some, they had to have the mustard under their tail. Some wouldn step out for nothin. That&#x27;s the thing it is with the horses. Some&#x27;ll work and pull till they drop down dead and some wouldn pull your cock out of a pail of lard. Hehe.</p>
+<p>It must be a real interview after all. Otherwise they wouldn&#x27;t have put that in, wouldn&#x27;t have risked it. It&#x27;s all right if the old man says it. Local color. Anything rendered harmless and delightful by his hundred years.</p>
+<p>Accidents all the time then. In the mill. Foundry. Wasn&#x27;t the precautions.</p>
+<p>&quot;You didn&#x27;t have so many strikes then, I don&#x27;t suppose? You didn&#x27;t have so many unions?&quot;</p>
+<p>Everybody taking it easy nowadays. We worked and we was glad</p>
+</section>
+<section class="reader-page" id="page-1100" aria-label="Printed page 1100" hidden>
+<div class="page-heading">Page 1100</div>
+<p>to get it. Worked and was glad to get it.</p>
+<p>&quot;You didn&#x27;t have television.&quot;</p>
+<p>Didn&#x27;t have no TV. Didn&#x27;t have no radio. No picture show.</p>
+<p>&quot;You made your own entertainment.&quot;</p>
+<p>That&#x27;s the way we did.</p>
+<p>&quot;You had a lot of experiences young men growing up today will never have.&quot;</p>
+<p>Experiences.</p>
+<p>&quot;Can you recall any of them for us?&quot;</p>
+<p>I eaten groundhog meat one time. One winter. You wouldna cared for it. Heh.</p>
+<p>There was a pause, of appreciation, it would seem, then the announcer&#x27;s voice saying that the foregoing had been an interview with Mr. Wilfred Nettleton of Hanratty, Ontario, made on his hundred and second birthday, two weeks before his death, last spring. A living link with our past. Mr. Nettleton had been interviewed in the Wawanash County Home for the aged.</p>
+<p>Hat Nettleton.</p>
+<p>Horsewhipper into centenarian. Photographed on his birthday, fussed over by nurses, kissed no doubt by a girl reporter. Flash bulbs popping at him. Tape recorder drinking in the sound of his voice. Oldest resident. Oldest horsewhipper. Living link with our past.</p>
+<p>Looking out from her kitchen window at the cold lake, Rose was longing to tell somebody. It was Flo who would enjoy hearing. She thought of her saying Imagine! in a way that meant she was having her worst suspicions gorgeously confirmed. But Flo was in the same place Hat Nettleton had died in, and there wasn&#x27;t any way Rose could reach her. She had been there even when that interview was recorded, though she would not have heard it, would not have known about it. After Rose put her in the Home, a couple of years earlier, she had stopped talking. She had removed herself, and spent most of her time sitting in a corner of her crib, looking crafty and disagreeable, not answering anybody, though she occasionally showed her feelings by biting a nurse.</p>
+</section>
+</main>
+<div class="page-turn-bar" aria-label="Page turns"><button id="previous-page" type="button" aria-label="Previous page">← Previous</button><span id="page-status" role="status" aria-live="polite">Page 1082 of 1100</span><button id="next-page" type="button" aria-label="Next page">Next →</button></div>
+<script>
+const root = document.documentElement;
+const dayButton = document.getElementById('day-button');
+const nightButton = document.getElementById('night-button');
+const smallerButton = document.getElementById('font-smaller');
+const largerButton = document.getElementById('font-larger');
+const sizeDisplay = document.getElementById('font-size-display');
+const minimumSize = 16;
+const maximumSize = 30;
+let fontSize = 19;
+
+function loadSetting(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function saveSetting(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* Reading still works without storage. */ }
+}
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  dayButton.setAttribute('aria-pressed', String(theme === 'day'));
+  nightButton.setAttribute('aria-pressed', String(theme === 'night'));
+  saveSetting('royal-beatings-theme', theme);
+}
+function setFontSize(size) {
+  fontSize = Math.max(minimumSize, Math.min(maximumSize, size));
+  root.style.setProperty('--reader-size', fontSize + 'px');
+  sizeDisplay.value = fontSize + 'px';
+  smallerButton.disabled = fontSize === minimumSize;
+  largerButton.disabled = fontSize === maximumSize;
+  saveSetting('royal-beatings-font-size', String(fontSize));
+}
+
+dayButton.addEventListener('click', () => setTheme('day'));
+nightButton.addEventListener('click', () => setTheme('night'));
+smallerButton.addEventListener('click', () => setFontSize(fontSize - 2));
+largerButton.addEventListener('click', () => setFontSize(fontSize + 2));
+setTheme(loadSetting('royal-beatings-theme') === 'night' ? 'night' : 'day');
+setFontSize(Number(loadSetting('royal-beatings-font-size')) || 19);
+
+const firstPage = 1082;
+const lastPage = 1100;
+const pageInput = document.getElementById('page-number');
+const previousButton = document.getElementById('previous-page');
+const nextButton = document.getElementById('next-page');
+const pageStatus = document.getElementById('page-status');
+const readerStage = document.getElementById('reader-stage');
+let currentPage = firstPage;
+
+function showPage(number, animate = true) {
+  if (!Number.isInteger(number) || number < firstPage || number > lastPage) return;
+  const incoming = document.getElementById('page-' + number);
+  const outgoing = document.getElementById('page-' + currentPage);
+  if (!incoming || !incoming.classList.contains('reader-page')) return;
+  if (incoming !== outgoing) {
+    outgoing.hidden = true;
+    incoming.hidden = false;
+    incoming.scrollTop = 0;
+    incoming.classList.remove('turn-next', 'turn-previous');
+    if (animate) {
+      void incoming.offsetWidth;
+      incoming.classList.add(number > currentPage ? 'turn-next' : 'turn-previous');
+    }
+  }
+  currentPage = number;
+  pageInput.value = number;
+  pageStatus.textContent = 'Page ' + number + ' of ' + lastPage;
+  previousButton.disabled = number === firstPage;
+  nextButton.disabled = number === lastPage;
+  saveSetting('royal-beatings-page', String(number));
+  try { history.replaceState(null, '', '#page-' + number); } catch { /* File URLs can restrict history. */ }
+}
+
+previousButton.addEventListener('click', () => showPage(currentPage - 1));
+nextButton.addEventListener('click', () => showPage(currentPage + 1));
+document.getElementById('page-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  showPage(Number(pageInput.value));
+});
+document.addEventListener('keydown', function (event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select')) return;
+  if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); showPage(currentPage + 1); }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showPage(currentPage - 1); }
+});
+let touchStart = null;
+readerStage.addEventListener('touchstart', function (event) {
+  if (event.touches.length === 1) touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+readerStage.addEventListener('touchend', function (event) {
+  if (!touchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - touchStart.x;
+  const dy = event.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.2) showPage(currentPage + (dx < 0 ? 1 : -1));
+  touchStart = null;
+}, { passive: true });
+const hashPage = Number((location.hash.match(/^#page-(\d+)$/) || [])[1]);
+const storedPage = Number(loadSetting('royal-beatings-page'));
+showPage(hashPage >= firstPage && hashPage <= lastPage ? hashPage : storedPage >= firstPage && storedPage <= lastPage ? storedPage : firstPage, false);
+</script>
+</body>
+</html>

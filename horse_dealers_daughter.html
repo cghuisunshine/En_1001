@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Horse Dealer’s Daughter — D. H. Lawrence</title>
+<style>
+  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --reader-size: 19px; }
+  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body { display: flex; flex-direction: column; height: 100dvh; min-height: 350px; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font: var(--reader-size)/1.75 Georgia, Palatino, serif; }
+  h1 { margin: 0; font: 600 clamp(2rem, 5vw, 3.2rem)/1.1 Georgia, Palatino, serif; }
+  .author { margin: .5rem 0 0; font: .95rem/1.5 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .source-note { margin: .7rem 0 1.5rem; color: var(--muted); font: .8rem/1.45 system-ui, sans-serif; }
+  .reader-stage { position: relative; flex: 1; min-height: 0; width: min(54rem, calc(100% - 2rem)); margin: 1rem auto; perspective: 1600px; touch-action: pan-y; }
+  .reader-page { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2rem clamp(1.25rem, 7vw, 5rem) 3rem; background: var(--paper); box-shadow: 0 10px 32px #00000019; scrollbar-color: var(--line) transparent; }
+  .reader-page[hidden] { display: none; }
+  .reader-page.turn-next { transform-origin: left center; animation: turn-next .34s ease-out both; }
+  .reader-page.turn-previous { transform-origin: right center; animation: turn-previous .34s ease-out both; }
+  @keyframes turn-next { from { opacity: .45; transform: rotateY(18deg) translateX(18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  @keyframes turn-previous { from { opacity: .45; transform: rotateY(-18deg) translateX(-18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  .story-heading { margin: 1rem 0 2rem; text-align: center; }
+  p { margin: 0 0 .82em; }
+  .page-heading { margin: 0 0 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: .4rem; color: var(--muted); font: .75rem/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+  .note { font: .78em/1.5 Georgia, Palatino, serif; color: var(--muted); padding-left: 1rem; border-left: 2px solid var(--line); }
+  .reader-bar { z-index: 2; display: flex; flex: none; flex-wrap: wrap; justify-content: center; align-items: center; gap: .55rem 1.25rem; padding: .55rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px #0000000d; font: .85rem/1.3 system-ui, sans-serif; }
+  .reader-bar strong { margin-right: auto; white-space: nowrap; }
+  .reader-bar form, .reader-controls { display: flex; align-items: center; gap: .4rem; margin: 0; }
+  .reader-controls { border-left: 1px solid var(--line); padding-left: 1rem; }
+  .reader-bar input { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
+  .reader-bar button { min-height: 2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .reader-bar button:hover, .reader-bar button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+  .reader-bar button:disabled, .page-turn-bar button:disabled { opacity: .45; cursor: not-allowed; }
+  .reader-bar button:focus-visible, .reader-bar input:focus-visible, .page-turn-bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #font-size-display { min-width: 2.7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .page-turn-bar { display: flex; flex: none; justify-content: center; align-items: center; gap: 1rem; padding: .45rem 1rem .6rem; background: var(--paper); border-top: 1px solid var(--line); font: .9rem/1.2 system-ui, sans-serif; }
+  .page-turn-bar button { min-width: 7rem; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .page-turn-bar button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  #page-status { min-width: 7rem; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 700px) { .reader-bar strong { width: 100%; text-align: center; } .reader-controls { padding-left: .6rem; } .reader-stage { width: 100%; margin: 0; } .reader-page { box-shadow: none; } .page-turn-bar { gap: .4rem; } .page-turn-bar button { min-width: 5rem; } }
+  @media (prefers-reduced-motion: reduce) { .reader-page.turn-next, .reader-page.turn-previous { animation: none; } }
+  @media print { body { display: block; height: auto; overflow: visible; color: black; background: white; } .reader-bar, .page-turn-bar { display: none; } .reader-stage { display: block; width: auto; margin: 0; } .reader-page, .reader-page[hidden] { position: static; display: block; overflow: visible; box-shadow: none; padding: 1rem 0; break-after: page; } }
+</style>
+</head>
+<body>
+<nav class="reader-bar" aria-label="Reader settings">
+  <strong>The Horse Dealer’s Daughter</strong>
+  <form id="page-form"><label for="page-number">Page</label><input id="page-number" type="number" min="843" max="856" inputmode="numeric" required><button type="submit">Go</button></form>
+  <div class="reader-controls" role="group" aria-label="Color theme"><button id="day-button" type="button" aria-pressed="true">Day</button><button id="night-button" type="button" aria-pressed="false">Night</button></div>
+  <div class="reader-controls" role="group" aria-label="Font size"><button id="font-smaller" type="button" aria-label="Decrease font size">A−</button><output id="font-size-display" aria-live="polite">19px</output><button id="font-larger" type="button" aria-label="Increase font size">A+</button></div>
+</nav>
+<main class="reader-stage" id="reader-stage">
+<section class="reader-page" id="page-843" aria-label="Printed page 843">
+<div class="page-heading">Page 843</div>
+<div class="story-heading"><h1>The Horse Dealer’s Daughter</h1><p class="author">D. H. Lawrence</p><p class="source-note">From <em>The Norton Anthology of Short Fiction</em>, Third Edition. OCR errors are retained from the source EPUB.</p></div>
+<p>WELL, Mabel, and what are you going to do with yourself?&quot; asked Joe, with foolish flippancy. He felt quite safe himself. Without listening for an answer, he turned aside, worked a grain of tobacco to the tip of his tongue, and spat it out. He did not care about anything, since he felt safe himself.</p>
+<p>The three brothers and the sister sat round the desolate breakfast-table, attempting some sort of desultory consultation. The morning&#x27;s post had given the final tap to the family fortunes, and all was over. The dreary dining-room itself, with its heavy mahogany fumiture, looked as if it were waiting to be done away with.</p>
+<p>But the consultation amounted to nothing. There was a strange air of inefTectuality about the three men, as they sprawled at table, smoking and reflecting vaguely on their own condition. The girl was alone, a rather short, sullen-looking young woman of twenty-seven. She did not share the same life as her brothers. She would have been good-looking, save for the impressive fixity of her face, &quot;bulldog&quot;, as her brothers called it.</p>
+<p>There was a confused tramping of horses&#x27; feet outside. The three men all sprawled round in their chairs to watch. Beyond the dark holly bushes that separated the strip of lawn from the high-road, they could see a cavalcade of shire horses swinging out of their own yard, being taken for exercise. This was the last time. These were the last horses that would go through their hands. The young men watched with critical, callous look. They were all frightened at the collapse of their lives, and the sense of disaster in which they were invohed left them no inner freedom.</p>
+<p>Yet they were three fine, well-set fellows enough. Joe, the eldest, was a man of thirty-three, broad and handsome in a hot, flushed way. His face was red, he twisted his black moustache over a thick finger, his eyes were shallow and restless. He had a sensual way of uncovering his teeth when he laughed, and his bearing was stupid. Now he watched the horses with a glazed look of helplessness in his eyes, a certain stupor of downfall.</p>
+<p>The great draught-horses swung past. They were tied head to tail, four of them, and they heaved along to where a lane branched off from the high-road, planting their great hoofs floutingly in the fine black mud, swinging their great rounded haunches sumptuously, and trotting a few sudden steps as they were led into the lane, round the comer. Every movement showed a massive, slumbrous strength, and a stupidity which held them in subjection. The groom at the head looked back, jerking the leading rope. And the cavalcade</p>
+</section>
+<section class="reader-page" id="page-844" aria-label="Printed page 844" hidden>
+<div class="page-heading">Page 844</div>
+<p>moved out of sight up the lane, the tail of the last horse, bobbed up tight and stiff, held out taut from the swinging great haunches as they rocked behind the hedges in a motion-like sleep.</p>
+<p>Joe watched with glazed hopeless eyes. The horses were almost like his own bodv to him. He felt he was done for now. Luckily he was engaged to a woman as old as himself, and therefore her father, who was steward of a neighbouring estate, would provide him with a job. He would marry and go into harness. His life was over, he would be a. subject animal now. 1</p>
+<p>He turned uneasily aside, the retreating steps of the horses echo j</p>
+<p>ing in his hears. Then, with foolish restlessness, he reached for the scraps of bacon-rind from the plates, and making a faint whistling sound, flung them to the terrier that lay against the fender. He watched the dog swallow them, and waited till the creature looked into his eyes. Then a faint grin came on his face, and in a high, foolish voice he said:</p>
+<p>&quot;You won&#x27;t get much more bacon, shall you, you little b ?&quot;</p>
+<p>The dog faintly and dismally wagged its tail, then lowered its haunches, circled round, and lay down again.</p>
+<p>There was another helpless silence at the table. Joe sprawled uneasily in his seat, not willing to go till the family conclave was dissolved. Fred Henry, the second brother, was erect, clean-limbed, alert. He had watched the passing of the horses with more sangfroid.^ If he was an animal, like Joe, he was an animal which controls, not one which is controlled. He was master of any horse, and he carried himself with a well-tempered air of mastery. But he was not master of the situations of life. He pushed his coarse brown moustache upwards, off his lip, and glanced irritably at his sister, who sat impassive and inscrutable.</p>
+<p>&quot;You&#x27;ll go and stop with Lucy for a bit, shan&#x27;t you?&quot; he asked. The girl did not answer.</p>
+<p>&quot;I don&#x27;t see what else you can do,&quot; persisted Fred Henry.</p>
+<p>&quot;Go as a skiN^^j&#x27;&#x27;^ Joe interpolated laconically.</p>
+<p>Tlie girl did not move a muscle.</p>
+<p>&quot;If I was her, I should go in for training for a nurse,&quot; said Malcolm, the youngest of them all. He was the baby of the family, a young man of twenty-two, with a fresh, jaunty museau.^</p>
+<p>But Mabel did not take any notice of him. Tliey had talked at her and round her for so many vears, that she hardly heard them at all.</p>
+<p>The marble clock on the mantelpiece softly chimed the half-hour, the dog rose uneasily from the hearth-rug and looked at the party at the brcakfast-tablc. But still thcv sat on in ineffectual conclave.</p>
+<p>&quot;Oh, all right,&quot; said Joe suddenly, apropos of nothing. &quot;I&#x27;ll get a move on.&quot;</p>
+<p class="note">1. Coolness. 2. Menial worker. 3. Face.</p>
+</section>
+<section class="reader-page" id="page-845" aria-label="Printed page 845" hidden>
+<div class="page-heading">Page 845</div>
+<p>He pushed back his chair, straddled his knees with a downward jerk, to get them free, in horsey fashion, and went to the fire. Still he did not go out of the room; he was curious to know what the others would do or say. He began to charge his pipe, looking down at the dog and saying in a high, affected voice:</p>
+<p>&quot;Going wi&#x27; me? Going wi&#x27; me are ter? Tha&#x27;rt goin&#x27; further than tha counts on just now, dost hear?&quot;</p>
+<p>The dog faintly wagged its tail, the man stuck out his jaw and covered his pipe with his hands, and puffed intently, losing himself in the tobacco, looking down all the while at the dog with an absent brown eye. The dog looked up at him in mournful distrust. Joe stood with his knees stuck out, in real horsey fashion.</p>
+<p>&quot;Have you had a letter from Lucy?&quot; Fred Henry asked of his sister.</p>
+<p>&quot;Last week,&quot; came the neutral reply.</p>
+<p>&quot;And what does she say?&quot;</p>
+<p>There was no answer.</p>
+<p>&quot;Does she ask you to go and stop there?&quot; persisted Fred Henry.</p>
+<p>&quot;She says I can if I like.&quot;</p>
+<p>&quot;Well, then, you&#x27;d better. Tell her you&#x27;ll come on Monday.&quot;</p>
+<p>This was received in silence.</p>
+<p>&quot;That&#x27;s what you&#x27;ll do then, is it?&quot; said Fred Henry, in some exasperation.</p>
+<p>But she made no answer. There was a silence of futility and irritation in the room. Malcolm grinned fatuously.</p>
+<p>&quot;You&#x27;ll have to make up your mind between now and next Wednesday,&quot; said Joe loudly, &quot;or else find yourself lodgings on the kerbstone.&quot;</p>
+<p>The face of the young woman darkened, but she sat on immutable.</p>
+<p>&quot;Here&#x27;s Jack Ferguson!&quot; exclaimed Malcolm, who was looking aimlessly out of the window.</p>
+<p>&quot;Where?&quot; exclaimed Joe loudly.</p>
+<p>&quot;Just gone past.&quot;</p>
+<p>&quot;Coming in?&quot;</p>
+<p>Malcolm craned his neck to see the gate.</p>
+<p>&quot;Yes,&quot; he said.</p>
+<p>There was a silence. Mabel sat on like one condemned, at the head of the table. Then a whistle was heard from the kitchen. The dog got up and barked sharply. Joe opened the door and shouted:</p>
+<p>&quot;Come on.&quot;</p>
+<p>After a moment a young man entered. He was muffled up in overcoat and a purple woollen scarf, and his tweed cap, which he did not remove, was pulled down on his head. He was of medium height, his face was rather long and pale, his eyes looked tired.</p>
+<p>&quot;Hello, Jack! Well, Jack!&quot; exclaimed Malcolm and Joe. Fred Henry merely said: &quot;Jack.&quot;</p>
+</section>
+<section class="reader-page" id="page-846" aria-label="Printed page 846" hidden>
+<div class="page-heading">Page 846</div>
+<p>&quot;What&#x27;s doing?&quot; asked the newcomer, evidently addressing Fred Henry.</p>
+<p>&quot;Same. We&#x27;ve got to be out by Wednesday. Got a cold?&quot;</p>
+<p>&quot;I have—got it bad, too.&quot;</p>
+<p>&quot;Why don&#x27;t you stop in?&quot;</p>
+<p>&quot;Me stop in? Wlien I can&#x27;t stand on my legs, perhaps I shall have a chance.&quot; The young man spoke huskily. He had a slight Scotch accent.</p>
+<p>&quot;It&#x27;s a knock-out, isn&#x27;t it,&quot; said Joe, boisterously, &quot;if a doctor goes round croaking with a cold. Looks bad for the patients, doesn&#x27;t it?&quot;</p>
+<p>The young doctor looked at him slowly.</p>
+<p>&quot;Anything the matter with you, then?&quot; he asked sarcastically.</p>
+<p>&quot;Not as I know of. Damn your eyes, I hope not. Why?&quot;</p>
+<p>&quot;I thought you were very concerned about the patients, wondered if you might be one yourself.&quot;</p>
+<p>&quot;Damn it, no, Tve never been patient to no flaming doctor, and hope I never shall be,&quot; returned Joe.</p>
+<p>At this point Mabel rose from the table, and they all seemed to become aware of her existence. She began putting the dishes together. The young doctor looked at her, but did not address her. He had not greeted her. She went out of the room with the tray, her face impassive and unchanged.</p>
+<p>&quot;When are you off then, all of you?&quot; asked the doctor.</p>
+<p>&quot;I&#x27;m catching the eleven-forty,&quot; replied Malcolm. &quot;Are you goin&#x27; down wi&#x27; th&#x27; trap, Joe?&quot;</p>
+<p>&quot;Yes, I&#x27;ve told you I&#x27;m going down wi&#x27; th&#x27; trap, haven&#x27;t I?&quot;</p>
+<p>&quot;We&#x27;d better be getting her in then. So long, Jack, if I don&#x27;t see you before I go,&quot; said Malcolm, shaking hands.</p>
+<p>He went out, followed by Joe, who seemed to ha\e his tail between his legs.</p>
+<p>&quot;Well, this is the devil&#x27;s own,&quot; exclaimed the doctor, when he was left alone with Fred Henry. &quot;Going before Wednesday, are you?&quot;</p>
+<p>&quot;Tliat&#x27;s the orders,&quot; replied the other.</p>
+<p>&quot;Wliere, to Northampton?&quot;</p>
+<p>&quot;That&#x27;s it.&quot;</p>
+<p>&quot;The devil!&quot; exclaimed Ferguson, with quiet chagrin.</p>
+<p>And there was silence between the two.</p>
+<p>&quot;All settled up, are you?&quot; asked Ferguson.</p>
+<p>&quot;About.&quot;</p>
+<p>There was another pause.</p>
+<p>&quot;Well, I shall miss yer, Freddy, boy,&quot; said the young doctor.</p>
+<p>&quot;And I shall miss thee. Jack,&quot; returned the other.</p>
+<p>&quot;Miss you like hell,&quot; mused the doctor.</p>
+<p>Fred Henry turned aside. Hierc was nothing to say. Mabel came in again, to finish clearing the table.</p>
+</section>
+<section class="reader-page" id="page-847" aria-label="Printed page 847" hidden>
+<div class="page-heading">Page 847</div>
+<p>&quot;What are you going to do, then, Miss Pervin?&quot; asked Fergusson. &quot;Going to your sister&#x27;s, are you?&quot;</p>
+<p>Mabel looked at him with her steady, dangerous eyes, that always made him uncomfortable, unsettling his superficial ease.</p>
+<p>&quot;No,&quot; she said.</p>
+<p>&quot;Well, what in the name of fortune are you going to do? Say what you mean to do,&quot; cried Fred Henry, with futile intensity.</p>
+<p>But she only averted her head, and continued her work. She folded the white table-cloth, and put on the chenille cloth.</p>
+<p>&quot;The sulkiest bitch that ever trod!&quot; muttered her brother.</p>
+<p>But she finished her task with perfectly impassive face, the young doctor watching her interestedly all the while. Then she went out.</p>
+<p>Fred Henr\&#x27; stared after her, clenching his hps, his blue eyes fixing in sharp antagonism, as he made a grimace of sour exasperation.</p>
+<p>&quot;You could bray her into bits, and that&#x27;s all you&#x27;d get out of her,&quot; he said, in a small, narrowed tone.</p>
+<p>The doctor smiled faintly.</p>
+<p>&quot;What&#x27;s she going to do, then?&quot; he asked.</p>
+<p>&quot;Strike me if J know!&quot; returned the other.</p>
+<p>There was a pause. Then the doctor stirred.</p>
+<p>&quot;I&#x27;ll be seeing you to-night, shall I?&quot; he said to his friend.</p>
+<p>&quot;Ay—where&#x27;s it to be? Are we going over to Jessdale?&quot;</p>
+<p>&quot;I don&#x27;t know. I&#x27;ve got such a cold on me. I&#x27;ll come round to the &#x27;Moon and Stars&#x27;, anyway.&quot;</p>
+<p>&quot;Let Lizzie and May miss their night for once, eh?&quot;</p>
+<p>&quot;That&#x27;s it—if I feel as I do now.&quot;</p>
+<p>&quot;All&#x27;s one &quot;</p>
+<p>The two young men went through the passage and down to the back door together. The house was large, but it was ser\antless now, and desolate. At the back was a small brick house-yard and beyond that a big square, gravelled fine and red, and having stables on two sides. Sloping, dank, winter-dark fields stretched away on the open sides.</p>
+<p>But the stables were empty. Joseph Pervin, the father of the family, had been a man of no education, who had become a fairly large horse dealer. The stables had been full of horses, there was a great turmoil and come-and-go of horses and of dealers and grooms. Then the kitchen was full of servants. But of late things had declined. The old man had married a second time, to retrie\&#x27;e his fortunes. Now he was dead and everything was gone to the dogs, there was nothing but debt and threatening.</p>
+<p>For months, Mabel had been servantless in the big house, keeping the home together in penury for her ineffectual brothers. She had kept house for ten years. But previously it was with unstinted means. Then, however brutal and coarse everything was, the sense</p>
+</section>
+<section class="reader-page" id="page-848" aria-label="Printed page 848" hidden>
+<div class="page-heading">Page 848</div>
+<p>of nionev had kept her proud, confident. The men might be foul-mouthed, tlie women in the kitehen might have bad reputations, her brothers might have illegitimate children. But so long as there was money, the girl felt herself established, and brutally proud, reserved.</p>
+<p>No company came to the house, save dealers and coarse men. Mabel had no associates of her own sex, after her sister went away. But she did not mind. She went regularly to church, she attended to her father. And she lived in the memory of her mother, who had died when she was fourteen, and whom she had loved. She had lo\ed her father, too, in a different way, depending upon him, and feeling secure in him, until at the age of fifty-four he married again. And then she had set hard against him. Now he had died and left them all hopelessly in debt.</p>
+<p>She had suffered badly during the period of po\erty. Nothing, however, could shake the curious, sullen, animal pride that dominated each member of the family. Now, for Mabel, the end had come. Still she would not cast about her. She would follow her own way just the same. She would always hold the keys of her own situation. Mindless and persistent, she endured from day to day. Why should she think? Why should she answer anybody? It was enough that this was the end, and there was no way out. She need not pass any more darkly along the main street of the small town, avoiding every eye. She need not demean herself any more, going into the shops and buying the cheapest food. This was at an end. She thought of nobody, not even of herself. Mindless and persistent, she seemed in a sort of ecstasy to be coming nearer to her fulfilment, her own glorification, approaching her dead mother, who was glorified.</p>
+<p>In the afternoon she took a little bag, with shears and sponge and a small scrubbing-brush, and went out. It was a grey, wintry day, with saddened, dark green fields and an atmosphere blackened by the smoke of foundries not far off. She went quickly, darkly along the causeway, heeding nobody, through the town to the churchyard.</p>
+<p>There she always felt secure, as if no one could see her, although as a matter of fact she was exposed to the stare of everyone who passed along under the churchyard wall. Nevertheless, once under the shadow of the great looming church, among the graxes, she felt immune from the world, reserved within the thick churchyard wall as in another country.</p>
+<p>Carefully she clipped the grass from the gra\e, and arranged the pinky white, small chrysanthemums in the tin cross. WHien this was done, she took an empty jar from a neighbouring gra\e, brought water, and carefully, most scrupulously sponged the marble headstone and the coping-stone.</p>
+<p>It gave her sincere satisfaction to do this. She felt in immediate contact with the world of her mother. She took minute pains, went</p>
+</section>
+<section class="reader-page" id="page-849" aria-label="Printed page 849" hidden>
+<div class="page-heading">Page 849</div>
+<p>through the park in a state bordering on pure happiness, as if in performing this task she came into a subtle, intimate connection with her mother. For the hfe she followed here in the world was far less real than the world of death she inherited from her mother.</p>
+<p>The doctor&#x27;s house was just by the church. Fergusson, being a mere hired assistant, was slave to the countr\&#x27;-side. As he hurried now to attend to the out-patients in the surgery, glancing across the gra\eyard with his quick eye, he saw the girl at her task at the grave. She seemed so intent and remote, it was like looking into another world. Some mystical element was touched in him. He slowed down as he walked, watching her as if spellbound.</p>
+<p>She lifted her eyes, feeling him looking. Their eyes met. And each looked again at once, each feeling, in some way, found out by the other. He lifted his cap and passed on down the road. Tliere remained distinct in his consciousness, like a vision, the memory of her face, lifted from the tombstone in the churchyard, and looking at him with slow, large, portentous eyes. It was portentous, her face. It seemed to mesmerise him. There was a heavy power in her eyes which laid hold of his whole being, as if he had drunk some powerful drug. He had been feeling weak and done before. Now the life came back into him, he felt delivered from his own fretted, daily self.</p>
+<p>He finished his duties at the surgery as quickly as might be, hastily filling up the bottles of the waiting people with cheap drugs. Then, in perpetual haste, he set off again to visit several cases in another part of his round, before tea-time. At all times he preferred to walk if he could, but particularly when he was not well. He fancied the motion restored him.</p>
+<p>The afternoon was falling. It was grey, deadened, and wintry, with a slow, moist, heavy coldness sinking in and deadening all the faculties. But why should he think or notice? He hastily climbed the hill and turned across the dark green fields, following the black cinder-track. In the distance, across a shallow dip in the country, the small town was clustered like smouldering ash, a tower, a spire, a heap of low, raw, e.xtinct houses. And on the nearest fringe of the town, sloping into the dip, was Oldmeadow, the Per\&#x27;ins&#x27; house. He could see the stables and the outbuildings distinctly, as they lay towards him on the slope. Well, he would not go there many more times! Another resource would be lost to him, another place gone: the only company he cared for in the alien, ugly little town he was losing. Nothing but work, drudgery, constant hastening from dwelling to dwelling among the colliers and the iron-workers. It wore him out, but at the same time he had a craving for it. It was a stimulant to him to be in the homes of the working people, moving, as it were, through the innermost body of their life. His ner\&#x27;es were excited and gratified. He could come so near, into the very lives of the</p>
+</section>
+<section class="reader-page" id="page-850" aria-label="Printed page 850" hidden>
+<div class="page-heading">Page 850</div>
+<p>rough, inarticulate, powerfully emotional men and women. He grumbled, he said he hated the hellish hole. But as a matter of fact it excited him, the contact with the rough, strongly-feeling people was a stimulant applied direct to his nerves.</p>
+<p>Below Oldmeadow, in the green, shallow, soddened hollow of fields, lay a square, deep pond. Roving across the landscape, the doctor&#x27;s quick eye detected a figure in black passing through the gate of the field, down towards the pond. He looked again. It would be Mabel Pervin. His mind suddenly became alive and attentixe.</p>
+<p>Why was she going down there? He pulled up on the path on the slope above, and stood staring. He could just make sure of the small black figure moving in the hollow of the failing day. He seemed to see her in the midst of such obscurity, that he was like a clairvoyant, seeing rather with the mind&#x27;s eye than with ordinary sight. Yet he could see her positively enough, whilst he kept his eye attentive. He felt, if he looked away from her, in the thick, ugly falling duck, he would lose her altogether.</p>
+<p>He followed her minutely as she moved, direct and intent, like something transmitted rather than stirring in voluntary activity, straight down the field towards the pond. There she stood on the bank for a moment. She never raised her head. Then she waded slowly into the water.</p>
+<p>He stood motionless as the small black figure walked slowly and deliberately towards the centre of the pond, \exy slowly, gradually moving deeper into the motionless water, and still moving forward as the water got up to her breast. Then he could see her no more in the dusk of the dead afternoon.</p>
+<p>&quot;Tliere!&quot; he exclaimed. &quot;Would you believe it?&quot;</p>
+<p>And he hastened straight down, running over the wet, soddened fields, pushing through the hedges, down into the depression of callous wintry obscurity. It took him several minutes to come to the pond. He stood on the bank, breathing heavily. He could see nothing. His eyes seemed to penetrate the dead water. Yes, perhaps that was the dark shadow of her black clothing beneath the surface of the water.</p>
+<p>He slowly ventured into the pond. The bottom was deep, soft clay, he sank in, and the water clasped dead cold round his legs. As he stirred he could smell the cold, rotten clay that fouled up into the water. It was objectionable in his lungs. Still, repelled and yet not heeding, he moved deeper into the pond. The cold water rose o\cr his thighs, over his loins, upon his abdomen. Tlie lower part of his body was all sunk in the hideous cold element. And the bottom was so deeply soft and uncertain, he was afraid of pitching with his mouth underneath. He could not swim, and was afraid.</p>
+<p>He crouched a little, speading his hands under the water and moving them round, trying to feel for her. TTie dead cold pond swayed upon his chest. He moved again, a little deeper, and again.</p>
+</section>
+<section class="reader-page" id="page-851" aria-label="Printed page 851" hidden>
+<div class="page-heading">Page 851</div>
+<p>with his hands underneath, he felt all around under the water. And he touched her clothing. But it evaded his fingers. He made a desperate effort to grasp it.</p>
+<p>And so doing he lost his balance and went under, horribly, suffocating in the foul earthy water, struggling madly for a few moments. At last, after what seemed an eternity, he got his footing, rose again into the air and looked around. He gasped, and knew he was in the world. Then he looked at the water. She had risen near him. He grasped her clothing, and drawing her nearer, turned to take his way to land again.</p>
+<p>He went very slowly, carefully, absorbed in the slow progress. He rose higher, climbing out of the pond. The water was now only about his legs; he was thankful, full of relief to be out of the clutches of the pond. He lifted her and staggered onto the bank, out of the horror of wet, grey clay.</p>
+<p>He laid her down on the bank. She was quite unconscious and running with water. He made the water come from her mouth, he worked to restore her. He did not have to work very long before he could feel the breathing begin again in her; she was breathing naturally. He worked a little longer. He could feel her live beneath his hands; she was coming back. He wiped her face, wrapped her in his overcoat, looked round into the dim, dark grey world, then lifted her and staggered down the bank and across the fields.</p>
+<p>It seemed an unthinkably long way, and his burden so heavy he felt he would never get to the house. But at last he was in the stable-yard, and then in the house-yard. He opened the door and went into the house. In the kitchen he laid her down on the hearth-rug and and called. The house was empty. But the fire was burning in the grate.</p>
+<p>Then again he kneeled to attend to her. She was breathing regularly, her eyes were wide open and as if conscious, but there seemed something missing in her look. She was conscious in herself, but unconscious of her surroundings.</p>
+<p>He ran upstairs, took blankets from a bed, and put them before the fire to warm. Then he removed her saturated, earthy-smelling clothing, rubbed her dry with a towel, and wrapped her naked in the blankets. Then he went into the dining-room, to look for spirits. There was a little whisky. He drank a gulp himself, and put some into her mouth.</p>
+<p>Tlie effect was instantaneous. She looked full into his face, as if she had been seeing him for some time, and yet had only just become conscious of him.</p>
+<p>&quot;Dr. Fergusson?&quot; she said.</p>
+<p>&quot;What?&quot; he answered.</p>
+<p>He was divesting himself of his coat, intending to find some dry clothing upstairs. He could not bear the smell of the dead, clayey water, and he was mortally afraid for his own health.</p>
+</section>
+<section class="reader-page" id="page-852" aria-label="Printed page 852" hidden>
+<div class="page-heading">Page 852</div>
+<p>&quot;What did I do?&quot; she asked.</p>
+<p>&quot;Walked into the pond,&quot; he rephed. He had begun to shudder like one sick, and could hardly attend to her. Her eyes remained full on him, he seemed to be going dark in his mind, looking back at her helplessly. The shuddering became quieter in him, his life came back to him, dark and unknowing, but strong again.</p>
+<p>&quot;Was I out of my mind?&quot; she asked, while her eyes were fixed on him all the time.</p>
+<p>&quot;Maybe, for the moment,&quot; he replied. He felt quiet, because his strength had come back. The strange fretful strain had left him.</p>
+<p>&quot;Am I out of my mind now?&quot; she asked.</p>
+<p>&quot;Are you?&quot; he reflected a moment. &quot;No,&quot; he answered truthfully, &quot;I don&#x27;t see that you are.&quot; He turned his face aside. He was afraid now, because he felt dazed, and felt dimly that her power was stronger than his, in this issue. And she continued to look at him fixedly all the time. &quot;Can you tell me where I shall find some dry things to put on?&quot; he asked.</p>
+<p>&quot;Did you dive into the pond for me?&quot; she asked.</p>
+<p>&quot;No,&quot; he answered. &quot;I walked in. But I went in over head as well.&quot;</p>
+<p>There was silence for a moment. He hesitated. He very much wanted to go upstairs to get into dry clothing. But there was another desire in him. And she seemed to hold him. His will seemed to have gone to sleep, and left him, standing there slack before her. But he felt warm inside himself. He did not shudder at all, though his clothes were sodden on him.</p>
+<p>&quot;Why did you?&quot; she asked.</p>
+<p>&quot;Because I didn&#x27;t want you to do such a foolish thing,&quot; he said.</p>
+<p>&quot;It wasn&#x27;t foolish,&quot; she said, still gazing at him as she lay on the floor, with a sofa cushion under her head. &quot;It was the right thing to do. I knew best, then.&quot;</p>
+<p>&quot;I&#x27;ll go and shift these wet things,&quot; he said. But still he had not the power to move out of her presence, until she sent him. It was as if she had the life of his body in her hands, and he could not extricate himself. Or perhaps he did not want to.</p>
+<p>Suddenly she sat up. Then she became aware of her own immediate condition. She felt the blankets about her, she knew her own limbs. For a moment it seemed as if her reason were going. She looked round, with wild eye, as if seeking something. He stood still with fear. She saw her clothing lying scattered.</p>
+<p>&quot;Who undressed me?&quot; she asked, her eyes resting full and inevitable on his face.</p>
+<p>&quot;I did,&quot; he replied, &quot;to bring you round.&quot;</p>
+<p>For some moments she sat and gazed at him awfully, her lips parted.</p>
+<p>&quot;Do you love me, then?&quot; she asked.</p>
+</section>
+<section class="reader-page" id="page-853" aria-label="Printed page 853" hidden>
+<div class="page-heading">Page 853</div>
+<p>He only stood and stared at her, fascinated. His soul seemed to melt.</p>
+<p>She shuffled forward on her knees, and put her arms round him, round his legs, as he stood there, pressing her breasts against his knees and thighs, clutching him with strange, convulsive certainty, pressing his thighs against her, drawing him to her face, her throat, as she looked up at him with flaring, humble eyes of transfiguration, triumphant in first possession.</p>
+<p>&quot;You love me,&quot; she murmured, in strange transport, yearning and triumphant and confident. &quot;You love me. I know you love me, I know.&quot;</p>
+<p>And she was passionately kissing his knees, through the wet clothing, passionately and indiscriminately kissing his knees, his legs, as if unaware of everything.</p>
+<p>He looked down at the tangled wet hair, the wild, bare, animal shoulders. He was amazed, bewildered, and afraid. He had never thought of loving her. He had never wanted to love her. When he rescued her and restored her, he was a doctor, and she was a patient. He had had no single personal thought of her. Nay, this introduction of the personal element was very distasteful to him, a violation of his professional honour. It was horrible to have her there embracing his knees. It was horrible. He revolted from it, violently. And yet—and yet—he had not the power to break away.</p>
+<p>She looked at him again, with the same supplication of powerful love, and that same transcendent, frightening light of triumph. In view of the delicate flame which seemed to come from her face like a light, he was powerless. And yet he had never intended to love her. He had never intended. And something stubborn in him could not give way.</p>
+<p>&quot;You love me,&quot; she repeated, in a murmur of deep, rhapsodic assurance. &quot;You love me.&quot;</p>
+<p>Her hands were drawing him, drawing him down to her. He was afraid, even a little horrified. For he had, really, no intention of loving her. Yet her hands were drawing him towards her. He put out his hand quickly to steady himself, and grasped her bare shoulder. A flame seemed to burn the hand that grasped her soft shoulder. He had no intention of loving her: his whole will was against his yielding. It was horrible. And yet wonderful was the touch of her shoulders, beautiful the shining of her face. Was she perhaps mad? He had a horror of yielding to her. Yet something in him ached also.</p>
+<p>He had been staring away at the door, away from her. But his hand remained on her shoulder. She had gone suddenly very still. He looked down at her. Her eyes were now wide with fear, with doubt, the light was dying from her face, a shadow of terrible greyness was returning. He could not bear the touch of her eyes&#x27;</p>
+</section>
+<section class="reader-page" id="page-854" aria-label="Printed page 854" hidden>
+<div class="page-heading">Page 854</div>
+<p>question upon him, and the look of death behind the question.</p>
+<p>With an inward groan he gave way, and let his heart yield towards her. A sudden gentle smile came on his face. And her eyes, which never left his face, slowly, slowly filled with tears. He watched the strange water rise in her eyes, like some slow fountain coming up. And his heart seemed to burn and melt away in his breast.</p>
+<p>He could not bear to look at her any more. He dropped on his knees and caught her head with his arms and pressed her face against his throat. She was very still. His heart, which seemed to have broken, was burning with a kind of agony in his breast. And he felt her slow, hot tears wetting his throat. But he could not move.</p>
+<p>He felt the hot tears wet his neck and the hollows of his neck, and he remained motionless, suspended through one of man&#x27;s eternities. Only now it had become indispensable to him to have her face pressed close to him; he could never let her go again. He could never let her head go away from the close clutch of his arm. He wanted to remain like that for ever, with his heart hurting him in a pain that was also life to him. Without knowing, he was looking down on her damp, soft brown hair.</p>
+<p>Then, as it were suddenly, he smelt the horrid stagnant smell of that water. And at the same moment she drew away from him and looked at him. Her eyes were wistful and unfathomable. He was afraid of them, and he fell to kissing her, not knowing what he was doing. He wanted her eyes not to have that terrible, wistful, unfathomable look.</p>
+<p>When she turned her face to him again, a faint delicate flush was glowing, and there was again dawning that terrible shining of joy in her eyes, which really terrified him, and yet which he now wanted to see, because he feared the look of doubt still more.</p>
+<p>&quot;You love me?&quot; she said, rather faltering.</p>
+<p>&quot;Yes.&quot; The word cost him a painful effort. Not because it wasn&#x27;t true. But because it was too newly true, the saying seemed to tear open again his newly-torn heart. And he hardly wanted it to be true, even now.</p>
+<p>She lifted her face to him, and he bent forward and kissed her on the mouth, gently, with the one kiss that is an eternal pledge. And as he kissed her his heart strained again in his breast. He never intended to love her. But now it was over. He had crossed over the gulf to her, and all that he had left behind had shrivelled and become void.</p>
+<p>After the kiss, her eyes again slowly filled with tears. She sat still, away from him, with her face drooped aside, and her hands folded in her lap. The tears fell very slowly. There was complete silence. He too sat there motionless and silent on the hearth-rug. The strange pain of his heart that was broken seemed to consume him.</p>
+</section>
+<section class="reader-page" id="page-855" aria-label="Printed page 855" hidden>
+<div class="page-heading">Page 855</div>
+<p>That he should love her? That this was love! That he should be ripped open in this way! Him, a doctor! How they would all jeer if they knew! It was agony to him to think they might know.</p>
+<p>In the curious naked pain of the thought he looked again to her. She was sitting there drooped into a muse. He saw a tear fall, and his heart flared hot. He saw for the first time that one of her shoulders was quite uncovered, one arm bare, he could see one of her small breasts; dimly, because it had become almost dark in the room.</p>
+<p>&quot;Why are you crying?&quot; he asked, in an altered voice.</p>
+<p>She looked up at him, and behind her tears the consciousness of her situation for the first time brought a dark look of shame to her eyes.</p>
+<p>&quot;I&#x27;m not crying, really,&quot; she said, watching him, half frightened.</p>
+<p>He reached his hand, and softly closed it on her bare arm.</p>
+<p>&quot;I love you! I love you!&quot; he said in a soft, low vibrating voice, unlike himself.</p>
+<p>She shrank, and dropped her head. The soft, penetrating grip of his hand on her arm distressed her. She looked up at him.</p>
+<p>&quot;I want to go,&quot; she said. &quot;I want to go and get you some dry things.&quot;</p>
+<p>&quot;Why?&quot; he said. &quot;I&#x27;m all right.&quot;</p>
+<p>&quot;But I want to go,&quot; she said. &quot;And I want you to change your things.&quot;</p>
+<p>He released her arm, and she wrapped herself in the blanket, looking at him rather frightened. And still she did not rise.</p>
+<p>&quot;Kiss me,&quot; she said wistfully.</p>
+<p>He kissed her, but briefly, half in anger.</p>
+<p>Then, after a second, she rose nen&#x27;ously, all mixed up in the blanket. He watched her in her confusion as she tried to extricate herself and wrap herself up so that she could walk. He watched her relentlessly, as she knew. And as she went, the blanket trailing, and as he saw a glimpse of her feet and her white leg, he tried to remember her as she was when he had wrapped her in the blanket. But then he didn&#x27;t want to remember, because she had been nothing to him then, and his nature revolted from remembering her as she was when she was nothing to him.</p>
+<p>A tumbling, muffled noise from within the dark house startled him. Then he heard her voice: &quot;There are clothes.&quot; He rose and went to the foot of the stairs, and gathered up the garments she had thrown down. Then he came back to the fire, to rub himself down and dress. He grinned at his own appearance when he had finished.</p>
+<p>The fire was sinking, so he put on coal. The house was now quite dark, save for the light of a street-lamp that shone in faintly from beyond the holly trees. He lit the gas with matches he found on the mantelpiece. Then he emptied the pockets of his own clothes, and threw all his wet things in a heap into the scullery. After which he</p>
+</section>
+<section class="reader-page" id="page-856" aria-label="Printed page 856" hidden>
+<div class="page-heading">Page 856</div>
+<p>gathered up her sodden clothes, gently, and put them in a separate heap on the copper-top in the scullery.</p>
+<p>It was six o&#x27;clock on the clock. His own watch had stopped. He ought to go back to the surgery. He waited, and still she did not come down. So he went to the foot of the stairs and called:</p>
+<p>&quot;I shall have to go.&quot;</p>
+<p>Almost immediately he heard her coming down. She had on her best dress of black voile, and her hair was tidy, but still damp. She looked at him—and in spite of herself, smiled.</p>
+<p>&quot;I don&#x27;t like you in those clothes.&quot; she said.</p>
+<p>&quot;Do I look a sight?&quot; he answered.</p>
+<p>They were shy of one another.</p>
+<p>&quot;I&#x27;ll make you some tea,&quot; she said.</p>
+<p>&quot;No, I must go.&quot;</p>
+<p>&quot;Must you?&quot; And she looked at him again with the wide, strained, doubtful eyes. And again, from the pain of his breast, he knew how he loved her. He went and bent to kiss her, gently, passionately, with his heart&#x27;s painful kiss.</p>
+<p>&quot;And my hair smells so horrible,&quot; she murmured in distraction. &quot;And I&#x27;m so awful, I&#x27;m so awful! Oh no, I&#x27;m too awful.&quot; And she broke into bitter, heart-broken sobbing. &quot;You can&#x27;t want to love me, I&#x27;m horrible.&quot;</p>
+<p>&quot;Don&#x27;t be silly, don&#x27;t be silly,&quot; he said, trying to comfort her, kissing her, holding her in his arms. &quot;I want you, I want to marry you, we&#x27;re going to be married, quickly, quickly—to-morrow if I can.&quot;</p>
+<p>But she only sobbed terribly, and cried:</p>
+<p>&quot;I feel awful. I feel awful. I feel I&#x27;m horrible to you.&quot;</p>
+<p>&quot;No, I want you, I want you,&quot; was all he answered, blindly, with that terrible intonation which frightened her almost more than her horror lest he should not want her.</p>
+</section>
+</main>
+<div class="page-turn-bar" aria-label="Page turns"><button id="previous-page" type="button" aria-label="Previous page">← Previous</button><span id="page-status" role="status" aria-live="polite">Page 843 of 856</span><button id="next-page" type="button" aria-label="Next page">Next →</button></div>
+<script>
+const root = document.documentElement;
+const dayButton = document.getElementById('day-button');
+const nightButton = document.getElementById('night-button');
+const smallerButton = document.getElementById('font-smaller');
+const largerButton = document.getElementById('font-larger');
+const sizeDisplay = document.getElementById('font-size-display');
+const minimumSize = 16;
+const maximumSize = 30;
+let fontSize = 19;
+
+function loadSetting(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function saveSetting(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* Reading still works without storage. */ }
+}
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  dayButton.setAttribute('aria-pressed', String(theme === 'day'));
+  nightButton.setAttribute('aria-pressed', String(theme === 'night'));
+  saveSetting('horse-dealers-daughter-theme', theme);
+}
+function setFontSize(size) {
+  fontSize = Math.max(minimumSize, Math.min(maximumSize, size));
+  root.style.setProperty('--reader-size', fontSize + 'px');
+  sizeDisplay.value = fontSize + 'px';
+  smallerButton.disabled = fontSize === minimumSize;
+  largerButton.disabled = fontSize === maximumSize;
+  saveSetting('horse-dealers-daughter-font-size', String(fontSize));
+}
+
+dayButton.addEventListener('click', () => setTheme('day'));
+nightButton.addEventListener('click', () => setTheme('night'));
+smallerButton.addEventListener('click', () => setFontSize(fontSize - 2));
+largerButton.addEventListener('click', () => setFontSize(fontSize + 2));
+setTheme(loadSetting('horse-dealers-daughter-theme') === 'night' ? 'night' : 'day');
+setFontSize(Number(loadSetting('horse-dealers-daughter-font-size')) || 19);
+
+const firstPage = 843;
+const lastPage = 856;
+const pageInput = document.getElementById('page-number');
+const previousButton = document.getElementById('previous-page');
+const nextButton = document.getElementById('next-page');
+const pageStatus = document.getElementById('page-status');
+const readerStage = document.getElementById('reader-stage');
+let currentPage = firstPage;
+
+function showPage(number, animate = true) {
+  if (!Number.isInteger(number) || number < firstPage || number > lastPage) return;
+  const incoming = document.getElementById('page-' + number);
+  const outgoing = document.getElementById('page-' + currentPage);
+  if (!incoming || !incoming.classList.contains('reader-page')) return;
+  if (incoming !== outgoing) {
+    outgoing.hidden = true;
+    incoming.hidden = false;
+    incoming.scrollTop = 0;
+    incoming.classList.remove('turn-next', 'turn-previous');
+    if (animate) {
+      void incoming.offsetWidth;
+      incoming.classList.add(number > currentPage ? 'turn-next' : 'turn-previous');
+    }
+  }
+  currentPage = number;
+  pageInput.value = number;
+  pageStatus.textContent = 'Page ' + number + ' of ' + lastPage;
+  previousButton.disabled = number === firstPage;
+  nextButton.disabled = number === lastPage;
+  saveSetting('horse-dealers-daughter-page', String(number));
+  try { history.replaceState(null, '', '#page-' + number); } catch { /* File URLs can restrict history. */ }
+}
+
+previousButton.addEventListener('click', () => showPage(currentPage - 1));
+nextButton.addEventListener('click', () => showPage(currentPage + 1));
+document.getElementById('page-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  showPage(Number(pageInput.value));
+});
+document.addEventListener('keydown', function (event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select')) return;
+  if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); showPage(currentPage + 1); }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showPage(currentPage - 1); }
+});
+let touchStart = null;
+readerStage.addEventListener('touchstart', function (event) {
+  if (event.touches.length === 1) touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+readerStage.addEventListener('touchend', function (event) {
+  if (!touchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - touchStart.x;
+  const dy = event.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.2) showPage(currentPage + (dx < 0 ? 1 : -1));
+  touchStart = null;
+}, { passive: true });
+const hashPage = Number((location.hash.match(/^#page-(\d+)$/) || [])[1]);
+const storedPage = Number(loadSetting('horse-dealers-daughter-page'));
+showPage(hashPage >= firstPage && hashPage <= lastPage ? hashPage : storedPage >= firstPage && storedPage <= lastPage ? storedPage : firstPage, false);
+</script>
+</body>
+</html>

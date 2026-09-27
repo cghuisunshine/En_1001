@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ENGL 1001 · Practice exam</title>
+  <link rel="stylesheet" href="ENGL1001_practice_style.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar">
+    <span class="brand">TRU · ENGL 1001</span>
+    <nav class="toplinks" aria-label="Related pages">
+      <a href="ENGL1001_7_day_exam_tutorial.html">Study tutorial</a>
+      <a href="ENGL1001_PE.pdf">Original practice PDF</a>
+    </nav>
+  </div>
+  <h1>Practice exam</h1>
+  <p class="lede">One question at a time. Use the 3-hour clock as a guide: 30 minutes for grammar, 60 for one passage analysis, and 90 for one essay. Your work is saved in this browser when storage is available.</p>
+  <div class="meta">
+    <span class="chip" id="clock">00:00:00 elapsed</span>
+    <span class="chip">20 grammar questions · 10 marks</span>
+    <span class="chip">Passage · 35 marks</span>
+    <span class="chip">Essay · 55 marks</span>
+  </div>
+  <div class="bar" role="progressbar" aria-label="Exam question progress" aria-valuemin="0" aria-valuemax="22" aria-valuenow="1"><span id="progressFill"></span></div>
+  <section class="panel" aria-live="polite">
+    <div class="panel-head">
+      <div><p class="kicker" id="partLabel"></p><h2 id="questionTitle"></h2></div>
+      <span class="counter" id="counter"></span>
+    </div>
+    <div id="question"></div>
+    <div class="navrow">
+      <div class="nav-left"><button class="button" id="back" type="button">← Previous</button><button class="button ghost" id="reset" type="button">Start over</button></div>
+      <div class="nav-right"><button class="button primary" id="next" type="button">Next →</button><button class="button primary" id="submit" type="button" hidden>Submit and review answers</button></div>
+    </div>
+  </section>
+</main>
+<script src="ENGL1001_practice_data.js"></script>
+<script>
+(() => {
+  const exam = window.ENGL1001_EXAM;
+  const key = 'engl1001-practice-exam-v1';
+  const total = exam.grammar.length + 2;
+  const $ = id => document.getElementById(id);
+  const esc = text => String(text).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const fresh = () => ({ index:0, answers:{}, passageId:'P1', passageText:'', essayId:'E1', essayText:'', startedAt:Date.now() });
+  const getSaved = () => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } };
+  const save = () => { try { localStorage.setItem(key, JSON.stringify(state)); } catch {} };
+  if (new URLSearchParams(location.search).has('new')) {
+    try { localStorage.removeItem(key); } catch {}
+    try { history.replaceState(null, '', location.pathname); } catch {}
+  }
+  let state = getSaved() || fresh();
+  if (!Number.isInteger(state.index) || state.index < 0 || state.index >= total) state.index = 0;
+  if (!state.answers || typeof state.answers !== 'object') state.answers = {};
+  if (!state.startedAt) state.startedAt = Date.now();
+  save();
+
+  function wordCount(text) { return text.trim() ? text.trim().split(/\s+/).length : 0; }
+  function renderGrammar(index) {
+    const q = exam.grammar[index];
+    const group = exam.groups[q.group];
+    $('partLabel').textContent = 'Part I · ' + group.title;
+    $('questionTitle').textContent = 'Question ' + (index + 1) + ' · ' + q.id;
+    $('question').innerHTML =
+      '<p class="instructions">' + esc(group.instruction) + '</p>' +
+      '<p class="prompt">' + esc(q.text) + '</p>' +
+      '<div class="options" role="radiogroup" aria-label="Answer choices">' +
+      group.options.map((label, i) =>
+        '<label class="option"><input type="radio" name="answer" value="' + (i + 1) + '"' +
+        (state.answers[q.id] === i + 1 ? ' checked' : '') +
+        '><span class="number">' + (i + 1) + '</span><span class="label">' + esc(label) + '</span></label>'
+      ).join('') + '</div>';
+    $('question').querySelectorAll('input[name="answer"]').forEach(input =>
+      input.addEventListener('change', () => { state.answers[q.id] = Number(input.value); save(); })
+    );
+  }
+
+  function renderPassage() {
+    const p = exam.passages.find(x => x.id === state.passageId) || exam.passages[0];
+    $('partLabel').textContent = 'Part II · 60 minutes · 35 marks';
+    $('questionTitle').textContent = 'Analyse one fiction passage';
+    $('question').innerHTML =
+      '<p class="instructions">Choose one passage. Identify its author and story, analyse striking details, and make a thesis connecting this passage to the whole story.</p>' +
+      '<label class="field-label" for="passageSelect">Choose a passage</label>' +
+      '<select id="passageSelect">' + exam.passages.map(x => '<option value="' + esc(x.id) + '"' +
+        (x.id === p.id ? ' selected' : '') + '>' + esc(x.label) + '</option>').join('') + '</select>' +
+      '<p class="help">The complete passage from the supplied practice PDF appears below.</p>' +
+      '<blockquote class="passage" id="passageText">' + esc(p.text) + '</blockquote>' +
+      '<label class="field-label" for="passageAnswer">Your passage analysis</label>' +
+      '<textarea id="passageAnswer" spellcheck="true" placeholder="Write a thesis and focused paragraphs."></textarea>' +
+      '<p class="help" id="passageCount"></p>';
+    $('passageAnswer').value = state.passageText || '';
+    $('passageCount').textContent = wordCount($('passageAnswer').value) + ' words';
+    $('passageSelect').addEventListener('change', event => {
+      state.passageId = event.target.value; save();
+      $('passageText').textContent = exam.passages.find(x => x.id === state.passageId).text;
+    });
+    $('passageAnswer').addEventListener('input', event => {
+      state.passageText = event.target.value; save();
+      $('passageCount').textContent = wordCount(state.passageText) + ' words';
+    });
+  }
+
+  function renderEssay() {
+    const e = exam.essays.find(x => x.id === state.essayId) || exam.essays[0];
+    $('partLabel').textContent = 'Part III · 90 minutes · 55 marks';
+    $('questionTitle').textContent = 'Write one literary essay';
+    $('question').innerHTML =
+      '<p class="instructions">Choose one topic. Include a clear thesis in the introduction and analyse specific evidence from the assigned works.</p>' +
+      '<label class="field-label" for="essaySelect">Choose an essay topic</label>' +
+      '<select id="essaySelect">' + exam.essays.map(x => '<option value="' + esc(x.id) + '"' +
+        (x.id === e.id ? ' selected' : '') + '>' + esc(x.id + ' · ' + x.title) + '</option>').join('') + '</select>' +
+      '<p class="prompt" id="essayPrompt">' + esc(e.prompt) + '</p>' +
+      '<label class="field-label" for="essayAnswer">Your essay</label>' +
+      '<textarea id="essayAnswer" spellcheck="true" placeholder="Plan briefly, then write your essay."></textarea>' +
+      '<p class="help" id="essayCount"></p>';
+    $('essayAnswer').value = state.essayText || '';
+    $('essayCount').textContent = wordCount($('essayAnswer').value) + ' words';
+    $('essaySelect').addEventListener('change', event => {
+      state.essayId = event.target.value; save();
+      $('essayPrompt').textContent = exam.essays.find(x => x.id === state.essayId).prompt;
+    });
+    $('essayAnswer').addEventListener('input', event => {
+      state.essayText = event.target.value; save();
+      $('essayCount').textContent = wordCount(state.essayText) + ' words';
+    });
+  }
+
+  function render() {
+    const index = state.index;
+    $('counter').textContent = (index + 1) + ' of ' + total;
+    if (index < exam.grammar.length) renderGrammar(index);
+    else if (index === exam.grammar.length) renderPassage();
+    else renderEssay();
+    $('back').disabled = index === 0;
+    $('next').hidden = index === total - 1;
+    $('submit').hidden = index !== total - 1;
+    $('progressFill').style.width = ((index + 1) / total * 100) + '%';
+    document.querySelector('.bar').setAttribute('aria-valuenow', String(index + 1));
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  $('back').addEventListener('click', () => { if (state.index > 0) { state.index--; save(); render(); } });
+  $('next').addEventListener('click', () => { if (state.index < total - 1) { state.index++; save(); render(); } });
+  $('reset').addEventListener('click', () => { if (confirm('Clear this attempt and start again?')) { state = fresh(); save(); render(); } });
+  $('submit').addEventListener('click', () => {
+    const missing = exam.grammar.filter(q => !state.answers[q.id]).length;
+    const notice = missing ? missing + ' grammar questions are unanswered. ' : '';
+    if (!confirm(notice + 'Submit this practice attempt and open the answer page?')) return;
+    state.submittedAt = Date.now(); save();
+    location.href = 'ENGL1001_practice_answers.html#data=' + encodeURIComponent(JSON.stringify(state));
+  });
+  function clock() {
+    const seconds = Math.floor((Date.now() - state.startedAt) / 1000);
+    const h = String(Math.floor(seconds / 3600)).padStart(2,'0');
+    const m = String(Math.floor(seconds / 60) % 60).padStart(2,'0');
+    const s = String(seconds % 60).padStart(2,'0');
+    $('clock').textContent = h + ':' + m + ':' + s + ' elapsed';
+  }
+  setInterval(clock, 1000); clock(); render();
+})();
+</script>
+</body>
+</html>

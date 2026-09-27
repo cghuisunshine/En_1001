@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hills Like White Elephants — Ernest Hemingway</title>
+<style>
+  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --reader-size: 19px; }
+  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body { display: flex; flex-direction: column; height: 100dvh; min-height: 350px; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font: var(--reader-size)/1.75 Georgia, Palatino, serif; }
+  h1 { margin: 0; font: 600 clamp(2rem, 5vw, 3.2rem)/1.1 Georgia, Palatino, serif; }
+  .author { margin: .5rem 0 0; font: .95rem/1.5 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .source-note { margin: .7rem 0 1.5rem; color: var(--muted); font: .8rem/1.45 system-ui, sans-serif; }
+  .reader-stage { position: relative; flex: 1; min-height: 0; width: min(54rem, calc(100% - 2rem)); margin: 1rem auto; perspective: 1600px; touch-action: pan-y; }
+  .reader-page { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2rem clamp(1.25rem, 7vw, 5rem) 3rem; background: var(--paper); box-shadow: 0 10px 32px #00000019; scrollbar-color: var(--line) transparent; }
+  .reader-page[hidden] { display: none; }
+  .reader-page.turn-next { transform-origin: left center; animation: turn-next .34s ease-out both; }
+  .reader-page.turn-previous { transform-origin: right center; animation: turn-previous .34s ease-out both; }
+  @keyframes turn-next { from { opacity: .45; transform: rotateY(18deg) translateX(18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  @keyframes turn-previous { from { opacity: .45; transform: rotateY(-18deg) translateX(-18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  .story-heading { margin: 1rem 0 2rem; text-align: center; }
+  p { margin: 0 0 .82em; }
+  .page-heading { margin: 0 0 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: .4rem; color: var(--muted); font: .75rem/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+  .note { font: .78em/1.5 Georgia, Palatino, serif; color: var(--muted); padding-left: 1rem; border-left: 2px solid var(--line); }
+  .reader-bar { z-index: 2; display: flex; flex: none; flex-wrap: wrap; justify-content: center; align-items: center; gap: .55rem 1.25rem; padding: .55rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px #0000000d; font: .85rem/1.3 system-ui, sans-serif; }
+  .reader-bar strong { margin-right: auto; white-space: nowrap; }
+  .reader-bar form, .reader-controls { display: flex; align-items: center; gap: .4rem; margin: 0; }
+  .reader-controls { border-left: 1px solid var(--line); padding-left: 1rem; }
+  .reader-bar input { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
+  .reader-bar button { min-height: 2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .reader-bar button:hover, .reader-bar button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+  .reader-bar button:disabled, .page-turn-bar button:disabled { opacity: .45; cursor: not-allowed; }
+  .reader-bar button:focus-visible, .reader-bar input:focus-visible, .page-turn-bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #font-size-display { min-width: 2.7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .page-turn-bar { display: flex; flex: none; justify-content: center; align-items: center; gap: 1rem; padding: .45rem 1rem .6rem; background: var(--paper); border-top: 1px solid var(--line); font: .9rem/1.2 system-ui, sans-serif; }
+  .page-turn-bar button { min-width: 7rem; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .page-turn-bar button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  #page-status { min-width: 7rem; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 700px) { .reader-bar strong { width: 100%; text-align: center; } .reader-controls { padding-left: .6rem; } .reader-stage { width: 100%; margin: 0; } .reader-page { box-shadow: none; } .page-turn-bar { gap: .4rem; } .page-turn-bar button { min-width: 5rem; } }
+  @media (prefers-reduced-motion: reduce) { .reader-page.turn-next, .reader-page.turn-previous { animation: none; } }
+  @media print { body { display: block; height: auto; overflow: visible; color: black; background: white; } .reader-bar, .page-turn-bar { display: none; } .reader-stage { display: block; width: auto; margin: 0; } .reader-page, .reader-page[hidden] { position: static; display: block; overflow: visible; box-shadow: none; padding: 1rem 0; break-after: page; } }
+
+</style>
+</head>
+<body>
+<nav class="reader-bar" aria-label="Reader settings">
+  <strong>Hills Like White Elephants</strong>
+  <form id="page-form"><label for="page-number">Page</label><input id="page-number" type="number" min="1" max="6" inputmode="numeric" required><button type="submit">Go</button></form>
+  <div class="reader-controls" role="group" aria-label="Color theme"><button id="day-button" type="button" aria-pressed="true">Day</button><button id="night-button" type="button" aria-pressed="false">Night</button></div>
+  <div class="reader-controls" role="group" aria-label="Font size"><button id="font-smaller" type="button" aria-label="Decrease font size">A−</button><output id="font-size-display" aria-live="polite">19px</output><button id="font-larger" type="button" aria-label="Increase font size">A+</button></div>
+</nav>
+<main class="reader-stage" id="reader-stage">
+<section class="reader-page" id="page-1" aria-label="PDF page 1">
+<div class="page-heading">PDF page 1 of 6</div>
+<div class="story-heading"><h1>Hills Like White Elephants</h1><p class="author">Ernest Hemingway</p><p class="source-note">Complete story text from <a href="May-Short-Stories.pdf">May-Short-Stories.pdf</a>, pages 1–6.</p></div>
+<p>The hills across the valley of the Ebro* were long and white. On this side there was no shade and no trees and the station was between two lines of rails in the sun. Close against the side of the station there was the warm shadow of the building and a curtain, made of strings of bamboo beads, hung across the open door into the bar, to keep out flies. The American and the girl with him sat at a table in the shade, outside the building. It was very hot and the express from Barcelona would come in forty minutes. It stopped at this junction for two minutes and went on to Madrid.</p>
+<p>"What should we drink?" the girl asked. She had taken off her hat and put it on the table.</p>
+<p>"It's pretty hot," the man said.</p>
+<p>"Let's drink beer."</p>
+<p>"Dos cervezas," the man said into the curtain.</p>
+<p>"Big ones?" a woman asked from the doorway.</p>
+<p>"Yes. Two big ones."</p>
+<p>The woman brought two glasses of beer and two felt pads. She put the felt pads and the beer glasses on the table and looked at the man and the girl. The girl was looking off at the line of hills. They were white in the sun and the country was brown and dry.</p>
+<p>"They look like white elephants," she said.</p>
+<p>"I've never seen one," the man drank his beer.</p>
+<p>"No, you wouldn't have."</p>
+<p>"I might have," the man said. "Just because you say I wouldn't have doesn't prove anything."</p>
+<p>The girl looked at the bead curtain. "They've painted something on it," she said. "What does it say?"</p>
+<p>"Anis del Toro. It's a drink."</p>
+<p class="note">* Ebro: river in the north of Spain.</p>
+</section>
+<section class="reader-page" id="page-2" aria-label="PDF page 2" hidden>
+<div class="page-heading">PDF page 2 of 6</div>
+<p>"Could we try it?"</p>
+<p>The man called "Listen" through the curtain. The woman came out from the bar.</p>
+<p>"Four reales."</p>
+<p>"We want two Anis del Toro."</p>
+<p>"With water?"</p>
+<p>"Do you want it with water?"</p>
+<p>"I don't know," the girl said. "Is it good with water?"</p>
+<p>"It's all right."</p>
+<p>"You want them with water?" asked the woman.</p>
+<p>"Yes, with water."</p>
+<p>"It tastes like licorice," the girl said and put the glass down.</p>
+<p>"That's the way with everything."</p>
+<p>"Yes," said the girl. "Everything tastes of licorice. Especially all the things you've waited so long for, like absinthe."</p>
+<p>"Oh, cut it out."</p>
+<p>"You started it," the girl said. "I was being amused. I was having a fine time."</p>
+<p>"Well, let's try and have a fine time."</p>
+<p>"All right. I was trying. I said the mountains looked like white elephants. Wasn't that bright?"</p>
+<p>"That was bright."</p>
+<p>"I wanted to try this new drink. That's all we do, isn't it—look at things and try new drinks?"</p>
+<p>"I guess so."</p>
+<p>The girl looked across at the hills.</p>
+</section>
+<section class="reader-page" id="page-3" aria-label="PDF page 3" hidden>
+<div class="page-heading">PDF page 3 of 6</div>
+<p>"They're lovely hills," she said. "They don't really look like white elephants. I just meant the coloring of their skin through the trees."</p>
+<p>"Should we have another drink?"</p>
+<p>"All right."</p>
+<p>The warm wind blew the bead curtain against the table.</p>
+<p>"The beer's nice and cool," the man said.</p>
+<p>"It's lovely," the girl said.</p>
+<p>"It's really an awfully simple operation, Jig," the man said. "It's not really an operation at all."</p>
+<p>The girl looked at the ground the table legs rested on.</p>
+<p>"I know you wouldn't mind it, Jig. It's really not anything. It's just to let the air in."</p>
+<p>The girl did not say anything.</p>
+<p>"I'll go with you and I'll stay with you all the time. They just let the air in and then it's all perfectly natural."</p>
+<p>"Then what will we do afterward?"</p>
+<p>"We'll be fine afterward. Just like we were before."</p>
+<p>"What makes you think so?"</p>
+<p>"That's the only thing that bothers us. It's the only thing that's made us unhappy."</p>
+<p>The girl looked at the bead curtain, put her hand out and took hold of two of the strings of beads.</p>
+<p>"And you think then we'll be all right and be happy."</p>
+<p>"I know we will. You don't have to be afraid. I've known lots of people that have done it."</p>
+<p>"So have I," said the girl. "And afterward they were all so happy."</p>
+<p>"Well," the man said, "if you don't want to you don't have to. I wouldn't have you do it if you didn't want to. But I know it's perfectly simple."</p>
+<p>"And you really want to?"</p>
+</section>
+<section class="reader-page" id="page-4" aria-label="PDF page 4" hidden>
+<div class="page-heading">PDF page 4 of 6</div>
+<p>"I think it's the best thing to do. But I don't want you to do it if you don't really want to."</p>
+<p>"And if I do it you'll be happy and things will be like they were and you'll love me?"</p>
+<p>"I love you now. You know I love you."</p>
+<p>"I know. But if I do it, then it will be nice again if I say things are like white elephants, and you'll like it?"</p>
+<p>"I'll love it. I love it now but I just can't think about it. You know how I get when I worry."</p>
+<p>"If I do it you won't ever worry?"</p>
+<p>"I won't worry about that because it's perfectly simple."</p>
+<p>"Then I'll do it. Because I don't care about me."</p>
+<p>"What do you mean?"</p>
+<p>"I don't care about me."</p>
+<p>"Well, I care about you."</p>
+<p>"Oh, yes. But I don't care about me. And I'll do it and then everything will be fine."</p>
+<p>"I don't want you to do it if you feel that way."</p>
+<p>The girl stood up and walked to the end of the station. Across, on the other side, were fields of grain and trees along the banks of the Ebro. Far away, beyond the river, were mountains. The shadow of a cloud moved across the field of grain and she saw the river through the trees.</p>
+<p>"And we could have all this," she said. "And we could have everything and every day we make it more impossible."</p>
+<p>"What did you say?"</p>
+<p>"I said we could have everything."</p>
+<p>"We can have everything."</p>
+<p>"No, we can't."</p>
+<p>"We can have the whole world."</p>
+<p>"No, we can't."</p>
+</section>
+<section class="reader-page" id="page-5" aria-label="PDF page 5" hidden>
+<div class="page-heading">PDF page 5 of 6</div>
+<p>"We can go everywhere."</p>
+<p>"No, we can't. It isn't ours any more."</p>
+<p>"It's ours."</p>
+<p>"No, it isn't. And once they take it away, you never get it back."</p>
+<p>"But they haven't taken it away."</p>
+<p>"We'll wait and see."</p>
+<p>"Come on back in the shade," he said. "You mustn't feel that way."</p>
+<p>"I don't feel any way," the girl said. "I just know things."</p>
+<p>"I don't want you to do anything that you don't want to do—"</p>
+<p>"Nor that isn't good for me," she said. "I know. Could we have another beer?"</p>
+<p>"All right. But you've got to realize—"</p>
+<p>"I realize," the girl said. "Can't we maybe stop talking?"</p>
+<p>They sat down at the table and the girl looked across at the hills on the dry side of the valley and the man looked at her and at the table. "You've got to realize," he said, "that I don't want you to do it if you don't want to. I'm perfectly willing to go through with it if it means anything to you."</p>
+<p>"Doesn't it mean anything to you? We could get along."</p>
+<p>"Of course it does. But I don't want anybody but you. I don't want any one else. And I know it's perfectly simple."</p>
+<p>"Yes, you know it's perfectly simple."</p>
+<p>"It's all right for you to say that, but I do know it."</p>
+<p>"Would you do something for me now?"</p>
+<p>"I'd do anything for you."</p>
+<p>"Would you please please please please please please please stop talking?"</p>
+<p>He did not say anything but looked at the bags against the wall of the station. There were labels on them from all the hotels where they had spent nights.</p>
+</section>
+<section class="reader-page" id="page-6" aria-label="PDF page 6" hidden>
+<div class="page-heading">PDF page 6 of 6</div>
+<p>"But I don't want you to," he said, "I don't care anything about it."</p>
+<p>"I'll scream," the girl said.</p>
+<p>The woman came out through the curtains with two glasses of beer and put them down on the damp felt pads. "The train comes in five minutes," she said.</p>
+<p>"What did she say?" asked the girl.</p>
+<p>"That the train is coming in five minutes."</p>
+<p>The girl smiled brightly at the woman, to thank her.</p>
+<p>"I'd better take the bags over to the other side of the station," the man said. She smiled at him.</p>
+<p>"All right. Then come back and we'll finish the beer."</p>
+<p>He picked up the two heavy bags and carried them around the station to the other tracks. He looked up the tracks but could not see the train. Coming back, he walked through the barroom, where people waiting for the train were drinking. He drank an Anis at the bar and looked at the people. They were all waiting reasonably for the train. He went out through the bead curtain. She was sitting at the table and smiled at him.</p>
+<p>"Do you feel better?" he asked.</p>
+<p>"I feel fine," she said. "There's nothing wrong with me. I feel fine."</p>
+</section>
+</main>
+<div class="page-turn-bar" aria-label="Page turns"><button id="previous-page" type="button" aria-label="Previous page">← Previous</button><span id="page-status" role="status" aria-live="polite">PDF page 1 of 6</span><button id="next-page" type="button" aria-label="Next page">Next →</button></div>
+<script>
+const root = document.documentElement;
+const dayButton = document.getElementById('day-button');
+const nightButton = document.getElementById('night-button');
+const smallerButton = document.getElementById('font-smaller');
+const largerButton = document.getElementById('font-larger');
+const sizeDisplay = document.getElementById('font-size-display');
+const minimumSize = 16;
+const maximumSize = 30;
+let fontSize = 19;
+
+function loadSetting(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function saveSetting(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* Reading still works without storage. */ }
+}
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  dayButton.setAttribute('aria-pressed', String(theme === 'day'));
+  nightButton.setAttribute('aria-pressed', String(theme === 'night'));
+  saveSetting('hills-like-white-elephants-theme', theme);
+}
+function setFontSize(size) {
+  fontSize = Math.max(minimumSize, Math.min(maximumSize, size));
+  root.style.setProperty('--reader-size', fontSize + 'px');
+  sizeDisplay.value = fontSize + 'px';
+  smallerButton.disabled = fontSize === minimumSize;
+  largerButton.disabled = fontSize === maximumSize;
+  saveSetting('hills-like-white-elephants-font-size', String(fontSize));
+}
+
+dayButton.addEventListener('click', () => setTheme('day'));
+nightButton.addEventListener('click', () => setTheme('night'));
+smallerButton.addEventListener('click', () => setFontSize(fontSize - 2));
+largerButton.addEventListener('click', () => setFontSize(fontSize + 2));
+setTheme(loadSetting('hills-like-white-elephants-theme') === 'night' ? 'night' : 'day');
+setFontSize(Number(loadSetting('hills-like-white-elephants-font-size')) || 19);
+
+const firstPage = 1;
+const lastPage = 6;
+const pageInput = document.getElementById('page-number');
+const previousButton = document.getElementById('previous-page');
+const nextButton = document.getElementById('next-page');
+const pageStatus = document.getElementById('page-status');
+const readerStage = document.getElementById('reader-stage');
+let currentPage = firstPage;
+
+function showPage(number, animate = true) {
+  if (!Number.isInteger(number) || number < firstPage || number > lastPage) return;
+  const incoming = document.getElementById('page-' + number);
+  const outgoing = document.getElementById('page-' + currentPage);
+  if (!incoming || !incoming.classList.contains('reader-page')) return;
+  if (incoming !== outgoing) {
+    outgoing.hidden = true;
+    incoming.hidden = false;
+    incoming.scrollTop = 0;
+    incoming.classList.remove('turn-next', 'turn-previous');
+    if (animate) {
+      void incoming.offsetWidth;
+      incoming.classList.add(number > currentPage ? 'turn-next' : 'turn-previous');
+    }
+  }
+  currentPage = number;
+  pageInput.value = number;
+  pageStatus.textContent = 'PDF page ' + number + ' of ' + lastPage;
+  previousButton.disabled = number === firstPage;
+  nextButton.disabled = number === lastPage;
+  saveSetting('hills-like-white-elephants-page', String(number));
+  try { history.replaceState(null, '', '#page-' + number); } catch { /* File URLs can restrict history. */ }
+}
+
+previousButton.addEventListener('click', () => showPage(currentPage - 1));
+nextButton.addEventListener('click', () => showPage(currentPage + 1));
+document.getElementById('page-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  showPage(Number(pageInput.value));
+});
+document.addEventListener('keydown', function (event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select')) return;
+  if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); showPage(currentPage + 1); }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showPage(currentPage - 1); }
+});
+let touchStart = null;
+readerStage.addEventListener('touchstart', function (event) {
+  if (event.touches.length === 1) touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+readerStage.addEventListener('touchend', function (event) {
+  if (!touchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - touchStart.x;
+  const dy = event.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.2) showPage(currentPage + (dx < 0 ? 1 : -1));
+  touchStart = null;
+}, { passive: true });
+const hashPage = Number((location.hash.match(/^#page-(\d+)$/) || [])[1]);
+const storedPage = Number(loadSetting('hills-like-white-elephants-page'));
+showPage(hashPage >= firstPage && hashPage <= lastPage ? hashPage : storedPage >= firstPage && storedPage <= lastPage ? storedPage : firstPage, false);
+</script>
+</body>
+</html>

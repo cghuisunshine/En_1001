@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rules of the Game — Amy Tan</title>
+<style>
+  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --reader-size: 19px; }
+  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; }
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body { display: flex; flex-direction: column; height: 100dvh; min-height: 350px; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font: var(--reader-size)/1.75 Georgia, Palatino, serif; }
+  h1 { margin: 0; font: 600 clamp(2rem, 5vw, 3.2rem)/1.1 Georgia, Palatino, serif; }
+  .author { margin: .5rem 0 0; font: .95rem/1.5 system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .source-note { margin: .7rem 0 1.5rem; color: var(--muted); font: .8rem/1.45 system-ui, sans-serif; }
+  .reader-stage { position: relative; flex: 1; min-height: 0; width: min(54rem, calc(100% - 2rem)); margin: 1rem auto; perspective: 1600px; touch-action: pan-y; }
+  .reader-page { position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: 2rem clamp(1.25rem, 7vw, 5rem) 3rem; background: var(--paper); box-shadow: 0 10px 32px #00000019; scrollbar-color: var(--line) transparent; }
+  .reader-page[hidden] { display: none; }
+  .reader-page.turn-next { transform-origin: left center; animation: turn-next .34s ease-out both; }
+  .reader-page.turn-previous { transform-origin: right center; animation: turn-previous .34s ease-out both; }
+  @keyframes turn-next { from { opacity: .45; transform: rotateY(18deg) translateX(18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  @keyframes turn-previous { from { opacity: .45; transform: rotateY(-18deg) translateX(-18px); } to { opacity: 1; transform: rotateY(0) translateX(0); } }
+  .story-heading { margin: 1rem 0 2rem; text-align: center; }
+  p { margin: 0 0 .82em; }
+  .page-heading { margin: 0 0 1.5rem; border-bottom: 1px solid var(--line); padding-bottom: .4rem; color: var(--muted); font: .75rem/1.3 system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+  .note { font: .78em/1.5 Georgia, Palatino, serif; color: var(--muted); padding-left: 1rem; border-left: 2px solid var(--line); }
+  .reader-bar { z-index: 2; display: flex; flex: none; flex-wrap: wrap; justify-content: center; align-items: center; gap: .55rem 1.25rem; padding: .55rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 2px 8px #0000000d; font: .85rem/1.3 system-ui, sans-serif; }
+  .reader-bar strong { margin-right: auto; white-space: nowrap; }
+  .reader-bar form, .reader-controls { display: flex; align-items: center; gap: .4rem; margin: 0; }
+  .reader-controls { border-left: 1px solid var(--line); padding-left: 1rem; }
+  .reader-bar input { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
+  .reader-bar button { min-height: 2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .reader-bar button:hover, .reader-bar button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+  .reader-bar button:disabled, .page-turn-bar button:disabled { opacity: .45; cursor: not-allowed; }
+  .reader-bar button:focus-visible, .reader-bar input:focus-visible, .page-turn-bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #font-size-display { min-width: 2.7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .page-turn-bar { display: flex; flex: none; justify-content: center; align-items: center; gap: 1rem; padding: .45rem 1rem .6rem; background: var(--paper); border-top: 1px solid var(--line); font: .9rem/1.2 system-ui, sans-serif; }
+  .page-turn-bar button { min-width: 7rem; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
+  .page-turn-bar button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+  #page-status { min-width: 7rem; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+  @media (max-width: 700px) { .reader-bar strong { width: 100%; text-align: center; } .reader-controls { padding-left: .6rem; } .reader-stage { width: 100%; margin: 0; } .reader-page { box-shadow: none; } .page-turn-bar { gap: .4rem; } .page-turn-bar button { min-width: 5rem; } }
+  @media (prefers-reduced-motion: reduce) { .reader-page.turn-next, .reader-page.turn-previous { animation: none; } }
+  @media print { body { display: block; height: auto; overflow: visible; color: black; background: white; } .reader-bar, .page-turn-bar { display: none; } .reader-stage { display: block; width: auto; margin: 0; } .reader-page, .reader-page[hidden] { position: static; display: block; overflow: visible; box-shadow: none; padding: 1rem 0; break-after: page; } }
+
+</style>
+</head>
+<body>
+<nav class="reader-bar" aria-label="Reader settings">
+  <strong>Rules of the Game</strong>
+  <form id="page-form"><label for="page-number">Part</label><input id="page-number" type="number" min="1" max="6" inputmode="numeric" required><button type="submit">Go</button></form>
+  <div class="reader-controls" role="group" aria-label="Color theme"><button id="day-button" type="button" aria-pressed="true">Day</button><button id="night-button" type="button" aria-pressed="false">Night</button></div>
+  <div class="reader-controls" role="group" aria-label="Font size"><button id="font-smaller" type="button" aria-label="Decrease font size">A−</button><output id="font-size-display" aria-live="polite">19px</output><button id="font-larger" type="button" aria-label="Increase font size">A+</button></div>
+</nav>
+<main class="reader-stage" id="reader-stage">
+<section class="reader-page" id="page-1" aria-label="Part 1">
+<div class="page-heading">Part 1 of 6</div>
+<div class="story-heading"><h1>Rules of the Game</h1><p class="author">Amy Tan</p><p class="source-note">Text from <a href="Rules-of-the-Game.pdf">the school PDF</a>. The source has some transcription errors; consult your course anthology for exact quotations.</p></div>
+<p>I was six when my mother taught me the art of invisible strength. It was a strategy for winning arguments, respect from others, and eventually, though neither of us knew it at the time, chess games.</p>
+<p>"Bite back your tongue," scolded my mother when I cried loudly, yanking her hand toward the store that sold bags of salted plums. At home, she said, "Wise guy, he not go against wind. In Chinese we say, Come from South, blow with wind-poom!-North will follow. Strongest wind cannot be seen."</p>
+<p>The next week I bit back my tongue as we entered the store with the forbidden candies. When my mother finished her shopping, she quietly plucked a small bag of plums from the rack and put it on the counter with the rest of the items. ,</p>
+<p>My mother imparted her daily truths so she could help my older brothers and me rise above our circumstances.</p>
+<p>We lived in San Francisco's Chinatown. Like most of the other Chinese children who played in the back alleys of restaurants and curio shops, I didn't think we were poor. My bowl was always full, three five-course meals every day, beginning with a soup of mysterious things I didn't want to know the names of.</p>
+<p>We lived on Waverly Place, in a warm, clean, two-bedroom flat that sat above a small Chinese bakery specializing in steamed pastries and dim sum. In the early morning, when the alley was still quiet, I could smell fragrant red beans as they were cooked down to a pasty sweetness. By daybreak, our flat was heavy with the odor of fried sesame balls and sweet curried chicken crescents. From my bed, I would listen as my father got ready for work, then locked the door behind him, one-two-three clicks.</p>
+<p>At the end of our two-block alley was a small sandlot playground with swings and slides well-shined down the middle with use. The play area was bordered by wood-slat benches where old-country people sat cracking roasted watermelon seeds with their golden teeth and scattering the husks to an impatient gathering of gurgling pigeons.</p>
+<p>The best playground, however, was the dark alley itself. It was crammed with daily mysteries and adventures. My brothers and I would peer into the medicinal herb shop, watching old Li dole out onto a stiff sheet of white paper the right amount of insect shells, saffron-colored seeds, and pungent leaves for his ailing customers. It was said that he once cured a woman dying of an ancestral curse that had eluded the best of American doctors. Next to the pharmacy was a printer who specialized in gold-embossed wedding invitations and festive red banners.</p>
+<p>Farther down the street was Ping Yuen Fish Market. The front window displayed a tank crowded with doomed fish and turtles struggling to gain footing on the slimy green-tiled sides. A hand-written sign informed tourists, "Within this store, is all for food, not for pet." Inside, the butchers with their bloodstained white smocks deftly gutted the fish while customers cried out their orders and shouted, "Give me your freshest," to which the butchers always protested, "All are freshest." On less crowded market days, we would inspect the crates of live frogs and crabs which we were warned not to poke, boxes of dried cuttlefish, and row upon row of iced prawns, squid, and slippery fish. The sanddabs made me shiver each time; their eyes lay on one flattened side and reminded me of my mother's story of a careless girl who ran into a crowded street and was crushed by a cab. "Was smash flat," reported my mother.</p>
+<p>At the corner of the alley was Hong Sing's, a four-table cafe with a recessed stairwell in front that led to a door marked "Tradesmen." My brothers and I believed the bad people emerged from this door at night. Tourists never went to Hong Sing's, since the menu was printed only in Chinese. A Caucasian man with a big camera once posed me and my playmates in front of the restaurant. He had us move to the side of the picture window so the photo would capture the roasted duck with its head dangling from a juice-covered rope. After he took the picture, I told him he should go into Hong Sing's and eat dinner. When he smiled and asked me what they served, I shouted, "Guts and duck's feet and octopus gizzards!" Then I ran off with my friends, shrieking with laughter as we scampered across the alley and hid in the entryway grotto of the China Gem Company, my heart pounding with hope that he would chase us.</p>
+</section>
+<section class="reader-page" id="page-2" aria-label="Part 2" hidden>
+<div class="page-heading">Part 2 of 6</div>
+<p>My mother named me after the street that we lived on: Waverly Place Jong, my official name for important American documents. But my family called me Meimei, "Little Sister." I was the youngest, the only daughter.</p>
+<p>Each morning before school, my mother would twist and yank on my thick black hair until she had formed two tightly wound pigtails. One day, as she struggled to weave a hard-toothed comb through my disobedient hair, I had a sly thought.</p>
+<p>I asked her, "Ma, what is Chinese torture?" My mother shook her head. A bobby pin was wedged between her lips. She wetted her palm and smoothed the hair above my ear, then pushed the pin in so that it nicked sharply against my scalp.</p>
+<p>"Who say this word?" she asked without a trace of knowing how wicked I was being. I shrugged my shoulders and said, "Some boy in my class said Chinese people do Chinese torture."</p>
+<p>"Chinese people do many things," she said simply. "Chinese people do business, do medicine, do painting. Not lazy like American people. We do torture. Best torture."</p>
+<p>My older brother Vincent was the one who actually got the chess set. We had gone to the annual Christmas party held at the First Chinese Baptist Church at the end of the alley. The missionary ladies had put together a Santa bag of gifts donated by members of another church. None of the gifts had names on them. There were separate sacks for boys and girls of different ages. One of the Chinese parishioners had donned a Santa Claus costume and a stiff paper beard with cotton balls glued to it. I think the only children who thought he was the real thing were too young to know that Santa Claus was not Chinese. When my turn came up, the Santa man asked me how old I was.</p>
+<p>I thought it was a trick question; I was seven according to the American formula and eight by the Chinese calendar. I said I was born on March 17, 1951. That seemed to satisfy him. He then solemnly asked if I had been a very, very good girl this year and did I believe in Jesus Christ and obey my parents. I knew the only answer to that. I nodded back with equal solemnity.</p>
+<p>Having watched the older children opening their gifts, I already knew that the big gifts were not necessarily the nicest ones. One girl my age got a large coloring book of biblical characters, while a less greedy girl who selected a smaller box received a glass vial of lavender toilet water. The sound of the box was also important. A ten-year-old boy had chosen a box that jangled when he shook it. It was a tin globe of the world with a slit for inserting money. He must have thought it was full of dimes and nickels, because when he saw that it had just ten pennies, his face fell with such undisguised disappointment that his mother slapped the side of his head and led him out of the church hall, apologizing to the crowd for her son who had such bad manners he couldn't appreciate such a fine gift.</p>
+<p>As I peered into the sack, I quickly fingered the remaining presents, testing their weight, imagining what they contained. I chose a heavy, compact one that was wrapped in shiny silver foil and a red satin ribbon. It was a twelve-pack of Life Savers and I spent the rest of the party arranging and rearranging the candy tubes in the order of my favorites. My brother Winston chose wisely as well. His present turned out to be a box of intricate plastic parts; the instructions on the box proclaimed that when they were properly assembled he would have an authentic miniature replica of a World War 11 submarine.</p>
+<p>Vincent got the chess set, which would have been a very decent present to get at a church Christmas party, except it was obviously used and, as we discovered later, it was missing a black pawn and a white knight. My mother graciously thanked the unknown benefactor, saying, "Too good. Cost too much." At which point, an old lady with fine white, wispy hair nodded toward our family and said with a whistling whisper, "Merry, merry Christmas."</p>
+<p>When we got home, my mother told Vincent to throw the chess set away. "She not want it. We not want it." she said, tossing her head stiffly to the side with a tight, proud smile. My brothers had deaf ears. They were already lining up the chess pieces and reading from the dog-eared instruction book. I watched Vincent and Winston play during Christmas week. The chessboard seemed to hold elaborate secrets waiting to be untangled. The chessmen were more powerful than old Li's magic herbs that cured ancestral curses. And my brothers wore such serious faces that I was sure something was at stake that was greater than avoiding the tradesmen's door to Hong Sing's.</p>
+</section>
+<section class="reader-page" id="page-3" aria-label="Part 3" hidden>
+<div class="page-heading">Part 3 of 6</div>
+<p>"Let me! Let me!" I begged between games when one brother or the other would sit back with a deep sigh of relief and victory, the other annoyed, unable to let go of the outcome. Vincent at first refused to let me play, but when I offered my Life Savers as replacements for the buttons that filled in for the missing pieces, he relented. He chose the flavors: wild cherry for the black pawn and peppermint for the white knight. Winner could eat both.</p>
+<p>As our mother sprinkled flour and rolled out small doughy circles for the steamed dumplings that would be our dinner that night, Vincent explained the rules, pointing to each piece. "You have sixteen pieces and so do I. One king and queen, two bishops, two knights, two castles, and eight pawns. The pawns can only move forward one step, except on the first move. Then they can move two. But they can only take men by moving crossways like this, except in the beginning, when you can move ahead and take another pawn."</p>
+<p>"Why?" I asked as I moved my pawn. "Why can't they move more steps?" "Because they're pawns," he said.</p>
+<p>"But why do they go crossways to take other men? Why aren't there any women and children?"</p>
+<p>"Why is the sky blue? Why must you always ask stupid questions?" asked Vincent. "This is a game. These are the rules. I didn't make them up. See. Here in the book." He jabbed a page with a pawn in his hand. "Pawn. P-A- W-N. Pawn. Read it yourself."</p>
+<p>My mother patted the flour off her hands. "Let me see book," she said quietly. She scanned the pages quickly, not reading the foreign English symbols, seeming to search deliberately for nothing in particular.</p>
+<p>"This American rules," she concluded at last. "Every time people come out from foreign country, must know rules. You not know, judge say, Too bad, go back. They not telling you why so you can use their way go forward.</p>
+<p>They say,</p>
+<p>Don't know why, you find out yourself. But they knowing all the time. Better you take it, find out why yourself." She tossed her head back with a satisfied smile.</p>
+<p>I found out about all the whys later. I read the rules and looked up all the big words in a dictionary. I borrowed books from the Chinatown library. I studied each chess piece, trying to absorb the power each contained.</p>
+<p>I learned about opening moves and why it's important to control the center early on; the shortest distance between two points is straight down the middle. I learned about the middle game and why tactics between two adversaries are like clashing ideas; the one who plays better has the clearest plans for both attacking and getting out of traps. I learned why it is essential in the endgame to have foresight, a mathematical understanding of all possible moves, and patience; all weaknesses and advantages become evident to a strong adversary and are obscured to a tiring opponent. I discovered that for the whole game one must gather invisible strengths and see the endgame before the game begins.</p>
+<p>I also found out why I should never reveal "why" to others. A little knowledge withheld is a great advantage one should store for future use. That is the power of chess. It is a game of secrets in which one must show and never tell.</p>
+<p>I loved the secrets I found within the sixty-four black and white squares. I carefully drew a handmade chessboard and pinned it to the wall next to my bed, where I would stare for hours at imaginary battles. Soon I no longer lost any games or Life Savers, but I lost my adversaries. Winston and Vincent decided they were more interested in roaming the streets after school in their Hopalong Cassidy cowboy hats.</p>
+<p>On a cold spring afternoon, while walking home from school, I detoured through the playground at the end of our alley. I saw a group of old men, two seated across a folding table playing a game of chess, others smoking pipes, eating peanuts, and watching. I ran home and grabbed Vincent's chess set, which was bound in a cardboard box with rubber bands. I also carefully selected two prized rolls of Life Savers. I came back to the park and approached a man who was observing the game.</p>
+<p>"Want to play?" I asked him. His face widened with surprise and he grinned as he looked at the box under my arm.</p>
+</section>
+<section class="reader-page" id="page-4" aria-label="Part 4" hidden>
+<div class="page-heading">Part 4 of 6</div>
+<p>"Little sister, been a long time since I play with dolls," he said, smiling benevolently. I quickly put the box down next to him on the bench and displayed my retort.</p>
+<p>Lau Po, as he allowed me to call him, turned out to be a much better player than my brothers. I lost many games and many Life Savers. But over the weeks, with each diminishing roll of candies, I added new secrets. Lau Po gave me the names. The Double Attack from the East and West Shores. Throwing Stones on the Drowning Man. The Sudden Meeting of the Clan. The Surprise from the Sleeping Guard. The Humble Servant Who Kills the King. Sand in the Eyes of Advancing Forces. A Double Killing Without Blood.</p>
+<p>There were also the fine points of chess etiquette. Keep captured men in neat rows, as well-tended prisoners.</p>
+<p>Never announce "Check" with vanity, lest someone with an unseen sword slit your throat. Never hurl pieces into the sandbox after you have lost a game, because then you must find them again, by yourself, after apologizing to all around you. By the end of the summer, Lau Po had taught me all he knew, and I had become a better chess player.</p>
+<p>A small weekend crowd of Chinese people and tourists would gather as I played and defeated my opponents one by one. My mother would join the crowds during these outdoor exhibition games. She sat proudly on the bench, telling my admirers with proper Chinese humility, "Is luck."</p>
+<p>A man who watched me play in the park suggested that my mother allow me to play in local chess tournaments.</p>
+<p>My mother smiled graciously, an answer that meant nothing. I desperately wanted to go, but I bit back my tongue.</p>
+<p>I knew she would not let me play among strangers. So as we walked home I said in a small voice that I didn't want to play in the local tournament. They would have American rules. If I lost, I would bring shame on my family.</p>
+<p>"Is shame you fall down nobody push you," said my mother.</p>
+<p>During my first tournament, my mother sat with me in the front row as I waited for my turn. I frequently bounced my legs to unstick them from the cold metal seat of the folding chair. When my name was called, I leapt up. My mother unwrapped something in her lap. It was her chang, a small tablet of red jade which held the sun's fire. "Is luck," she whispered, and tucked it into my dress pocket. I turned to my opponent, a fifteen-year-old boy from Oakland. He looked at me, wrinkling his nose.</p>
+<p>As I began to play, the boy disappeared, the color ran out of the room, and I saw only my white pieces and his black ones waiting on the other side. A light wind began blowing past my ears. It whispered secrets only I could hear.</p>
+<p>"Blow from the South," it murmured. "The wind leaves no trail." I saw a clear path, the traps to avoid. The crowd rustled. "Shhh! Shhh!" said the corners of the room. The wind blew stronger. "Throw sand from the East to distract him." The knight came forward ready for the sacrifice. The wind hissed, louder and louder. "Blow, blow, blow. He cannot see. He is blind now. Make him lean away from the wind so he is easier to knock down."</p>
+<p>"Check," I said, as the wind roared with laughter. The wind died down to little puffs, my own breath.</p>
+<p>My mother placed my first trophy next to a new plastic chess set that the neighborhood Tao society had given to me. As she wiped each piece with a soft cloth, she said, "Next time win more, lose less."</p>
+<p>"Ma, it's not how many pieces you lose," I said. "Sometimes you need to lose pieces to get ahead."</p>
+<p>"Better to lose less, see if you really need."</p>
+<p>At the next tournament, I won again, but it was my mother who wore the triumphant grin.</p>
+<p>"Lost eight piece this time. Last time was eleven. What I tell you? Better off lose less!" I was annoyed, but I couldn't say anything.</p>
+<p>I attended more tournaments, each one farther away from home. I won all games, in all divisions. The Chinese bakery downstairs from our flat displayed my growing collection of trophies in its window, amidst the dust-covered cakes that were never picked up. The day after I won an important regional tournament, the window encased a fresh sheet cake with whipped-cream frosting and red script saying "Congratulations, Waverly Jong, Chinatown Chess Champion." Soon after that, a flower shop, headstone engraver, and funeral parlor offered to sponsor me in national tournaments. That's when my mother decided I no longer had to do the dishes. Winston and Vincent had to do my chores.</p>
+</section>
+<section class="reader-page" id="page-5" aria-label="Part 5" hidden>
+<div class="page-heading">Part 5 of 6</div>
+<p>"Why does she get to play and we do all the work," complained Vincent. "Is new American rules," said my mother. "Meimei play, squeeze all her brains out for win chess. You play, worth squeeze towel."</p>
+<p>By my ninth birthday, I was a national chess champion. I was still some 429 points away from grand-master status, but I was touted as the Great American Hope, a child prodigy and a girl to boot. They ran a photo of me in Life magazine next to a quote in which Bobby Fischer said, "There will never be a woman grand master." "Your move, Bobby," said the caption.</p>
+<p>The day they took the magazine picture I wore neatly plaited braids clipped with plastic barrettes trimmed with rhinestones. I was playing in a large high school auditorium that echoed with phlegmy coughs and the squeaky rubber knobs of chair legs sliding across freshly waxed wooden floors. Seated across from me was an American man, about the same age as Lau Po, maybe fifty. I remember that his sweaty brow seemed to weep at my every move. He wore a dark, malodorous suit. One of his pockets was stuffed with a great white kerchief on which he wiped his palm before sweeping his hand over the chosen chess piece with great flourish.</p>
+<p>In my crisp pink-and-white dress with scratchy lace at the neck, one of two my mother had sewn for these special occasions, I would clasp my hands under my chin, the delicate points of my elbows poised lightly on the table in the manner my mother had shown me for posing for the press. I would swing my patent leather shoes back and forth like an impatient child riding on a school bus. Then I would pause, suck in my lips, twirl my chosen piece in midair as if undecided, and then firmly plant it in its new threatening place, with a triumphant smile thrown back at my opponent for good measure.</p>
+<p>I no longer played in the alley of Waverly Place. I never visited the playground where the pigeons and old men gathered. I went to school, then directly home to learn new chess secrets, cleverly concealed advantages, more escape routes.</p>
+<p>But I found it difficult to concentrate at home. My mother had a habit of standing over me while I plotted out my games. I think she thought of herself as my protective ally. Her lips would be sealed tight, and after each move I made, a soft "Hmmmmph" would escape from her nose.</p>
+<p>"Ma, I can't practice when you stand there like that," I said one day. She retreated to the kitchen and made loud noises with the pots and pans. When the crashing stopped, I could see out of the corner of my eye that she was standing in the doorway. "Hmmmmph!" Only this one came out of her tight throat.</p>
+<p>My parents made many concessions to allow me to practice. One time I complained that the bedroom I shared was so noisy that I couldn't think. Thereafter, my brothers slept in a bed in the living room facing the street. I said I couldn't finish my rice; my head didn't work right when my stomach was too full. I left the table with half-finished bowls and nobody complained. But there was one duty I couldn't avoid. I had to accompany my mother on Saturday market days when I had no tournament to play. My mother would proudly walk with me, visiting many shops, buying very little. "This my daughter Wave-ly Jong," she said to whoever looked her way.</p>
+<p>One day after we left a shop I said under my breath, "I wish you wouldn't do that, telling everybody I'm your daughter." My mother stopped walking.</p>
+<p>Crowds of people with heavy bags pushed past us on the sidewalk, bumping into first one shoulder, than another.</p>
+<p>"Aii-ya. So shame be with mother?" She grasped my hand even tighter as she glared at me.</p>
+<p>I looked down. "It's not that, it's just so obvious. It's just so embarrassing." "Embarrass you be my daughter?" Her voice was cracking with anger. "That's not what I meant. That's not what I said."</p>
+<p>"What you say?"</p>
+<p>I knew it was a mistake to say anything more, but I heard my voice speaking, "Why do you have to use me to show off? If you want to show off, then why don't you learn to play chess?"</p>
+<p>My mother's eyes turned into dangerous black slits. She had no words for me, just sharp silence.</p>
+</section>
+<section class="reader-page" id="page-6" aria-label="Part 6" hidden>
+<div class="page-heading">Part 6 of 6</div>
+<p>I felt the wind rushing around my hot ears. I jerked my hand out of my mother's tight grasp and spun around, knocking into an old woman. Her bag of groceries spilled to the ground.</p>
+<p>"Aii-ya! Stupid girl!" my mother and the woman cried. Oranges and tin cans careened down the sidewalk. As my mother stooped to help the old woman pick up the escaping food, I took off.</p>
+<p>I raced down the street, dashing between people, not looking back as my mother screamed shrilly, "Meimei!</p>
+<p>Meimei!" I fled down an alley, past dark, curtained shops and merchants washing the grime off their windows. I sped into the sunlight, into a large street crowded with tourists examining trinkets and souvenirs. I ducked into another dark alley, down another street, up another alley. I ran until it hurt and I realized I had nowhere to go, that I was not running from anything. The alleys contained no escape routes.</p>
+<p>My breath came out like angry smoke. It was cold. I sat down on an upturned plastic pail next to a stack of empty boxes, cupping my chin with my hands, thinking hard. I imagined my mother, first walking briskly down one street or another looking for me, then giving up and returning home to await my arrival. After two hours, I stood up on creaking legs and slowly walked home. The alley was quiet and I could see the yellow lights shining from our flat like two tiger's eyes in the night. I climbed the sixteen steps to the door, advancing quietly up each so as not to make any warning sounds. I turned the knob; the door was locked. I heard a chair moving, quick steps, the locks turning-click! click! click!-and then the door opened.</p>
+<p>"About time you got home," said Vincent. "Boy, are you in trouble."</p>
+<p>He slid back to the dinner table. On a platter were the remains of a large fish, its fleshy head still connected to bones swimming upstream in vain escape. Standing there waiting for my punishment, I heard my mother speak in a dry voice.</p>
+<p>"We not concerning this girl. This girl not have concerning for us." Nobody looked at me. Bone chopsticks clinked against the inside of bowls being emptied into hungry mouths.</p>
+<p>I walked into my room, closed the door, and lay down on my bed. The room was dark, the ceiling filled with shadows from the dinnertime lights of neighboring flats.</p>
+<p>In my head, I saw a chessboard with sixty-four black and white squares. Opposite me was my opponent, two angry black slits. She wore a triumphant smile. "Strongest wind cannot be seen," she said.</p>
+<p>Her black men advanced across the plane, slowly marching to each successive level as a single unit. My white pieces screamed as they scurried and fell off the board one by one. As her men drew closer to my edge, I felt myself growing light. I rose up into the air and flew out the window. Higher and higher, above the alley, over the tops of tiled roofs, where I was gathered up by the wind and pushed up toward the night sky until everything below me disappeared and I was alone.</p>
+<p>I closed my eyes and pondered my next move.</p>
+</section>
+</main>
+<div class="page-turn-bar" aria-label="Page turns"><button id="previous-page" type="button" aria-label="Previous page">← Previous</button><span id="page-status" role="status" aria-live="polite">Part 1 of 6</span><button id="next-page" type="button" aria-label="Next page">Next →</button></div>
+<script>
+const root = document.documentElement;
+const dayButton = document.getElementById('day-button');
+const nightButton = document.getElementById('night-button');
+const smallerButton = document.getElementById('font-smaller');
+const largerButton = document.getElementById('font-larger');
+const sizeDisplay = document.getElementById('font-size-display');
+const minimumSize = 16;
+const maximumSize = 30;
+let fontSize = 19;
+
+function loadSetting(key) {
+  try { return localStorage.getItem(key); } catch { return null; }
+}
+function saveSetting(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* Reading still works without storage. */ }
+}
+function setTheme(theme) {
+  root.dataset.theme = theme;
+  dayButton.setAttribute('aria-pressed', String(theme === 'day'));
+  nightButton.setAttribute('aria-pressed', String(theme === 'night'));
+  saveSetting('rules-of-the-game-theme', theme);
+}
+function setFontSize(size) {
+  fontSize = Math.max(minimumSize, Math.min(maximumSize, size));
+  root.style.setProperty('--reader-size', fontSize + 'px');
+  sizeDisplay.value = fontSize + 'px';
+  smallerButton.disabled = fontSize === minimumSize;
+  largerButton.disabled = fontSize === maximumSize;
+  saveSetting('rules-of-the-game-font-size', String(fontSize));
+}
+
+dayButton.addEventListener('click', () => setTheme('day'));
+nightButton.addEventListener('click', () => setTheme('night'));
+smallerButton.addEventListener('click', () => setFontSize(fontSize - 2));
+largerButton.addEventListener('click', () => setFontSize(fontSize + 2));
+setTheme(loadSetting('rules-of-the-game-theme') === 'night' ? 'night' : 'day');
+setFontSize(Number(loadSetting('rules-of-the-game-font-size')) || 19);
+
+const firstPage = 1;
+const lastPage = 6;
+const pageInput = document.getElementById('page-number');
+const previousButton = document.getElementById('previous-page');
+const nextButton = document.getElementById('next-page');
+const pageStatus = document.getElementById('page-status');
+const readerStage = document.getElementById('reader-stage');
+let currentPage = firstPage;
+
+function showPage(number, animate = true) {
+  if (!Number.isInteger(number) || number < firstPage || number > lastPage) return;
+  const incoming = document.getElementById('page-' + number);
+  const outgoing = document.getElementById('page-' + currentPage);
+  if (!incoming || !incoming.classList.contains('reader-page')) return;
+  if (incoming !== outgoing) {
+    outgoing.hidden = true;
+    incoming.hidden = false;
+    incoming.scrollTop = 0;
+    incoming.classList.remove('turn-next', 'turn-previous');
+    if (animate) {
+      void incoming.offsetWidth;
+      incoming.classList.add(number > currentPage ? 'turn-next' : 'turn-previous');
+    }
+  }
+  currentPage = number;
+  pageInput.value = number;
+  pageStatus.textContent = 'Part ' + number + ' of ' + lastPage;
+  previousButton.disabled = number === firstPage;
+  nextButton.disabled = number === lastPage;
+  saveSetting('rules-of-the-game-page', String(number));
+  try { history.replaceState(null, '', '#page-' + number); } catch { /* File URLs can restrict history. */ }
+}
+
+previousButton.addEventListener('click', () => showPage(currentPage - 1));
+nextButton.addEventListener('click', () => showPage(currentPage + 1));
+document.getElementById('page-form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  showPage(Number(pageInput.value));
+});
+document.addEventListener('keydown', function (event) {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select')) return;
+  if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); showPage(currentPage + 1); }
+  if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showPage(currentPage - 1); }
+});
+let touchStart = null;
+readerStage.addEventListener('touchstart', function (event) {
+  if (event.touches.length === 1) touchStart = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+}, { passive: true });
+readerStage.addEventListener('touchend', function (event) {
+  if (!touchStart || !event.changedTouches.length) return;
+  const dx = event.changedTouches[0].clientX - touchStart.x;
+  const dy = event.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.2) showPage(currentPage + (dx < 0 ? 1 : -1));
+  touchStart = null;
+}, { passive: true });
+const hashPage = Number((location.hash.match(/^#page-(\d+)$/) || [])[1]);
+const storedPage = Number(loadSetting('rules-of-the-game-page'));
+showPage(hashPage >= firstPage && hashPage <= lastPage ? hashPage : storedPage >= firstPage && storedPage <= lastPage ? storedPage : firstPage, false);
+</script>
+</body>
+</html>

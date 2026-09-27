@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>ENGL 1001 · Seven-day exam tutorial</title>
+<style>
+  :root { --bg:#f5f2ec; --paper:#fffefa; --ink:#263238; --muted:#627079; --line:#ddd7cc; --accent:#174f50; --accent-soft:#e4f1ed; --warm:#bd7746; --shadow:0 12px 30px #202b2911; }
+  :root[data-theme="dark"] { --bg:#182123; --paper:#233032; --ink:#eef2ed; --muted:#b1c0bd; --line:#3e5050; --accent:#8bd1c3; --accent-soft:#294a48; --warm:#e6aa7d; --shadow:0 12px 30px #0003; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+  a { color:var(--accent); text-underline-offset:3px; }
+  a:hover { text-decoration-thickness:2px; }
+  button,input { font:inherit; }
+  button { cursor:pointer; }
+  :focus-visible { outline:3px solid var(--warm); outline-offset:3px; }
+  .skip { position:absolute; left:-9999px; top:10px; z-index:100; background:var(--paper); padding:8px 12px; }
+  .skip:focus { left:10px; }
+  .shell { display:grid; grid-template-columns:260px minmax(0,1fr); max-width:1500px; margin:auto; }
+  .sidebar { position:sticky; top:0; height:100vh; overflow:auto; padding:28px 18px 32px; border-right:1px solid var(--line); }
+  .brand { font-size:.76rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--warm); }
+  .sidebar h2 { font-size:1.45rem; line-height:1.2; margin:10px 0 18px; }
+  .sidebar nav { display:grid; gap:2px; margin:24px 0; }
+  .sidebar nav a { display:block; padding:7px 10px; border-radius:8px; color:var(--muted); text-decoration:none; font-size:.89rem; line-height:1.3; }
+  .sidebar nav a:hover,.sidebar nav a[aria-current="true"] { color:var(--accent); background:var(--accent-soft); }
+  .sidebar label { display:block; font-size:.79rem; font-weight:750; margin-bottom:6px; }
+  .sidebar input[type="search"] { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:9px; background:var(--paper); color:var(--ink); }
+  .side-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+  .side-actions button { border:1px solid var(--line); border-radius:8px; padding:7px 10px; color:var(--ink); background:var(--paper); font-size:.82rem; }
+  .sidebar .tip { color:var(--muted); font-size:.78rem; margin-top:20px; }
+  .main { min-width:0; padding:0 clamp(20px,4vw,70px) 70px; }
+  .hero { padding:42px 0 25px; border-bottom:1px solid var(--line); }
+  .eyebrow { margin:0 0 9px; font-size:.78rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:var(--warm); }
+  h1 { max-width:900px; margin:0; font:700 clamp(2rem,4.2vw,3.5rem)/1.09 Georgia,"Times New Roman",serif; letter-spacing:-.025em; }
+  .hero p { max-width:860px; margin:15px 0 0; color:var(--muted); }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+  .stat { border:1px solid var(--line); border-radius:999px; padding:6px 11px; background:var(--paper); font-size:.82rem; font-weight:700; }
+  .tracker { margin:25px 0 30px; padding:20px 22px; background:var(--paper); border:1px solid var(--line); border-radius:15px; box-shadow:var(--shadow); }
+  .tracker-head { display:flex; align-items:baseline; justify-content:space-between; gap:14px; }
+  .tracker h2 { margin:0; font-size:1.12rem; }
+  .tracker #progressText { color:var(--muted); font-size:.85rem; }
+  .progress { height:8px; margin:13px 0 17px; border-radius:99px; background:var(--line); overflow:hidden; }
+  .progress span { display:block; width:0%; height:100%; background:var(--accent); transition:width .2s; }
+  .day-checks { display:flex; flex-wrap:wrap; gap:8px; }
+  .day-checks label { display:flex; gap:7px; align-items:center; padding:7px 10px; border:1px solid var(--line); border-radius:9px; font-size:.85rem; cursor:pointer; }
+  .day-checks label:has(input:checked) { border-color:var(--accent); background:var(--accent-soft); }
+  input[type="checkbox"] { accent-color:var(--accent); width:1rem; height:1rem; }
+  .resources { margin:0 0 26px; padding:17px 20px; border-left:4px solid var(--warm); background:var(--paper); border-radius:0 12px 12px 0; }
+  .resources strong { display:block; margin-bottom:7px; }
+  .module-links { display:flex; flex-wrap:wrap; gap:8px 13px; }
+  .module-links a { font-size:.88rem; }
+  .content { max-width:1020px; }
+  .content > h2 { scroll-margin-top:25px; margin:43px 0 17px; padding-bottom:8px; border-bottom:1px solid var(--line); font:700 clamp(1.5rem,2.3vw,2rem)/1.2 Georgia,"Times New Roman",serif; }
+  .content h2:first-child { margin-top:24px; }
+  .content p { margin:0 0 15px; }
+  .content ul,.content ol { padding-left:1.45rem; margin:0 0 19px; }
+  .content li { margin:5px 0; }
+  .content table { display:block; overflow-x:auto; width:100%; margin:18px 0 23px; border:1px solid var(--line); border-radius:12px; border-spacing:0; background:var(--paper); box-shadow:var(--shadow); }
+  .content thead { background:var(--accent-soft); }
+  .content th,.content td { min-width:180px; padding:12px 14px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:.91rem; line-height:1.48; }
+  .content th:last-child,.content td:last-child { border-right:0; }
+  .content tr:last-child td { border-bottom:0; }
+  .content th { font-weight:800; color:var(--accent); }
+  .content table:nth-of-type(1) th:first-child,.content table:nth-of-type(1) td:first-child { min-width:155px; }
+  .content table:nth-of-type(2) th:first-child,.content table:nth-of-type(2) td:first-child { min-width:245px; }
+  .content details { margin:14px 0 20px; padding:12px 16px; background:var(--accent-soft); border-radius:10px; }
+  .content summary { cursor:pointer; font-weight:750; color:var(--accent); }
+  .content details p { margin:12px 0 0; }
+  .content code { padding:2px 4px; background:var(--accent-soft); border-radius:4px; }
+  .content strong { font-weight:750; }
+  .content li input[type="checkbox"] { margin-right:8px; vertical-align:-2px; }
+  .content li label { cursor:pointer; }
+  .content li:has(input:checked) { color:var(--muted); }
+  .footer { margin-top:50px; padding:20px 0; border-top:1px solid var(--line); color:var(--muted); font-size:.84rem; }
+  [hidden] { display:none !important; }
+  @media (max-width:850px) { .shell { display:block; } .sidebar { position:relative; height:auto; overflow:visible; border-right:0; border-bottom:1px solid var(--line); padding:15px 20px; } .sidebar h2,.sidebar .tip { display:none; } .sidebar nav { display:flex; overflow-x:auto; gap:4px; margin:12px 0 0; white-space:nowrap; } .sidebar nav a { flex:none; } .side-actions { position:absolute; top:10px; right:20px; margin:0; } .sidebar label { display:none; } .sidebar input[type="search"] { max-width:330px; } .hero { padding-top:30px; } .main { padding-bottom:35px; } }
+  @media (max-width:480px) { .sidebar input[type="search"] { max-width:170px; } .side-actions button { padding:7px; } .hero p { font-size:.94rem; } .tracker { padding:16px; } .content th,.content td { min-width:230px; } }
+  @media print { :root { --bg:#fff; --paper:#fff; --ink:#000; --muted:#333; --line:#bbb; --accent:#000; --accent-soft:#eee; } .sidebar,.tracker,.resources,.skip { display:none !important; } .shell { display:block; } .main { padding:0; } .hero { padding:0 0 10px; } .content > h2 { break-after:avoid; margin-top:25px; } .content table { box-shadow:none; overflow:visible; } .content tr { break-inside:avoid; } .content details:not([open]) > *:not(summary) { display:block; } a { color:#000; text-decoration:none; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to tutorial</a>
+<div class="shell">
+  <aside class="sidebar" aria-label="Tutorial navigation">
+    <div class="brand">TRU · ENGL 1001</div>
+    <h2>Study guide</h2>
+    <label for="search">Find a topic or story</label>
+    <input id="search" type="search" placeholder="Search this page…" autocomplete="off">
+    <nav id="toc" aria-label="Sections"><a href="#what-to-have-open">What to have open</a>
+<a href="#your-seven-days">Your seven days</a>
+<a href="#the-seven-module-ideas-in-plain-english">The seven module ideas
+in plain English</a>
+<a href="#thirteen-story-memory-cards">Thirteen story memory cards</a>
+<a href="#pride-and-prejudice-in-one-page">Pride and Prejudice in
+one page</a>
+<a href="#part-i-30-minute-grammar-repair">Part I: 30-minute grammar
+repair</a>
+<a href="#part-ii-how-to-write-a-passage-analysis-in-60-minutes">Part II:
+how to write a passage analysis in 60 minutes</a>
+<a href="#part-iii-how-to-write-the-90-minute-essay">Part III: how to
+write the 90-minute essay</a>
+<a href="#final-readiness-checklist">Final readiness checklist</a>
+<a href="#source-trail">Source trail</a></nav>
+    <div class="side-actions"><button id="themeBtn" type="button" aria-label="Switch colour theme">◐ Theme</button><button id="printBtn" type="button">Print</button></div>
+    <p class="tip">Tip: use the seven-day tracker to save your progress on this device.</p>
+  </aside>
+  <main class="main" id="main">
+    <header class="hero">
+      <p class="eyebrow">One-week intensive · final exam prep</p>
+      <h1>ENGL 1001<br>Seven-day tutorial</h1>
+      <p>Read the stories and novel, learn the seven literary concepts, then practise the three exam parts under the clock.</p>
+      <div class="stats"><span class="stat">7 study days</span><span class="stat">13 short stories</span><span class="stat">1 novel</span><span class="stat">3-hour practice exam</span></div>
+    </header>
+    <section class="tracker" aria-label="Seven-day progress tracker">
+      <div class="tracker-head"><h2>Daily progress</h2><span id="progressText">0 of 7 days complete</span></div>
+      <div class="progress" role="progressbar" aria-label="Study progress" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0"><span id="progressFill"></span></div>
+      <div class="day-checks"><label><input type="checkbox" aria-label="Day 1 complete">Day 1</label>
+<label><input type="checkbox" aria-label="Day 2 complete">Day 2</label>
+<label><input type="checkbox" aria-label="Day 3 complete">Day 3</label>
+<label><input type="checkbox" aria-label="Day 4 complete">Day 4</label>
+<label><input type="checkbox" aria-label="Day 5 complete">Day 5</label>
+<label><input type="checkbox" aria-label="Day 6 complete">Day 6</label>
+<label><input type="checkbox" aria-label="Day 7 complete">Day 7</label></div>
+    </section>
+    <aside class="resources"><strong>Course module overviews</strong><div class="module-links"><a href="Overview%20_%20Module%201_%20Introduction%20to%20the%20Short%20Story%20_%20TRU%20Moodle.mhtml">Module 1</a>
+<a href="Overview%20_%20Module%202_%20Characterization%20_%20TRU%20Moodle.mhtml">Module 2</a>
+<a href="Overview%20_%20Module%203_%20Setting%20_%20TRU%20Moodle.mhtml">Module 3</a>
+<a href="Overview%20_%20Module%204_%20Plot%20_%20TRU%20Moodle.mhtml">Module 4</a>
+<a href="Overview%20_%20Module%205_%20Point%20of%20View%20_%20TRU%20Moodle.mhtml">Module 5</a>
+<a href="Overview%20_%20Module%206_%20Style%20_%20TRU%20Moodle.mhtml">Module 6</a>
+<a href="Overview%20_%20Module%207_%20Structure%20and%20Theme%20_%20TRU%20Moodle.mhtml">Module 7</a></div></aside>
+    <article class="content" id="tutorial"><p><strong>Use this as a working plan, not as a substitute for the
+assigned texts.</strong> The course's final-exam instructions say to
+complete and submit all assignments, allow adequate review time, and
+practise before sitting the invigilated exam. The practice paper is
+three hours: Part I, writing mechanics (30 minutes, 10 marks); Part II,
+analysis of one fiction passage (60 minutes, 35 marks); and Part III,
+one literary essay (90 minutes, 55 marks). The real paper may differ.
+Take the <a href="ENGL1001_practice_exam.html">interactive practice
+exam</a> one question at a time, or see the <a
+href="exam_instruction.txt">exam instructions</a>, <a
+href="ENGL1001_PE.pdf">practice PDF</a>, and <a
+href="ENGL1001_PEAK.pdf">answer key</a>.</p>
+<p><strong>One-week reality check:</strong> The plan below is an
+intensive route of roughly <strong>7–9 focused hours per day if all four
+assignments are already submitted</strong>. If any are outstanding,
+obtain their exact Moodle prompts and submission requirements now.
+Reserve additional writing time and wait for required marking/feedback
+and an available exam booking; one week of study cannot guarantee those
+administrative steps. Do not treat the guide's story summaries as
+sufficient for an unseen passage.</p>
+<h2 id="what-to-have-open">What to have open</h2>
+<ul>
+<li>The seven local Moodle <strong>Overview</strong> files tell you each
+module's readings and outcomes. They do not contain every chapter or
+assignment instruction.</li>
+<li>Ten local story readers are linked in the table below. Seven were
+converted from an anthology and <strong>retain OCR errors</strong>. <a
+href="hills_like_white_elephants.html">Hills Like White Elephants</a>
+uses the complete text from the local <a
+href="May-Short-Stories.pdf">May Short Stories PDF</a>; <a
+href="rules_of_the_game.html">Rules of the Game</a> uses the local <a
+href="Rules-of-the-Game.pdf">school PDF</a>; and <a
+href="death_by_landscape.html">Death by Landscape</a> displays the
+original scanned pages from the local <a
+href="Death%20by%20Landscape.pdf">PDF</a>. Check your course anthology
+for exact quotations.</li>
+<li>Three assigned stories have no complete local file: <strong>“The
+Yellow Wallpaper,” “Great Falls,” and “Cathedral.”</strong> Use your
+course anthology or Moodle reading. Verified alternatives: <a
+href="https://www.gutenberg.org/files/1952/1952-h/1952-h.htm">“The
+Yellow Wallpaper” at Project Gutenberg</a>; <a
+href="https://granta.com/great-falls/">“Great Falls” publication
+page</a> (only an excerpt is free); <a
+href="https://pressbooks.marshall.edu/introductiontoliterature/chapter/3-3-cathedral-by-raymond-carver-reading-guide/">“Cathedral”
+reading guide and link to <em>The Atlantic</em> text</a>.</li>
+<li>Read <em>Pride and Prejudice</em> in your course edition or <a
+href="https://www.gutenberg.org/files/42671/old/42671-h/42671-h.htm">Project
+Gutenberg</a>. The <a
+href="https://cghuisunshine.github.io/pride_prejudice_2/aligned_reader/index.html">aligned
+reader</a> is also listed in the local exam instructions. Page numbers
+vary by edition, so record <strong>volume/chapter or chapter</strong>
+when making notes.</li>
+</ul>
+<h2 id="your-seven-days">Your seven days</h2>
+<p>Every day: use <strong>50 minutes reading or writing + 10 minutes
+break</strong>; spend 20 minutes recalling yesterday's material without
+looking; spend 20 minutes on grammar; finish with a five-minute list of
+weak points. The chapter and story goals are more important than a
+strict clock. If you have only 3–5 hours daily, use the same order but
+understand that full course reading and four assignments may exceed one
+week.</p>
+<table>
+<thead>
+<tr>
+<th>Day</th>
+<th>Read and learn</th>
+<th>Produce before stopping</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1 — Short story + character</strong></td>
+<td>Modules 1–2. Read “Royal Beatings,” “The Yellow Wallpaper,” “Sonny’s
+Blues,” “Rules of the Game,” and “Paul’s Case.” Start <em>Pride and
+Prejudice</em>, chapters 1–12.</td>
+<td>A four-line card for each story: protagonist, central conflict, one
+telling detail, one arguable theme. Write a 120-word comparison of Rose
+and Waverly or Sonny and Paul. Diagnose fragments and run-ons.</td>
+</tr>
+<tr>
+<td><strong>2 — Setting + plot</strong></td>
+<td>Modules 3–4. Read “Death by Landscape,” “To Room Nineteen,” “Great
+Falls,” and “Bartleby, the Scrivener.” Read novel chapters 13–23.</td>
+<td>For each story, mark where it takes place, how that environment
+pressures a character, its crisis, and what the ending resolves or
+leaves open. Draft one passage-analysis paragraph on the sample “To Room
+Nineteen” extract.</td>
+</tr>
+<tr>
+<td><strong>3 — Point of view + style</strong></td>
+<td>Modules 5–6. Read “Cathedral,” the <strong>complete</strong> “Hills
+Like White Elephants,” “Barn Burning,” and “The Horse Dealer’s
+Daughter.” Read novel chapters 24–34.</td>
+<td>Create a point-of-view comparison: “Hills Like White Elephants”
+versus “Barn Burning.” Write 250 words explaining how one image or
+sentence pattern creates meaning. Practise one sample exam passage for
+60 minutes.</td>
+</tr>
+<tr>
+<td><strong>4 — Novel, first turn</strong></td>
+<td>Read novel chapters 35–46, then revisit chapters 1–34 at the hinge
+points listed below. Study Module 7's structure/theme outcome.</td>
+<td>One-page novel event chain; Elizabeth/Darcy evidence ledger; three
+thesis statements about judgment, class, and marriage. Review
+subject–verb agreement.</td>
+</tr>
+<tr>
+<td><strong>5 — Novel, second turn</strong></td>
+<td>Finish novel chapters 47–61. Revisit the letter, Pemberley visit,
+Lydia crisis, and final proposals.</td>
+<td>Two essay outlines: one on <em>Pride and Prejudice</em>, one
+comparing two stories. Each needs a claim, three analytical body points,
+and a complication/counter-reading. Review pronoun agreement and
+apostrophes.</td>
+</tr>
+<tr>
+<td><strong>6 — Exam rehearsal</strong></td>
+<td>Review all 13 story cards and the novel card; consult course writing
+chapters as needed. Sit the <a
+href="ENGL1001_practice_exam.html">interactive practice exam</a> in one
+<strong>uninterrupted three-hour session</strong>.</td>
+<td>Review Part I on the answer page after submitting. Self-assess Parts
+II–III with its checklists. Rewrite the weakest paragraph and make a
+10-item error list.</td>
+</tr>
+<tr>
+<td><strong>7 — Repair and readiness</strong></td>
+<td>Re-read original passages for any story you cannot identify by
+title/author or explain by technique. Revisit four novel hinge scenes.
+Drill errors from day 6.</td>
+<td>A 30-minute grammar retest, a fresh 20-minute passage outline, a
+fresh 20-minute essay outline, and a one-page memory sheet. Confirm
+assignments are submitted and exam arrangements are in place.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>If assignments remain:</strong> Days 1–5 must include a
+separate writing block for the real assignment prompts. A useful order
+is diagnostic essay after Module 1, critical essay by Module 4 (as that
+overview recommends), comparison essay after Module 5, and the <em>Pride
+and Prejudice</em> research essay after Module 7. The module pages
+identify these four assignments, but the exact prompts and submission
+rules are <strong>not</strong> in this folder. Do not draft to guessed
+prompts. Keep exam day after submission and adequate review, as the
+local instructions require.</p>
+<h2 id="the-seven-module-ideas-in-plain-english">The seven module ideas
+in plain English</h2>
+<ol type="1">
+<li><strong>Short story (Module 1):</strong> Usually concentrates on a
+small cast and uses details economically. Ask why the author selected
+this scene, object, or sentence. A useful observation becomes analysis
+only when you explain its effect.</li>
+<li><strong>Characterization (Module 2):</strong> <em>Character</em> is
+the person; <em>characterization</em> is how the story presents that
+person through actions, speech, others' reactions, description, or
+access to thought. Protagonist/antagonist refer to roles in conflict;
+round/flat to complexity; developing/static to change. A character can
+be round yet static.</li>
+<li><strong>Setting (Module 3):</strong> Track place, historical moment,
+social rules, and atmosphere. Explain the causal link: “This setting
+restricts or enables this choice,” rather than merely naming the
+location.</li>
+<li><strong>Plot (Module 4):</strong> Identify the pressure or conflict,
+the crisis that forces a choice, and the outcome. An open ending can
+resolve an immediate action while leaving its meaning uncertain.</li>
+<li><strong>Point of view (Module 5):</strong> First person uses an “I”
+within the story; third-person limited stays close to one character's
+knowledge; third-person omniscient can move beyond one mind; objective
+reports observable action and speech with little direct access to
+thoughts. Distinguish <strong>who speaks</strong> from <strong>whose
+perspective controls what readers know</strong>.</li>
+<li><strong>Style (Module 6):</strong> Diction is word choice; imagery
+evokes sensation; a simile compares using “like” or “as”; a metaphor
+makes a direct comparison. Sentence length and repetition affect pace
+and emphasis. Name an effect <strong>and</strong> tie it to the story's
+conflict or theme.</li>
+<li><strong>Structure and theme (Module 7):</strong> Structure is the
+arrangement of scenes, time, repetition, or contrasts. Theme is an
+arguable insight about experience, not a one-word topic. “Isolation” is
+a topic; “the story shows how isolation can be produced by apparently
+caring social rules” is a claim.</li>
+</ol>
+<h2 id="thirteen-story-memory-cards">Thirteen story memory cards</h2>
+<p>These are <strong>recall prompts</strong>. For an exam answer, use
+specific details from the original text and acknowledge ambiguity where
+the story supports more than one reading.</p>
+<table>
+<thead>
+<tr>
+<th>Module; story, author</th>
+<th>Plot anchor and central pressure</th>
+<th>Best exam lens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1; <a href="royal_beatings.html">“Royal Beatings”</a>, <strong>Alice
+Munro</strong></td>
+<td>Rose's conflict with Flo and her father culminates in a beating;
+later retelling changes how the event is understood.</td>
+<td>Family power, class, storytelling, the gap between lived event and
+remembered version.</td>
+</tr>
+<tr>
+<td>1; <a
+href="https://www.gutenberg.org/files/1952/1952-h/1952-h.htm">“The
+Yellow Wallpaper”</a>, <strong>Charlotte Perkins Gilman</strong></td>
+<td>A woman ordered to rest by her physician husband secretly writes and
+becomes obsessed with the room's wallpaper.</td>
+<td>Confined setting, unreliable first-person journal, enforced silence,
+identity.</td>
+</tr>
+<tr>
+<td>1; <a href="sonnys_blues.html">“Sonny’s Blues”</a>, <strong>James
+Baldwin</strong></td>
+<td>After Sonny's arrest, his older brother tries to understand Sonny's
+suffering and music; a nightclub performance becomes a turning
+point.</td>
+<td>First-person retrospective narration, Harlem setting, music as
+expression and connection.</td>
+</tr>
+<tr>
+<td>2; <a href="rules_of_the_game.html">“Rules of the Game”</a>,
+<strong>Amy Tan</strong></td>
+<td>Chess prodigy Waverly Jong's success sharpens tension with her
+mother, Lindo.</td>
+<td>First-person childhood memory, chess as a pattern for family power
+and cultural expectations.</td>
+</tr>
+<tr>
+<td>2; <a href="pauls_case.html">“Paul’s Case”</a>, <strong>Willa
+Cather</strong></td>
+<td>Paul rejects his ordinary Pittsburgh life, steals money to escape to
+New York, then faces its collapse.</td>
+<td>Contrasting settings, performance, desire, class and illusion.</td>
+</tr>
+<tr>
+<td>3; <a href="death_by_landscape.html">“Death by Landscape”</a>,
+<strong>Margaret Atwood</strong></td>
+<td>Lois remembers Lucy's unexplained disappearance at camp and
+continues to see her in landscape paintings.</td>
+<td>Framed memory, unresolved loss, the difference between physical
+landscape and imagined presence.</td>
+</tr>
+<tr>
+<td>3; <a href="to_room_nineteen.html">“To Room Nineteen”</a>,
+<strong>Doris Lessing</strong></td>
+<td>Susan Rawlings seeks private space as marriage and family roles
+close around her; the hotel room becomes central to her final
+decision.</td>
+<td>Irony of the supposedly sensible marriage, domestic/social setting,
+interiority, autonomy.</td>
+</tr>
+<tr>
+<td>4; <a href="https://granta.com/great-falls/">“Great Falls”
+publication page</a>, <strong>Richard Ford</strong></td>
+<td>A son narrates the breakdown of his parents' marriage in Montana and
+its later consequences.</td>
+<td>Retrospective first person, landscape, how a child interprets adult
+choices. Verify details in your anthology.</td>
+</tr>
+<tr>
+<td>4; <a href="bartleby_the_scrivener.html">“Bartleby, the
+Scrivener”</a>, <strong>Herman Melville</strong></td>
+<td>A Wall Street copyist increasingly refuses work; the lawyer-narrator
+cannot fully understand or help him.</td>
+<td>Limited first-person narrator, workplace setting, repetition,
+uncertainty about motive.</td>
+</tr>
+<tr>
+<td>5; <a
+href="https://pressbooks.marshall.edu/introductiontoliterature/chapter/3-3-cathedral-by-raymond-carver-reading-guide/">“Cathedral”
+reading guide</a>, <strong>Raymond Carver</strong></td>
+<td>A narrator's awkward visit with Robert, a blind man, leads to their
+drawing a cathedral together.</td>
+<td>First-person limitations, irony of sight and understanding,
+understated ending.</td>
+</tr>
+<tr>
+<td>5; <a href="hills_like_white_elephants.html">“Hills Like White
+Elephants”</a>, <strong>Ernest Hemingway</strong></td>
+<td>A couple at a railway station discuss an unnamed “operation” and a
+strained decision.</td>
+<td>Objective dialogue, omission, opposing landscapes, what neither says
+directly.</td>
+</tr>
+<tr>
+<td>6; <a href="barn_burning.html">“Barn Burning”</a>, <strong>William
+Faulkner</strong></td>
+<td>Sarty Snopes is pressed to be loyal to his father Abner despite
+Abner's destructive actions.</td>
+<td>Third-person view close to Sarty, moral conflict, fire, class
+tension, complex syntax.</td>
+</tr>
+<tr>
+<td>6; <a href="horse_dealers_daughter.html">“The Horse Dealer’s
+Daughter”</a>, <strong>D. H. Lawrence</strong></td>
+<td>After family ruin, Mabel enters a pond; Dr. Ferguson rescues her,
+and their encounter becomes emotionally fraught.</td>
+<td>Water, death/rebirth imagery, ambiguous motives, shifting access to
+thought.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fast recall test:</strong> Cover columns 2–3. For each title,
+say the author, the decisive event, one formal feature, and a defensible
+interpretation in <strong>30 seconds</strong>. A wrong author/title
+pairing is especially costly in Part II because identification is
+explicitly requested.</p>
+<h2 id="pride-and-prejudice-in-one-page"><em>Pride and Prejudice</em> in
+one page</h2>
+<p><strong>Event chain:</strong> The arrival of Bingley and Darcy makes
+marriage prospects urgent for the Bennets. Jane and Bingley grow close;
+Elizabeth forms a poor first impression of Darcy and later trusts
+Wickham's account. Collins proposes to Elizabeth, then marries Charlotte
+Lucas. At Rosings, Darcy proposes badly; Elizabeth rejects him and
+receives his explanatory letter. Her visit to Pemberley revises her view
+of him. Lydia's elopement with Wickham threatens the family; Darcy
+secretly helps secure a marriage. Elizabeth and Darcy reach a more
+informed mutual judgment; Jane and Bingley also reunite.</p>
+<p><strong>Hinge scenes to reread:</strong> opening conversation and the
+entail; the Meryton assembly; Collins's proposal and Charlotte's choice;
+Darcy's first proposal and letter; Pemberley; Lydia's elopement and its
+repair; Lady Catherine's visit; the final Elizabeth–Darcy conversation.
+Record what a character believes <strong>before</strong> and
+<strong>after</strong> each hinge.</p>
+<p><strong>Character links:</strong> Elizabeth is perceptive yet capable
+of prejudgment; Darcy is proud and socially awkward yet able to change;
+Jane/Bingley show openness with costs; Charlotte/Collins show the
+economic side of marriage; Wickham exploits appearances; Lydia exposes
+the family's vulnerability; Lady Catherine makes rank explicit. Avoid
+reducing any character to one label.</p>
+<p><strong>Three reusable arguments:</strong></p>
+<ul>
+<li><strong>Judgment:</strong> Austen lets attractive first impressions
+mislead both Elizabeth and readers, then uses the letter and later
+conduct to make evidence more important than charm.</li>
+<li><strong>Marriage and money:</strong> The Bennet daughters' limited
+security makes marriage both a personal and material decision;
+Charlotte's choice provides a sharp comparison with Elizabeth's.</li>
+<li><strong>Change:</strong> Elizabeth and Darcy become credible
+partners through self-correction. Show the <em>actions and scenes</em>
+proving change, not only the final marriages.</li>
+</ul>
+<p>The narrator is <strong>third person</strong>, often close to
+Elizabeth's perceptions, with irony and occasional wider knowledge. If
+comparing narrative methods, explain how the novel makes readers share
+and then question Elizabeth's judgments. Use your course edition for
+exact quotations and page citations.</p>
+<h2 id="part-i-30-minute-grammar-repair">Part I: 30-minute grammar
+repair</h2>
+<p>The sample tests four clusters, five items each. Learn a decision
+rule, then practise it quickly.</p>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>One-second test</th>
+<th>Repair</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fragment</strong></td>
+<td>Is there an independent clause with subject + finite verb and a
+complete thought? “Although she knew” is dependent.</td>
+<td>Attach the dependent phrase or supply a main clause: “Although she
+knew, she waited.”</td>
+</tr>
+<tr>
+<td><strong>Comma splice</strong></td>
+<td>Are two complete sentences joined with <strong>only</strong> a
+comma?</td>
+<td>Use a period, semicolon, or comma + coordinating conjunction.</td>
+</tr>
+<tr>
+<td><strong>Fused sentence</strong></td>
+<td>Are two complete sentences run together with <strong>no</strong>
+correct join?</td>
+<td>Add period, semicolon, or conjunction with appropriate
+punctuation.</td>
+</tr>
+<tr>
+<td><strong>Subject–verb agreement</strong></td>
+<td>Find the actual subject; ignore phrases between it and the verb.
+With <em>either/or</em>, check the nearer subject.</td>
+<td>“The costumes and set <strong>were</strong> effective”; “There
+<strong>are</strong> many answers.”</td>
+</tr>
+<tr>
+<td><strong>Pronoun agreement</strong></td>
+<td>In the course sample's traditional test, match pronoun number with
+antecedent.</td>
+<td>If the test treats <em>everyone</em> as singular, recast “Everyone
+should do <strong>their</strong> duty” as “All people should do
+<strong>their</strong> duty” to remove ambiguity. Contemporary singular
+<em>they</em> is common, but the supplied key marks this item as an
+error.</td>
+</tr>
+<tr>
+<td><strong>Apostrophes/quotes</strong></td>
+<td>Possessive or contraction? Is a short-story title in quotation
+marks? Does a speech tag need a comma?</td>
+<td>“Bob's computer”; “It's curious”; “'The End of the Innocence'”; “You
+can go if you want,” he said.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ten-item mini-drill.</strong> Classify 1–3 as
+correct/fragment, 4–6 as correct/comma splice/fused, and repair
+7–10.</p>
+<ol type="1">
+<li>Because Elizabeth believed Wickham.</li>
+<li>Darcy read the letter twice.</li>
+<li>The room that Susan had rented for herself.</li>
+<li>Sonny plays piano, his brother listens.</li>
+<li>Rose left the room she did not answer Flo.</li>
+<li>Although Sarty hesitated, he ran.</li>
+<li>The narrator and Robert draws together.</li>
+<li>Each of the sisters have a different judgment.</li>
+<li>Its difficult to identify the speaker.</li>
+<li>“I prefer not to” Bartleby said.</li>
+</ol>
+<details><summary>Mini-drill answer key</summary>
+
+<p>1 fragment; add a main clause. 2 correct. 3 fragment; add a main
+verb/predicate. 4 comma splice; use a semicolon or period. 5 fused; add
+a semicolon or period. 6 correct. 7 “The narrator and Robert
+<strong>draw</strong> together.” 8 “Each of the sisters
+<strong>has</strong> a different judgment.” 9 “<strong>It's</strong>
+difficult …” 10 “<strong>‘I prefer not to,’</strong> Bartleby said.”
+(The exact quotation marks may be single or double depending on style;
+the comma before the speech tag matters.)</p>
+</details>
+
+<p><strong>Source-key caution:</strong> The supplied Part I answer key
+has an apparent inconsistency in one sample item: its Section D, item 2
+is marked “correct,” but the key silently changes the exam's “that” to
+“whom.” Use the marked category, and use your handbook for the rule
+rather than copying the altered sentence. The key also treats singular
+<em>their</em> as an agreement error; mirror the course convention for
+this exam.</p>
+<h2 id="part-ii-how-to-write-a-passage-analysis-in-60-minutes">Part II:
+how to write a passage analysis in 60 minutes</h2>
+<p>The exam explicitly asks for <strong>author + title</strong>,
+striking <strong>details in the passage</strong>, and a <strong>thesis
+connecting the passage to the whole story</strong>. It may reward
+characterization, setting, conflict, style, and point of view where
+relevant. Do not list every device; choose two or three that produce
+your interpretation.</p>
+<p><strong>Timed method:</strong> 0–8 minutes: identify source, locate
+scene in plot, underline three details and the tension they share. 8–12:
+write one thesis and paragraph plan. 12–52: write introduction + three
+focused body paragraphs. 52–60: check title/author, evidence, thesis,
+paragraph links, and sentences.</p>
+<p><strong>Thesis frame:</strong> “In this [opening/turning
+point/ending], <strong>author</strong> uses <strong>specific feature
+A</strong> and <strong>feature B</strong> to make <strong>character
+conflict</strong> visible; the scene matters because it develops
+<strong>larger story claim</strong>.” Replace every placeholder with a
+fact from the passage. A claim must be arguable: “the pond appears” is
+an observation; “the pond shifts from a site of attempted disappearance
+to a scene of uncertain intimacy” is an interpretation.</p>
+<p><strong>Body paragraph pattern:</strong> Claim about an effect → a
+small, accurate detail from the passage → explain how its words or
+arrangement create that effect → connect to the full story. Quote
+briefly from the actual passage, never invent words. If exact wording is
+hard to recall, paraphrase precisely.</p>
+<p><strong>Worked practice on the sample's “To Room Nineteen”
+opening:</strong> The passage calls the Rawlings' marriage a product of
+sensible choice. A possible thesis is: <em>Lessing's carefully measured
+account of the couple's confidence makes their “intelligent” marriage
+sound secure while planting the irony that rational social planning
+cannot give Susan the private freedom she later needs.</em> A paragraph
+could track the couple's self-congratulation, another their dismissive
+comparison with friends, and a third the retrospective narrator's
+distance from their assumptions. Then connect those choices to Susan's
+later search for room nineteen. This is a model <strong>line of
+argument</strong>, not a memorized answer.</p>
+<h2 id="part-iii-how-to-write-the-90-minute-essay">Part III: how to
+write the 90-minute essay</h2>
+<p>The practice exam offers five choices. Some allow <em>Pride and
+Prejudice</em> <strong>or</strong> two stories; one specifically
+compares Hemingway with Faulkner's narrative choices. Read the exact
+prompt before choosing. The safest choice is the one for which you can
+name <strong>three precise scenes</strong> and explain how each supports
+one answer to the prompt.</p>
+<p><strong>Timed method:</strong> 0–10 minutes choose prompt and
+generate evidence; 10–18 build thesis + three body claims; 18–75 write;
+75–90 revise. Do not spend your whole time retelling plot.</p>
+<p><strong>Essay spine:</strong> introduction with a direct answer →
+body 1 establishing the pattern → body 2 complicating or contrasting it
+→ body 3 showing the consequence or change → conclusion that answers “so
+what?” Each body paragraph needs a scene/detail and analysis of its
+technique, not only character behavior.</p>
+<p><strong>Sample comparison outline, based on the practice
+point-of-view prompt:</strong></p>
+<ul>
+<li><strong>Thesis:</strong> Hemingway's externally presented dialogue
+makes the couple's conflict in “Hills Like White Elephants” a problem of
+inference, while Faulkner's narration stays close enough to Sarty in
+“Barn Burning” to turn family loyalty into an immediate moral struggle;
+each narrator controls how much readers can know about a decision.</li>
+<li><strong>Paragraph 1:</strong> At the railway station, contrast what
+the couple says with the unstated stakes; explain how omission recruits
+the reader.</li>
+<li><strong>Paragraph 2:</strong> In Faulkner's opening court scene and
+later confrontations, track Sarty's awareness of his father and the
+pressure to lie.</li>
+<li><strong>Paragraph 3:</strong> Compare endings: what remains
+unresolved, and why the chosen perspective matters to that
+uncertainty.</li>
+</ul>
+<p><strong>Self-check for both written parts:</strong> Have I answered
+the prompt's <em>exact</em> terms? Is the thesis an argument rather than
+a topic? Did I accurately name authors, titles, characters, and scenes?
+Does each paragraph interpret a detail? Have I linked the detail to the
+work as a whole? Did I avoid invented quotations and unearned
+certainty?</p>
+<h2 id="final-readiness-checklist">Final readiness checklist</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />All four assignments submitted under
+the actual Moodle prompts; required feedback/processing allowed
+for.</label></li>
+<li><label><input type="checkbox" />I can identify all 13 stories by
+title and author, plus explain a plot anchor and one literary technique
+for each.</label></li>
+<li><label><input type="checkbox" />I can explain the novel's seven
+hinge scenes and support two different arguments about it.</label></li>
+<li><label><input type="checkbox" />I have completed the full three-hour
+practice paper once and reviewed Part I against the supplied
+key.</label></li>
+<li><label><input type="checkbox" />I can write a passage thesis in
+under four minutes and an essay plan in under ten.</label></li>
+<li><label><input type="checkbox" />I have confirmed the real exam date,
+invigilation arrangements, and permitted materials with the
+course.</label></li>
+</ul>
+<h2 id="source-trail">Source trail</h2>
+<p>This guide is based on the seven local Moodle module overviews, <a
+href="exam_instruction.txt">local exam instructions</a>, <a
+href="ENGL1001_PE.pdf">sample exam</a>, <a
+href="ENGL1001_PEAK.pdf">sample key</a>, the local story readers, the <a
+href="May-Short-Stories.pdf">May Short Stories PDF</a> for Hemingway,
+the <a href="Rules-of-the-Game.pdf">school PDF</a> for Tan, and the <a
+href="Death%20by%20Landscape.pdf">Death by Landscape scan</a> for
+Atwood. External reading links point to <a
+href="https://www.gutenberg.org/files/42671/old/42671-h/42671-h.htm">Project
+Gutenberg's <em>Pride and Prejudice</em></a>, <a
+href="https://www.gutenberg.org/files/1952/1952-h/1952-h.htm">Project
+Gutenberg's “The Yellow Wallpaper”</a>, <a
+href="https://granta.com/great-falls/"><em>Granta</em>'s “Great Falls”
+page</a>, and <a
+href="https://pressbooks.marshall.edu/introductiontoliterature/chapter/3-3-cathedral-by-raymond-carver-reading-guide/">Marshall
+University's “Cathedral” reading guide</a>. Use your assigned edition
+when exact wording, pagination, or quotation matters.</p>
+</article>
+    <footer class="footer">Based on the local course overviews, exam instructions, practice exam, answer key, and story readers. Check Moodle for current assignment prompts and exam arrangements.</footer>
+  </main>
+</div>
+<script>
+(() => {
+  const store = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch {} }
+  };
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const savedTheme = store.get('engl1001-theme');
+  if (savedTheme === 'dark' || savedTheme === 'light') root.dataset.theme = savedTheme;
+  themeBtn.addEventListener('click', () => {
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    store.set('engl1001-theme', root.dataset.theme);
+  });
+  document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+  const days = [...document.querySelectorAll('.day-checks input')];
+  const checklist = [...document.querySelectorAll('.content input[type="checkbox"]')];
+  [...days, ...checklist].forEach((box, index) => {
+    const key = 'engl1001-check-' + index;
+    box.checked = store.get(key) === '1';
+    box.addEventListener('change', () => { store.set(key, box.checked ? '1' : '0'); updateProgress(); });
+  });
+  function updateProgress() {
+    const done = days.filter(box => box.checked).length;
+    document.getElementById('progressText').textContent = `${done} of 7 days complete`;
+    document.getElementById('progressFill').style.width = `${done / 7 * 100}%`;
+    document.querySelector('.progress').setAttribute('aria-valuenow', String(done));
+  }
+  updateProgress();
+
+  const search = document.getElementById('search');
+  const article = document.getElementById('tutorial');
+  const headings = [...article.querySelectorAll('h2')];
+  const sections = headings.map((heading, index) => {
+    const nodes = [];
+    let node = heading;
+    const next = headings[index + 1];
+    while (node && node !== next) { nodes.push(node); node = node.nextElementSibling; }
+    return { heading, nodes, text: nodes.map(n => n.textContent).join(' ').toLowerCase() };
+  });
+  search.addEventListener('input', () => {
+    const query = search.value.trim().toLowerCase();
+    sections.forEach(section => {
+      const show = !query || section.text.includes(query);
+      section.nodes.forEach(node => { node.hidden = !show; });
+      const nav = document.querySelector(`#toc a[href="#${section.heading.id}"]`);
+      if (nav) nav.hidden = !show;
+    });
+  });
+  search.addEventListener('keydown', event => {
+    if (event.key === 'Escape') { search.value = ''; search.dispatchEvent(new Event('input')); search.blur(); }
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === '/' && event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+      event.preventDefault(); search.focus();
+    }
+  });
+  document.querySelectorAll('a[href^="http"]').forEach(link => {
+    link.target = '_blank'; link.rel = 'noopener noreferrer';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ENGL 1001 · Contents</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f5f3ee;
+      --paper: #fffefa;
+      --ink: #243236;
+      --muted: #5b6a6d;
+      --line: #d9ded8;
+      --accent: #175451;
+      --accent-soft: #e7f1ed;
+      --warm: #b4693c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    a:focus-visible { outline: 3px solid var(--warm); outline-offset: 4px; border-radius: 3px; }
+    .wrap { max-width: 1080px; margin: auto; padding: 32px 22px 72px; }
+    .hero { padding: clamp(28px, 5vw, 52px); background: #193d3d; color: #fff; border-radius: 20px; }
+    .eyebrow { margin: 0 0 9px; color: #aed4cc; font-size: .78rem; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    h1 { margin: 0; font: 700 clamp(2.3rem, 6vw, 4rem)/1.08 Georgia, "Times New Roman", serif; }
+    .hero p:last-child { max-width: 680px; margin: 16px 0 0; color: #deebe7; }
+    .jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 34px; }
+    .jump a { padding: 7px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); font-size: .88rem; font-weight: 650; text-decoration: none; }
+    .jump a:hover { border-color: var(--accent); background: var(--accent-soft); }
+    section { scroll-margin-top: 20px; margin-top: 38px; }
+    h2 { margin: 0 0 8px; font: 700 clamp(1.55rem, 3vw, 2rem)/1.2 Georgia, "Times New Roman", serif; }
+    .section-note { margin: 0 0 18px; color: var(--muted); }
+    .links, .module-list, .story-list { list-style: none; margin: 0; padding: 0; }
+    .links { display: grid; gap: 12px; }
+    .links a { display: block; padding: 19px 21px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); text-decoration: none; }
+    .links a:hover, .story-list a:hover { border-color: var(--accent); background: var(--accent-soft); }
+    .link-title { display: block; color: var(--ink); font-size: 1.05rem; font-weight: 750; }
+    .link-note { display: block; margin-top: 3px; color: var(--muted); font-size: .91rem; }
+    .module-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .module { padding: 18px 20px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .module h3 { margin: 0 0 12px; font-size: 1rem; }
+    .module h3 span { display: block; margin-bottom: 2px; color: var(--warm); font-size: .76rem; letter-spacing: .1em; text-transform: uppercase; }
+    .story-list { display: grid; gap: 7px; }
+    .story-list a { display: block; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; text-decoration: none; }
+    .story-list strong { display: block; color: var(--ink); font-weight: 700; }
+    .story-list small { display: block; margin-top: 1px; color: var(--muted); font-size: .83rem; }
+    .pdf-link { margin-top: 14px; }
+    .pdf-link a { font-weight: 700; }
+    footer { margin-top: 46px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; }
+    @media (max-width: 680px) { .wrap { padding: 16px 14px 48px; } .module-list { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <p class="eyebrow">TRU · ENGL 1001</p>
+      <h1>Contents</h1>
+      <p>Start with the study guide, read stories by course module, then practise and review the exam. All links open pages in this folder.</p>
+    </header>
+
+    <nav class="jump" aria-label="Jump to a section">
+      <a href="#start">Start here</a>
+      <a href="#stories">Story readers</a>
+      <a href="#practice">Practice exam</a>
+    </nav>
+
+    <section id="start" aria-labelledby="start-title">
+      <h2 id="start-title">1. Start here</h2>
+      <ul class="links">
+        <li><a href="ENGL1001_7_day_exam_tutorial.html"><span class="link-title">Seven-day exam tutorial</span><span class="link-note">Study plan, module concepts, story memory cards, and writing guidance.</span></a></li>
+      </ul>
+    </section>
+
+    <section id="stories" aria-labelledby="stories-title">
+      <h2 id="stories-title">2. Story readers</h2>
+      <p class="section-note">Follow the course module order. Each title opens its local HTML reader.</p>
+      <ol class="module-list">
+        <li class="module">
+          <h3><span>Module 1</span>Introduction to the short story</h3>
+          <ul class="story-list">
+            <li><a href="royal_beatings.html"><strong>Royal Beatings</strong><small>Alice Munro</small></a></li>
+            <li><a href="sonnys_blues.html"><strong>Sonny’s Blues</strong><small>James Baldwin</small></a></li>
+          </ul>
+        </li>
+        <li class="module">
+          <h3><span>Module 2</span>Characterization</h3>
+          <ul class="story-list">
+            <li><a href="rules_of_the_game.html"><strong>Rules of the Game</strong><small>Amy Tan</small></a></li>
+            <li><a href="pauls_case.html"><strong>Paul’s Case</strong><small>Willa Cather</small></a></li>
+          </ul>
+        </li>
+        <li class="module">
+          <h3><span>Module 3</span>Setting</h3>
+          <ul class="story-list">
+            <li><a href="death_by_landscape.html"><strong>Death by Landscape</strong><small>Margaret Atwood</small></a></li>
+            <li><a href="to_room_nineteen.html"><strong>To Room Nineteen</strong><small>Doris Lessing</small></a></li>
+          </ul>
+        </li>
+        <li class="module">
+          <h3><span>Module 4</span>Plot</h3>
+          <ul class="story-list">
+            <li><a href="bartleby_the_scrivener.html"><strong>Bartleby, the Scrivener</strong><small>Herman Melville</small></a></li>
+          </ul>
+        </li>
+        <li class="module">
+          <h3><span>Module 5</span>Point of view</h3>
+          <ul class="story-list">
+            <li><a href="hills_like_white_elephants.html"><strong>Hills Like White Elephants</strong><small>Ernest Hemingway</small></a></li>
+          </ul>
+        </li>
+        <li class="module">
+          <h3><span>Module 6</span>Style</h3>
+          <ul class="story-list">
+            <li><a href="barn_burning.html"><strong>Barn Burning</strong><small>William Faulkner</small></a></li>
+            <li><a href="horse_dealers_daughter.html"><strong>The Horse Dealer’s Daughter</strong><small>D. H. Lawrence</small></a></li>
+          </ul>
+        </li>
+      </ol>
+      <p class="pdf-link"><a href="exam_stories_pdf_links.html">Exam story PDF index →</a> <span class="section-note">Direct anthology links, including assigned stories without local HTML readers.</span></p>
+    </section>
+
+    <section id="practice" aria-labelledby="practice-title">
+      <h2 id="practice-title">3. Practice exam</h2>
+      <ul class="links">
+        <li><a href="ENGL1001_practice_exam.html"><span class="link-title">Take the practice exam</span><span class="link-note">Grammar, passage analysis, and literary essay.</span></a></li>
+        <li><a href="ENGL1001_practice_answers.html"><span class="link-title">Review answers</span><span class="link-note">Check the grammar key and review your written responses.</span></a></li>
+      </ul>
+    </section>
+
+    <footer>ENGL 1001 local study contents</footer>
+  </main>
+</body>
+</html>
