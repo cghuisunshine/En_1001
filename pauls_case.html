@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Paul’s Case — Willa Cather</title>
 <style>
-  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --reader-size: 19px; }
-  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; }
+  :root { color-scheme: light; --bg: #e9e3d8; --paper: #fffdf8; --ink: #28241e; --muted: #6d665d; --line: #d8d0c4; --accent: #69543d; --highlight: #ffe08a; --highlight-ink: #28241e; --reader-size: 19px; }
+  :root[data-theme="night"] { color-scheme: dark; --bg: #161615; --paper: #24231f; --ink: #e9e2d6; --muted: #b6ad9e; --line: #4b473f; --accent: #d8bd98; --highlight: #c7923b; --highlight-ink: #161615; }
   * { box-sizing: border-box; }
   html { height: 100%; }
   body { display: flex; flex-direction: column; height: 100dvh; min-height: 350px; margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); font: var(--reader-size)/1.75 Georgia, Palatino, serif; }
@@ -28,12 +28,16 @@
   .reader-bar strong { margin-right: auto; white-space: nowrap; }
   .reader-bar form, .reader-controls { display: flex; align-items: center; gap: .4rem; margin: 0; }
   .reader-controls { border-left: 1px solid var(--line); padding-left: 1rem; }
-  .reader-bar input { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
+  .reader-bar input[type="number"] { width: 4.3rem; padding: .35rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; }
   .reader-bar button { min-height: 2rem; padding: .35rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
   .reader-bar button:hover, .reader-bar button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
   .reader-bar button:disabled, .page-turn-bar button:disabled { opacity: .45; cursor: not-allowed; }
   .reader-bar button:focus-visible, .reader-bar input:focus-visible, .page-turn-bar button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   #font-size-display { min-width: 2.7rem; text-align: center; font-variant-numeric: tabular-nums; }
+  .audio-controls audio { width: min(15rem, 55vw); height: 2rem; }
+  .audio-controls label { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; cursor: pointer; }
+  .audio-controls input { accent-color: var(--accent); }
+  .tts-word.is-speaking { border-radius: .15em; background: var(--highlight); color: var(--highlight-ink); }
   .page-turn-bar { display: flex; flex: none; justify-content: center; align-items: center; gap: 1rem; padding: .45rem 1rem .6rem; background: var(--paper); border-top: 1px solid var(--line); font: .9rem/1.2 system-ui, sans-serif; }
   .page-turn-bar button { min-width: 7rem; padding: .6rem 1rem; border: 1px solid var(--line); border-radius: .35rem; background: var(--paper); color: var(--ink); font: inherit; cursor: pointer; }
   .page-turn-bar button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
@@ -51,6 +55,7 @@
   <form id="page-form"><label for="page-number">Page</label><input id="page-number" type="number" min="149" max="166" inputmode="numeric" required><button type="submit">Go</button></form>
   <div class="reader-controls" role="group" aria-label="Color theme"><button id="day-button" type="button" aria-pressed="true">Day</button><button id="night-button" type="button" aria-pressed="false">Night</button></div>
   <div class="reader-controls" role="group" aria-label="Font size"><button id="font-smaller" type="button" aria-label="Decrease font size">A−</button><output id="font-size-display" aria-live="polite">19px</output><button id="font-larger" type="button" aria-label="Increase font size">A+</button></div>
+  <div class="reader-controls audio-controls" role="group" aria-label="Story narration"><audio id="story-audio" controls preload="none" aria-label="Read the current page aloud"></audio><label for="highlight-words"><input id="highlight-words" type="checkbox" checked>Highlight words</label></div>
 </nav>
 <main class="reader-stage" id="reader-stage">
 <section class="reader-page" id="page-149" aria-label="Printed page 149">
@@ -207,6 +212,7 @@
 </section>
 </main>
 <div class="page-turn-bar" aria-label="Page turns"><button id="previous-page" type="button" aria-label="Previous page">← Previous</button><span id="page-status" role="status" aria-live="polite">Page 149 of 166</span><button id="next-page" type="button" aria-label="Next page">Next →</button></div>
+<script src="pauls_case_audio/timings.js"></script>
 <script>
 const root = document.documentElement;
 const dayButton = document.getElementById('day-button');
@@ -253,7 +259,118 @@ const previousButton = document.getElementById('previous-page');
 const nextButton = document.getElementById('next-page');
 const pageStatus = document.getElementById('page-status');
 const readerStage = document.getElementById('reader-stage');
+const storyAudio = document.getElementById('story-audio');
+const highlightWords = document.getElementById('highlight-words');
+const narrationData = window.PAULS_CASE_AUDIO || {};
+const preparedPages = new Map();
+let audioPage = null;
+let currentWords = [];
+let activeWord = null;
+let highlightFrame = 0;
 let currentPage = firstPage;
+
+highlightWords.checked = loadSetting('pauls-case-highlight') !== 'false';
+
+function prepareTimedPage(number) {
+  if (preparedPages.has(number)) return preparedPages.get(number);
+  const page = document.getElementById('page-' + number);
+  const paragraphs = [...page.children].filter(child => child.tagName === 'P' && !child.classList.contains('note'));
+  const timings = narrationData[number];
+  const words = [];
+  if (!timings || timings.length !== paragraphs.length) return words;
+  if (timings.some((timing, index) => paragraphs[index].textContent !== timing.text)) return words;
+  timings.forEach((timing, index) => {
+    const fragment = document.createDocumentFragment();
+    let cursor = 0;
+    timing.words.forEach(([start, end, first, last]) => {
+      if (first < cursor || last > timing.text.length || last <= first) return;
+      fragment.append(document.createTextNode(timing.text.slice(cursor, first)));
+      const span = document.createElement('span');
+      span.className = 'tts-word';
+      span.textContent = timing.text.slice(first, last);
+      fragment.append(span);
+      words.push({ start, end, element: span });
+      cursor = last;
+    });
+    fragment.append(document.createTextNode(timing.text.slice(cursor)));
+    paragraphs[index].textContent = '';
+    paragraphs[index].appendChild(fragment);
+  });
+  preparedPages.set(number, words);
+  return words;
+}
+
+function clearSpeakingWord() {
+  if (activeWord) activeWord.classList.remove('is-speaking');
+  activeWord = null;
+}
+
+function paintSpeakingWord() {
+  if (storyAudio.paused || storyAudio.ended || !highlightWords.checked || audioPage !== currentPage) {
+    clearSpeakingWord();
+    return;
+  }
+  const time = storyAudio.currentTime;
+  let low = 0;
+  let high = currentWords.length;
+  while (low < high) {
+    const middle = (low + high) >> 1;
+    if (currentWords[middle].start <= time) low = middle + 1;
+    else high = middle;
+  }
+  const word = currentWords[low - 1];
+  const next = word && time <= word.end + .06 ? word.element : null;
+  if (next === activeWord) return;
+  clearSpeakingWord();
+  if (!next) return;
+  activeWord = next;
+  next.classList.add('is-speaking');
+  const page = document.getElementById('page-' + currentPage);
+  const bounds = next.getBoundingClientRect();
+  const viewport = page.getBoundingClientRect();
+  if (bounds.top < viewport.top + 24 || bounds.bottom > viewport.bottom - 24) {
+    next.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+}
+
+function trackSpeakingWord() {
+  paintSpeakingWord();
+  if (!storyAudio.paused && !storyAudio.ended) highlightFrame = requestAnimationFrame(trackSpeakingWord);
+}
+
+function setAudioPage(number) {
+  if (audioPage === number) return;
+  const resume = audioPage !== null && !storyAudio.paused && !storyAudio.ended;
+  storyAudio.pause();
+  cancelAnimationFrame(highlightFrame);
+  clearSpeakingWord();
+  audioPage = number;
+  currentWords = prepareTimedPage(number);
+  storyAudio.src = 'pauls_case_audio/page-' + number + '.mp3';
+  storyAudio.load();
+  if (resume) storyAudio.play().catch(() => {});
+}
+
+storyAudio.addEventListener('play', () => {
+  cancelAnimationFrame(highlightFrame);
+  trackSpeakingWord();
+});
+storyAudio.addEventListener('pause', () => {
+  cancelAnimationFrame(highlightFrame);
+  clearSpeakingWord();
+});
+storyAudio.addEventListener('seeked', paintSpeakingWord);
+storyAudio.addEventListener('ended', () => {
+  clearSpeakingWord();
+  if (currentPage < lastPage) {
+    showPage(currentPage + 1);
+    storyAudio.play().catch(() => {});
+  }
+});
+highlightWords.addEventListener('change', () => {
+  saveSetting('pauls-case-highlight', String(highlightWords.checked));
+  paintSpeakingWord();
+});
 
 function showPage(number, animate = true) {
   if (!Number.isInteger(number) || number < firstPage || number > lastPage) return;
@@ -275,6 +392,7 @@ function showPage(number, animate = true) {
   pageStatus.textContent = 'Page ' + number + ' of ' + lastPage;
   previousButton.disabled = number === firstPage;
   nextButton.disabled = number === lastPage;
+  setAudioPage(number);
   saveSetting('pauls-case-page', String(number));
   try { history.replaceState(null, '', '#page-' + number); } catch { /* File URLs can restrict history. */ }
 }
@@ -286,7 +404,7 @@ document.getElementById('page-form').addEventListener('submit', function (event)
   showPage(Number(pageInput.value));
 });
 document.addEventListener('keydown', function (event) {
-  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select')) return;
+  if (event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input, textarea, select, audio')) return;
   if (event.key === 'ArrowRight' || event.key === 'PageDown') { event.preventDefault(); showPage(currentPage + 1); }
   if (event.key === 'ArrowLeft' || event.key === 'PageUp') { event.preventDefault(); showPage(currentPage - 1); }
 });
