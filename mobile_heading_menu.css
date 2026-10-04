@@ -3,17 +3,32 @@
 .mobile-heading-toggle { display:none; }
 .mobile-heading-shell { display:contents; }
 .mobile-audio-dock { display:none; }
+.mobile-audio-player { display:none; }
 @media screen and (max-width:700px) {
   .mobile-heading-shell { position:relative; display:block; flex:none; width:100%; z-index:50; }
   .mobile-heading-shell > .mobile-heading-menu { position:static; }
-  .mobile-audio-visible > .mobile-audio-dock {
+  .mobile-heading-shell > .mobile-audio-dock {
     display:block; padding:6px 12px 8px; border-bottom:1px solid var(--line,#d8d0c4);
     background:var(--paper,#fffdf8); color:var(--ink,#28241e);
     font:13px/1.3 system-ui,-apple-system,"Segoe UI",sans-serif;
   }
   .mobile-audio-dock .audio-controls { display:flex; flex-wrap:wrap; gap:4px; padding:0; border:0; }
-  .mobile-audio-dock audio { display:block; flex:1 0 100%; width:100%; max-width:100%; height:40px; }
+  .mobile-audio-dock audio { display:none; }
   .mobile-audio-dock input { width:auto; min-height:auto; }
+  .mobile-audio-dock .mobile-audio-player {
+    display:grid; order:-1; width:100%; grid-template-columns:44px minmax(0,1fr) 68px;
+    align-items:center; gap:2px 8px;
+  }
+  .mobile-audio-player button, .mobile-audio-player select {
+    min-height:44px; padding:6px; border:1px solid var(--line,#d8d0c4); border-radius:6px;
+    background:var(--paper,#fffdf8); color:var(--ink,#28241e); font:inherit;
+  }
+  .mobile-audio-player button { font-size:18px; cursor:pointer; }
+  .mobile-audio-player input[type="range"] { width:100%; min-width:0; height:44px; margin:0; accent-color:var(--accent,#69543d); }
+  .mobile-audio-time { grid-column:2; text-align:center; font-variant-numeric:tabular-nums; }
+  .mobile-audio-message { grid-column:1 / -1; }
+  .mobile-audio-message:empty { display:none; }
+  .mobile-audio-player :focus-visible { outline:2px solid var(--accent,#69543d); outline-offset:2px; }
   .mobile-heading-menu {
     display:block; position:relative; flex:none; z-index:50; width:100%;
     margin:0; border:0; border-bottom:1px solid var(--line,#d8d0c4);

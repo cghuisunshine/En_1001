@@ -70,8 +70,7 @@
   const mobile = matchMedia('(max-width:700px)');
   const audioControls = panel.querySelector('.audio-controls');
   const audio = audioControls?.querySelector('audio');
-  let audioDock, audioOrigin, shell;
-  let playbackStarted = false;
+  let audioDock, audioOrigin, shell, mobilePlayer;
   if (audio) {
     audioOrigin = document.createComment('desktop audio controls position');
     audioControls.before(audioOrigin);
@@ -81,30 +80,81 @@
     audioDock.className = 'mobile-audio-dock';
     menu.before(shell);
     shell.append(menu, audioDock);
+    // Use ordinary HTML controls on phones. iOS native media controls can lose
+    // their rendering when the containing menu or scrolling layout changes.
+    mobilePlayer = document.createElement('div');
+    mobilePlayer.className = 'mobile-audio-player';
+    const playButton = document.createElement('button');
+    playButton.type = 'button';
+    const seek = document.createElement('input');
+    seek.type = 'range';
+    seek.min = '0'; seek.max = '1000'; seek.value = '0'; seek.step = '1';
+    seek.setAttribute('aria-label', 'Narration position');
+    const speed = document.createElement('select');
+    speed.setAttribute('aria-label', 'Playback speed');
+    for (const rate of [0.5, 0.75, 1, 1.25, 1.5, 2]) {
+      const option = document.createElement('option');
+      option.value = String(rate); option.textContent = rate + '×';
+      speed.append(option);
+    }
+    const time = document.createElement('span');
+    time.className = 'mobile-audio-time';
+    const message = document.createElement('span');
+    message.className = 'mobile-audio-message';
+    message.setAttribute('role', 'status');
+    mobilePlayer.append(playButton, seek, speed, time, message);
+    audioControls.append(mobilePlayer);
+    function clock(seconds) {
+      if (!Number.isFinite(seconds)) return '–:––';
+      return Math.floor(seconds / 60) + ':' + String(Math.floor(seconds % 60)).padStart(2, '0');
+    }
+    function updatePlayer() {
+      const playing = !audio.paused && !audio.ended;
+      playButton.textContent = playing ? '❚❚' : '▶';
+      playButton.setAttribute('aria-label', playing ? 'Pause narration' : 'Play narration');
+      const duration = audio.duration;
+      seek.disabled = !Number.isFinite(duration) || duration <= 0;
+      seek.value = seek.disabled ? '0' : String(Math.round(1000 * audio.currentTime / duration));
+      seek.setAttribute('aria-valuetext', clock(audio.currentTime) + ' of ' + clock(duration));
+      time.textContent = clock(audio.currentTime) + ' / ' + clock(duration);
+      speed.value = String(audio.playbackRate);
+    }
+    playButton.addEventListener('click', () => {
+      message.textContent = '';
+      if (!audio.paused && !audio.ended) audio.pause();
+      else {
+        // Call play directly in the tap handler to retain iOS user activation.
+        const request = audio.play();
+        request?.catch(() => { message.textContent = 'Unable to play. Tap Play to try again.'; updatePlayer(); });
+      }
+    });
+    seek.addEventListener('input', () => {
+      if (!seek.disabled) audio.currentTime = Number(seek.value) * audio.duration / 1000;
+      updatePlayer();
+    });
+    speed.addEventListener('change', () => { audio.playbackRate = Number(speed.value); });
+    for (const event of ['play', 'playing', 'pause', 'ended', 'emptied', 'loadedmetadata', 'durationchange', 'timeupdate', 'seeked', 'ratechange']) {
+      audio.addEventListener(event, updatePlayer);
+    }
     audio.addEventListener('play', () => {
-      playbackStarted = true;
       close();
-      reflect();
     });
-    // Keep the pause/resume control available until the track finishes or changes.
-    for (const event of ['ended', 'emptied']) audio.addEventListener(event, () => {
-      playbackStarted = false;
-      reflect();
-    });
+    updatePlayer();
   }
   function reflect() {
     const expanded = menu.open;
     toggle.setAttribute('aria-expanded', String(expanded));
     icon.textContent = expanded ? '×' : '☰';
-    shell?.classList.toggle('mobile-audio-visible', mobile.matches && (expanded || playbackStarted));
   }
   function restoreHeadings() { origins.forEach(({node, marker}) => marker.after(node)); }
-  function restoreAudio() { if (audioOrigin) audioOrigin.after(audioControls); }
+  function restoreAudio() {
+    if (audioOrigin) { audioOrigin.after(audioControls); audio.controls = true; }
+  }
   function layout() {
     if (mobile.matches) origins.forEach(({node}) => panel.append(node));
     else restoreHeadings();
     if (audioDock) {
-      if (mobile.matches) audioDock.append(audioControls);
+      if (mobile.matches) { audioDock.append(audioControls); audio.controls = false; }
       else restoreAudio();
     }
     menu.open = !mobile.matches;
@@ -127,7 +177,7 @@
     if (event.key === 'Escape' && mobile.matches && menu.open) { event.preventDefault(); close(true); }
   });
   document.addEventListener('pointerdown', event => {
-    if (!menu.contains(event.target)) close();
+    if (!menu.contains(event.target) && !audioDock?.contains(event.target)) close();
   });
   window.addEventListener('beforeprint', () => { restoreHeadings(); restoreAudio(); menu.open = true; reflect(); });
   window.addEventListener('afterprint', layout);

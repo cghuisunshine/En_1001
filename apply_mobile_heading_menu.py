@@ -2,15 +2,17 @@
 """Add the shared mobile heading menu to local HTML pages, idempotently."""
 
 from pathlib import Path
+import re
 
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = '<link rel="stylesheet" href="mobile_heading_menu.css">\n<script src="mobile_heading_menu.js" defer></script>\n'
+VERSION = '20261004-iphone-player'
+ASSETS = f'<link rel="stylesheet" href="mobile_heading_menu.css?v={VERSION}">\n<script src="mobile_heading_menu.js?v={VERSION}" defer></script>\n'
 
 
 def add_menu_assets(page):
-    if 'src="mobile_heading_menu.js"' in page:
-        return page
+    if re.search(r'src="mobile_heading_menu\.js(?:\?[^"\s]*)?"', page):
+        return re.sub(r'(?:mobile_heading_menu\.(?:js|css))(?:\?[^"\s]*)?(?=")', lambda match: match.group(0).split('?')[0] + '?v=' + VERSION, page)
     return page.replace('</head>', ASSETS + '</head>', 1)
 
 
