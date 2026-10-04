@@ -68,15 +68,45 @@
     return {node, marker};
   });
   const mobile = matchMedia('(max-width:700px)');
+  const audioControls = panel.querySelector('.audio-controls');
+  const audio = audioControls?.querySelector('audio');
+  let audioDock, audioOrigin, shell;
+  let playbackStarted = false;
+  if (audio) {
+    audioOrigin = document.createComment('desktop audio controls position');
+    audioControls.before(audioOrigin);
+    shell = document.createElement('div');
+    shell.className = 'mobile-heading-shell';
+    audioDock = document.createElement('div');
+    audioDock.className = 'mobile-audio-dock';
+    menu.before(shell);
+    shell.append(menu, audioDock);
+    audio.addEventListener('play', () => {
+      playbackStarted = true;
+      close();
+      reflect();
+    });
+    // Keep the pause/resume control available until the track finishes or changes.
+    for (const event of ['ended', 'emptied']) audio.addEventListener(event, () => {
+      playbackStarted = false;
+      reflect();
+    });
+  }
   function reflect() {
     const expanded = menu.open;
     toggle.setAttribute('aria-expanded', String(expanded));
     icon.textContent = expanded ? '×' : '☰';
+    shell?.classList.toggle('mobile-audio-visible', mobile.matches && (expanded || playbackStarted));
   }
   function restoreHeadings() { origins.forEach(({node, marker}) => marker.after(node)); }
+  function restoreAudio() { if (audioOrigin) audioOrigin.after(audioControls); }
   function layout() {
     if (mobile.matches) origins.forEach(({node}) => panel.append(node));
     else restoreHeadings();
+    if (audioDock) {
+      if (mobile.matches) audioDock.append(audioControls);
+      else restoreAudio();
+    }
     menu.open = !mobile.matches;
     reflect();
   }
@@ -99,7 +129,7 @@
   document.addEventListener('pointerdown', event => {
     if (!menu.contains(event.target)) close();
   });
-  window.addEventListener('beforeprint', () => { restoreHeadings(); menu.open = true; reflect(); });
+  window.addEventListener('beforeprint', () => { restoreHeadings(); restoreAudio(); menu.open = true; reflect(); });
   window.addEventListener('afterprint', layout);
   layout();
 })();
