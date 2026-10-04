@@ -223,7 +223,8 @@ def main() -> None:
     page = page.replace("__DAY_CHECKS__", checks)
     page = page.replace("__MODULES__", modules)
     page = page.replace("__BODY__", body)
-    OUTPUT.write_text(page, encoding="utf-8")
+    from apply_mobile_heading_menu import add_menu_assets
+    OUTPUT.write_text(add_menu_assets(page), encoding="utf-8")
     print(OUTPUT)
 
 

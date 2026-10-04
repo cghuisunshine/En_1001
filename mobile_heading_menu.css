@@ -1,0 +1,56 @@
+/* Compact headings and reading controls on phones; original layouts on desktop. */
+.mobile-heading-menu, .mobile-heading-panel { display:contents; }
+.mobile-heading-toggle { display:none; }
+@media screen and (max-width:700px) {
+  .mobile-heading-menu {
+    display:block; position:relative; flex:none; z-index:50; width:100%;
+    margin:0; border:0; border-bottom:1px solid var(--line,#d8d0c4);
+    background:var(--paper,#fffdf8); color:var(--ink,#28241e);
+  }
+  .mobile-heading-toggle {
+    display:flex; align-items:center; gap:.65rem; min-height:48px;
+    padding:8px 12px; margin:0; list-style:none; cursor:pointer;
+    font:600 15px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:inherit; background:inherit;
+  }
+  .mobile-heading-toggle::-webkit-details-marker { display:none; }
+  .mobile-heading-toggle::marker { content:""; }
+  .mobile-heading-toggle:focus-visible { outline:2px solid var(--accent,#69543d); outline-offset:-3px; }
+  .mobile-heading-icon { flex:none; width:28px; text-align:center; font:24px/1 system-ui,sans-serif; }
+  .mobile-heading-title { min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .mobile-heading-panel {
+    display:block; position:absolute; top:100%; left:0; right:0;
+    max-height:calc(100dvh - 64px); overflow:auto; overscroll-behavior:contain;
+    padding:12px; background:var(--paper,#fffdf8); color:var(--ink,#28241e);
+    border:1px solid var(--line,#d8d0c4); border-top:0; box-shadow:0 12px 24px #0003;
+    font-size:16px; line-height:1.5;
+  }
+  .mobile-heading-menu:not([open]) > .mobile-heading-panel { display:none; }
+  .mobile-heading-panel .reader-bar { justify-content:flex-start; gap:12px; padding:0; border:0; box-shadow:none; }
+  .mobile-heading-panel .reader-controls { border:0; padding:0; flex-wrap:wrap; }
+  .mobile-heading-panel button, .mobile-heading-panel input, .mobile-heading-panel select { min-height:40px; }
+  .mobile-heading-panel .audio-controls { width:100%; }
+  .mobile-heading-panel .audio-controls audio { width:100%; max-width:100%; height:40px; }
+  .mobile-heading-panel .audio-controls input { min-height:auto; }
+  .mobile-heading-panel .story-heading { margin:20px 0 0; }
+  .mobile-heading-panel .source-note { margin-bottom:0; }
+  .mobile-heading-panel .hero, .mobile-heading-panel .article-header { margin:0; padding:12px; }
+  .mobile-heading-panel .sidebar { position:static; height:auto; overflow:visible; padding:0; border:0; }
+  .mobile-heading-panel .sidebar label { display:block; }
+  .mobile-heading-panel .sidebar input[type="search"] { width:100%; max-width:100%; }
+  .mobile-heading-panel .sidebar nav { display:grid; white-space:normal; margin:12px 0; overflow:visible; }
+  .mobile-heading-panel .side-actions { position:static; margin:12px 0; }
+  .mobile-heading-panel .part-nav, .mobile-heading-panel .toplinks { flex-wrap:wrap; }
+  body.mobile-menu-page-reader { position:fixed; inset:0; width:100%; height:100dvh; overflow:hidden; }
+  body.mobile-menu-scroll-reader { display:flex; flex-direction:column; height:100dvh; min-height:350px; overflow:hidden; }
+  body.mobile-menu-scroll-reader .stage { flex:1; width:100%; height:auto; min-height:0; margin:0; }
+  body.mobile-menu-scroll-reader .bottom { flex:none; flex-wrap:nowrap; gap:6px; padding:8px; }
+  body.mobile-menu-scroll-reader .bottom span { min-width:0; font-size:12px; }
+  body.mobile-menu-scroll-reader .bottom button { padding:8px; min-height:40px; font-size:13px; }
+}
+@media print {
+  .mobile-heading-menu, .mobile-heading-panel { display:contents; }
+  .mobile-heading-toggle { display:none !important; }
+  body.mobile-menu-scroll-reader { display:block; height:auto; overflow:visible; }
+  body.mobile-menu-page-reader { position:static; inset:auto; width:auto; height:auto; overflow:visible; }
+}

@@ -5,6 +5,7 @@ import html
 import json
 import re
 from pathlib import Path
+from apply_mobile_heading_menu import add_menu_assets
 
 
 ROOT = Path(__file__).resolve().parent
@@ -33,7 +34,7 @@ def render(data):
 </section>''')
         text.extend([f"—— Printed page {number} ——", "", "\n\n".join(page["paragraphs"]), page.get("date", ""), ("Footnotes: " + page["notes"]) if page["notes"] else "", ""])
     (ROOT / "sonny_blues_img.txt").write_text("\n".join(text), encoding="utf-8")
-    page_html = TEMPLATE.replace("__SECTIONS__", "\n".join(sections))
+    page_html = add_menu_assets(TEMPLATE.replace("__SECTIONS__", "\n".join(sections)))
     for filename in ("sonnys_blues.html", "sonny_blues_img.html"):
         output = ROOT / filename
         output.write_text(page_html, encoding="utf-8")

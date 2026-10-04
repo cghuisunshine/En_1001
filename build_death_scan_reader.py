@@ -8,6 +8,7 @@ import json
 import subprocess
 import tempfile
 from pathlib import Path
+from apply_mobile_heading_menu import add_menu_assets
 
 
 ROOT = Path(__file__).resolve().parent
@@ -132,7 +133,7 @@ showPage(hashPage >= firstPage && hashPage <= lastPage ? hashPage : savedPage >=
 </body>
 </html>'''
     page = page.replace("__PAGES_JSON__", json.dumps(image_urls))
-    OUTPUT.write_text(page, encoding="utf-8")
+    OUTPUT.write_text(add_menu_assets(page), encoding="utf-8")
     print(f"Built {OUTPUT.name}: {len(image_urls)} scanned pages, {OUTPUT.stat().st_size:,} bytes.")
 
 
